@@ -48,8 +48,6 @@ publish_figures(
 
 Attach the plot meaning before its normal save step:
 
-Other plotting packages can attach meaning before their normal save step:
-
 ```python
 from reprofig import attach, save_svg
 
