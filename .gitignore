@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+build/
+dist/
+
+# Local development evidence kept outside the minimal public repository.
+CHANGELOG.md
+PUBLISHING_AUDIT.md
+docs/
+tests/

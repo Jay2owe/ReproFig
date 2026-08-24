@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use ReproFig, please cite the software using this metadata."
+type: software
+title: "ReproFig: reproducible scientific SVG figures"
+authors:
+  - family-names: Malcolm
+    given-names: Jamie
+version: 0.1.0
+date-released: 2026-08-24
+license: BSD-3-Clause
+repository-code: "https://github.com/Jay2owe/ReproFig"
+url: "https://pypi.org/project/reprofig/"
