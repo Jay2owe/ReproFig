@@ -10,7 +10,7 @@ PyMicroglia already has one ReproFig render path and requires every figure to pr
 
 ## Read first
 
-For this stage, the **PyMicroglia repository root** is `C:/Users/Owner/UK Dementia Research Institute Dropbox/Brancaccio Lab/Jamie/Experiments/Microglia Project/PyMicroglia`, and the **shared-skills root** is `C:/Users/Owner/UK Dementia Research Institute Dropbox/Brancaccio Lab/Jamie/Macros and Scripts/Claude/shared-skills`.
+For this stage, use the local **PyMicroglia repository root** and the local **shared-skills root**; neither absolute development path belongs in the public plan.
 
 - `docs/proof-carrying-figures/00_overview.md:1-150`
 - completed Stages 06–18

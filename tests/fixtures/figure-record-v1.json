@@ -1,0 +1,15 @@
+{
+  "analysis": {"independent_unit": "sample"},
+  "created_at": "2026-08-24T12:00:00+01:00",
+  "data_status": "incomplete",
+  "data_tables": [],
+  "distribution_profile": "master",
+  "figure_id": "rf-schema-fixture-v1",
+  "future_optional_field": {"reader_must_ignore": true},
+  "producer": {"package": "other-analysis-example", "package_version": "1.0.0"},
+  "schema": "reprofig/1",
+  "sources": [],
+  "statistics": [],
+  "statistics_status": "not_applicable",
+  "title": "Package-neutral schema fixture"
+}

@@ -426,3 +426,32 @@ from .artifacts import (  # noqa: E402
     scan_artifacts,
     validate_artifact,
 )
+
+from .workbook.api import (  # noqa: E402
+    PublicationWorkbookResult,
+    build_publication_workbook,
+)
+from .evidence import (  # noqa: E402
+    EvidenceGraph,
+    attach_evidence_graph,
+    calculate_evidence_root,
+    graph_from_record,
+    refresh_evidence_graph,
+)
+from .verification import (  # noqa: E402
+    ProofCheck,
+    ProofVerificationReport,
+    verify_artifact as verify_proof,
+)
+from .render import bind_artist, capture_matplotlib  # noqa: E402
+from .render.reference import refresh_visual_reference  # noqa: E402
+from .crypto.encryption import decrypt_record, decrypt_sections, encrypt_sections  # noqa: E402
+from .crypto.signatures import sign_record, verify_record_signatures  # noqa: E402
+from .crypto.attestations import attest_report  # noqa: E402
+from .crypto.trust import (  # noqa: E402
+    TrustEntry,
+    TrustPolicy,
+    TrustStore,
+    evaluate_record_trust,
+)
+from .policy import apply_artifact_policy  # noqa: E402

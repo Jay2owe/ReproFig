@@ -124,6 +124,71 @@ def validate_record(record: FigureRecord, *, require_complete: bool = False) -> 
         report.add("error", "statistics_hash_mismatch", "normalized statistics CSV hash differs")
     if record.statistics_status == "complete" and not expected:
         report.add("error", "statistics_hash_missing", "complete statistics have no CSV hash")
+    proof = record.extensions.get("proof")
+    if isinstance(proof, Mapping):
+        try:
+            from .evidence import graph_from_record
+
+            graph_from_record(record)
+            report.checks.append("evidence_graph")
+        except Exception as exc:
+            report.add("error", "evidence_graph_invalid", str(exc), "extensions.proof")
+        try:
+            from .schema import StatisticalSpecification
+            from .stats.registry import get_algorithm
+
+            seen_statistics: set[str] = set()
+            for raw in proof.get("statistical_specifications", []) or []:
+                specification = StatisticalSpecification.from_dict(raw)
+                identity = str(specification.statistic_id)
+                if identity in seen_statistics:
+                    report.add(
+                        "error", "statistical_specification_duplicate",
+                        f"duplicate statistical specification {identity}",
+                    )
+                seen_statistics.add(identity)
+                algorithm = get_algorithm(specification.algorithm_id)
+                if algorithm is None:
+                    continue
+                missing_inputs = sorted(
+                    set(algorithm.input_roles) - set(specification.inputs)
+                )
+                missing_parameters = sorted(
+                    set(algorithm.required_parameters) - set(specification.parameters)
+                )
+                if missing_inputs or missing_parameters:
+                    report.add(
+                        "error", "statistical_specification_incomplete",
+                        f"{identity} is missing inputs {missing_inputs} and parameters {missing_parameters}",
+                    )
+            if proof.get("statistical_specifications"):
+                report.checks.append("statistical_specifications")
+        except Exception as exc:
+            report.add(
+                "error", "statistical_specification_invalid", str(exc),
+                "extensions.proof.statistical_specifications",
+            )
+    render = record.extensions.get("render_manifest")
+    if isinstance(render, Mapping):
+        try:
+            from .render.schema import RenderManifest
+
+            manifest = RenderManifest.from_dict(render)
+            table_ids = {f"table:{table.sha256}" for table in record.data_tables}
+            proof_specs = proof.get("statistical_specifications", []) if isinstance(proof, Mapping) else []
+            statistic_ids = {
+                str(value.get("statistic_id") or value.get("test_id"))
+                for value in proof_specs
+            }
+            for mark in manifest.marks:
+                if mark.table_id and mark.table_id not in table_ids:
+                    report.add("error", "render_table_binding_missing", f"mark {mark.mark_id} references unknown table {mark.table_id}")
+            for annotation in manifest.annotations:
+                if annotation.statistic_id and annotation.statistic_id not in statistic_ids:
+                    report.add("error", "render_statistic_binding_missing", f"annotation {annotation.annotation_id} references unknown statistic {annotation.statistic_id}")
+            report.checks.append("render_bindings")
+        except Exception as exc:
+            report.add("error", "render_manifest_invalid", str(exc), "extensions.render_manifest")
     return report
 
 

@@ -5,7 +5,7 @@ title: "ReproFig: reproducible scientific figure carriers"
 authors:
   - family-names: Malcolm
     given-names: Jamie
-version: 0.2.0
+version: 0.3.0
 date-released: 2026-08-25
 license: BSD-3-Clause
 repository-code: "https://github.com/Jay2owe/ReproFig"

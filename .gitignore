@@ -6,8 +6,5 @@ __pycache__/
 build/
 dist/
 
-# Local development evidence kept outside the minimal public repository.
-CHANGELOG.md
+# Local release audit; public guides, changelog, and regression tests are source.
 PUBLISHING_AUDIT.md
-docs/
-tests/

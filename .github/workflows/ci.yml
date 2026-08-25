@@ -23,6 +23,10 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install development and proof dependencies
+        run: python -m pip install --upgrade -e ".[dev]"
+      - name: Run the complete test suite
+        run: python -m pytest -q
       - name: Build and check distributions
         run: |
           python -m pip install --upgrade build twine
@@ -32,5 +36,26 @@ jobs:
         run: python -c "import glob, subprocess, sys; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--force-reinstall', glob.glob('dist/*.whl')[0]])"
       - name: Smoke test the installed package
         run: |
-          python -c "import reprofig; assert reprofig.__version__ == '0.2.0'; assert len(reprofig.formats()) == 16"
+          python -c "import reprofig; assert reprofig.__version__ == '0.3.0'; assert len(reprofig.formats()) == 16"
           reprofig --help
+
+  base-only:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build and install without optional dependencies
+        run: |
+          python -m pip install --upgrade build
+          python -m build --wheel
+          python -c "import glob, subprocess, sys; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--no-deps', glob.glob('dist/*.whl')[0]])"
+      - name: Save and extract an ordinary SVG
+        run: >-
+          python -c "from pathlib import Path; from tempfile import TemporaryDirectory; from reprofig import extract_record, save_svg; d=TemporaryDirectory(); p=Path(d.name)/'figure.svg'; F=type('F',(),{'savefig':lambda self,path,**kwargs: Path(path).write_text('<svg xmlns='+chr(34)+'http://www.w3.org/2000/svg'+chr(34)+'/>' ,encoding='utf-8')}); save_svg(F(),p,plotted_data=[{'x':1,'y':2}]); assert '1,2' in extract_record(p).data_tables[0].contents"

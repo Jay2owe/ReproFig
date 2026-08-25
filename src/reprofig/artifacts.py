@@ -481,7 +481,7 @@ def inspect_artifact(
     }
 
 
-def _artifact_paths(
+def artifact_paths(
     value: str | os.PathLike[str] | Sequence[str | os.PathLike[str]],
 ) -> list[Path]:
     values = [Path(value)] if isinstance(value, (str, os.PathLike)) else [Path(item) for item in value]
@@ -514,6 +514,10 @@ def _artifact_paths(
     return unique
 
 
+# Backward-compatible internal alias retained for older callers.
+_artifact_paths = artifact_paths
+
+
 def scan_artifacts(
     artifacts: str | os.PathLike[str] | Sequence[str | os.PathLike[str]],
     *,
@@ -521,7 +525,7 @@ def scan_artifacts(
     output_jsonl: str | os.PathLike[str] | None = None,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for path in _artifact_paths(artifacts):
+    for path in artifact_paths(artifacts):
         try:
             info = inspect_artifact(path)
             for record in info["records"]:
@@ -762,6 +766,8 @@ def save_figure(
     allow_reencode: bool = False,
     safe_columns: Sequence[str] | Mapping[str, Sequence[str]] | None = None,
     public_sources: Mapping[str, str] | None = None,
+    proof: bool = False,
+    proof_policy: Mapping[str, Any] | None = None,
     **record_kwargs: Any,
 ) -> FigureRecord:
     """Save a Matplotlib-like figure in any supported image/PDF carrier."""
@@ -779,9 +785,16 @@ def save_figure(
             original_stem=target.stem,
             **record_kwargs,
         )
+        record_kwargs.clear()
     if record_kwargs:
         raise TypeError(f"unexpected record arguments: {sorted(record_kwargs)}")
-    if carrier_format == "svg":
+    capture_proof = bool(proof or proof_policy)
+    render_manifest = None
+    if capture_proof:
+        from .render.matplotlib import capture_matplotlib
+
+        render_manifest = capture_matplotlib(figure)
+    if carrier_format == "svg" and not capture_proof:
         return save_svg(
             figure,
             target,
@@ -813,6 +826,15 @@ def save_figure(
         safe_columns=safe_columns,
         public_sources=public_sources,
     )
+    if render_manifest is not None:
+        # The semantic manifest describes the scientific geometry and is shared
+        # by every carrier variant. Pixel/subtree references are attached later
+        # as carrier-specific bindings so SVG, PDF and raster variants retain
+        # one evidence root.
+        final_record.extensions["render_manifest"] = render_manifest.to_dict()
+        from .evidence import refresh_evidence_graph
+
+        final_record = refresh_evidence_graph(final_record)
     target.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(
         dir=str(target.parent), prefix=f".{target.name}.", suffix=target.suffix
@@ -864,6 +886,46 @@ def save_figure(
                     pass
         else:
             figure.savefig(temporary, format=carrier_format, **kwargs)
+        if render_manifest is not None:
+            if carrier_format == "svg":
+                from .render.vector import bind_svg_semantics
+                from .render.schema import RenderManifest
+
+                carrier_manifest = RenderManifest.from_dict(render_manifest.to_dict())
+                bind_svg_semantics(str(temporary), carrier_manifest)
+                final_record.extensions["visual_reference"] = {
+                    "schema": "reprofig-visual-reference/1",
+                    "format": "svg",
+                    "vector_elements": dict(
+                        carrier_manifest.environment.get("vector_elements") or {}
+                    ),
+                }
+            elif carrier_format in RASTER_FORMATS:
+                from .render.canonical import capture_raster_reference
+
+                final_record.extensions["visual_reference"] = {
+                    "schema": "reprofig-visual-reference/1",
+                    "format": carrier_format,
+                    "raster_reference": capture_raster_reference(
+                        temporary, manifest=render_manifest
+                    ),
+                }
+            elif carrier_format == "pdf":
+                try:
+                    from .render.canonical import capture_pdf_reference
+
+                    final_record.extensions["visual_reference"] = {
+                        "schema": "reprofig-visual-reference/1",
+                        "format": "pdf",
+                        "raster_reference": capture_pdf_reference(
+                            temporary, manifest=render_manifest
+                        ),
+                    }
+                except RuntimeError:
+                    # PDF proof remains internally checkable without the
+                    # optional renderer; required display verification fails
+                    # honestly later as unavailable.
+                    final_record.extensions.pop("visual_reference", None)
         render = _render_facts(
             temporary,
             carrier_format,
@@ -872,14 +934,55 @@ def save_figure(
             requested_height=requested_height,
             format_options=format_options,
         )
-        embed_file(
-            temporary,
-            final_record,
-            output_path=target,
-            format=carrier_format,
-            renders=[render],
-            allow_reencode=allow_reencode or carrier_format in {"avif", "heif"},
-        )
+        if proof_policy:
+            embedded_handle, embedded_name = tempfile.mkstemp(
+                dir=str(target.parent),
+                prefix=f".{target.name}.proof.",
+                suffix=target.suffix,
+            )
+            os.close(embedded_handle)
+            embedded_candidate = Path(embedded_name)
+            try:
+                embedded_candidate.unlink()
+                embed_file(
+                    temporary,
+                    final_record,
+                    output_path=embedded_candidate,
+                    format=carrier_format,
+                    renders=[render],
+                    allow_reencode=allow_reencode
+                    or carrier_format in {"avif", "heif"},
+                )
+                from .policy import apply_artifact_policy
+
+                final_record, _policy_report = apply_artifact_policy(
+                    embedded_candidate,
+                    proof_policy,
+                    record=final_record,
+                    reuse_encrypted_sections=any(
+                        bool(value.get("encrypted"))
+                        for value in (
+                            (record.extensions.get("proof") or {}).get("sections", [])
+                            if isinstance(record.extensions.get("proof"), Mapping)
+                            else []
+                        )
+                    ),
+                )
+                os.replace(embedded_candidate, target)
+            finally:
+                try:
+                    embedded_candidate.unlink()
+                except OSError:
+                    pass
+        else:
+            embed_file(
+                temporary,
+                final_record,
+                output_path=target,
+                format=carrier_format,
+                renders=[render],
+                allow_reencode=allow_reencode or carrier_format in {"avif", "heif"},
+            )
     finally:
         if original_size is not None:
             figure.set_size_inches(*original_size, forward=False)

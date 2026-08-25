@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "reprofig"
-version = "0.2.0"
+version = "0.3.0"
 description = "Scientific figures with their exact data, statistics, and provenance built in"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -29,10 +29,20 @@ Issues = "https://github.com/Jay2owe/ReproFig/issues"
 Changelog = "https://github.com/Jay2owe/ReproFig/releases"
 
 [project.optional-dependencies]
+excel = ["openpyxl>=3.1"]
+proof = [
+  "openpyxl>=3.1",
+  "scipy>=1.10",
+  "Pillow>=10",
+  "cryptography>=42",
+  "argon2-cffi>=23.1",
+  "pypdfium2>=4.30",
+]
 matplotlib = ["matplotlib>=3.6"]
 pandas = ["pandas>=1.5"]
 rocrate = ["rocrate>=0.13"]
 pdf = ["pikepdf>=10"]
+pdf-render = ["pypdfium2>=4.30", "Pillow>=10"]
 raster = ["Pillow>=10", "tifftools>=1.6"]
 heif = ["Pillow>=11.3", "pillow-heif>=1.0"]
 hdf5 = ["h5py>=3.10"]
@@ -50,6 +60,12 @@ all-formats = [
 dev = [
   "pytest>=8",
   "build>=1",
+  "twine>=5",
+  "openpyxl>=3.1",
+  "scipy>=1.10",
+  "cryptography>=42",
+  "argon2-cffi>=23.1",
+  "pypdfium2>=4.30",
   "pandas>=1.5",
   "matplotlib>=3.6",
   "pikepdf>=10",

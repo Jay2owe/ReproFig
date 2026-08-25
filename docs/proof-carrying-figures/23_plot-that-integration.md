@@ -10,7 +10,7 @@
 
 ## Read first
 
-For this stage, the **shared-skills root** is `C:/Users/Owner/UK Dementia Research Institute Dropbox/Brancaccio Lab/Jamie/Macros and Scripts/Claude/shared-skills`.
+For this stage, use the local **shared-skills root**; its absolute development path does not belong in the public plan.
 
 - `docs/proof-carrying-figures/00_overview.md:1-150`
 - completed Stages 17, 18, 21 and 22

@@ -105,11 +105,22 @@ def derive_profile(
     *,
     safe_columns: Sequence[str] | Mapping[str, Sequence[str]] | None = None,
     public_sources: Mapping[str, str] | None = None,
+    encrypted_section_policy: str = "drop",
+    decryption: Mapping[str, Any] | None = None,
+    reencrypt_password: str | bytes | None = None,
+    reencrypt_recipients: Mapping[str, str] | None = None,
 ) -> FigureRecord:
     """Create a one-way master/public/minimal-public record derivative."""
 
     if figure_profile not in SUPPORTED_PROFILES:
         raise ValueError(f"unknown figure profile {figure_profile!r}")
+    if encrypted_section_policy not in {
+        "drop", "retain_ciphertext", "decrypt_transform_reencrypt"
+    }:
+        raise ValueError(
+            "encrypted_section_policy must be drop, retain_ciphertext, or "
+            "decrypt_transform_reencrypt"
+        )
     allowed = {
         "master": {"master", "public", "minimal_public"},
         "public": {"public", "minimal_public"},
@@ -121,9 +132,58 @@ def derive_profile(
         )
     if figure_profile == "master":
         return FigureRecord.from_dict(record.to_dict())
+    if encrypted_section_policy == "decrypt_transform_reencrypt":
+        if not decryption:
+            raise ValueError("decrypt_transform_reencrypt requires decryption authority")
+        if reencrypt_password is None and not reencrypt_recipients:
+            raise ValueError(
+                "decrypt_transform_reencrypt requires a new password or recipients"
+            )
+        from .crypto.encryption import decrypt_record, encrypt_sections
+        from .evidence import graph_from_record
+
+        original_graph = graph_from_record(record)
+        protected_kinds = {
+            section.kind for section in original_graph.sections if section.encrypted
+        }
+        decrypted = decrypt_record(record, **dict(decryption))
+        transformed = derive_profile(
+            decrypted,
+            figure_profile,
+            safe_columns=safe_columns,
+            public_sources=public_sources,
+            encrypted_section_policy="drop",
+        )
+        transformed_sections = graph_from_record(transformed).sections
+        targets = [
+            str(section.section_id)
+            for section in transformed_sections
+            if section.kind in protected_kinds
+        ]
+        if targets:
+            transformed = encrypt_sections(
+                transformed,
+                targets,
+                password=reencrypt_password,
+                recipients=reencrypt_recipients,
+            )
+        lineage = transformed.extensions.setdefault("proof_lineage", {})
+        lineage["encrypted_section_policy"] = "decrypt_transform_reencrypt"
+        lineage["derivative_evidence_root"] = transformed.extensions["proof"][
+            "root_sha256"
+        ]
+        return transformed
 
     selected: list[DataTable] = []
+    omitted_protected_tables = False
     for table in record.data_tables:
+        if table.contents is None and table.metadata.get("protected") is True:
+            # A reduced derivative cannot inspect or safely column-filter this
+            # table without decryption authority. Drop the placeholder along
+            # with its encrypted section; retain_ciphertext restores only the
+            # opaque parent ciphertext below.
+            omitted_protected_tables = True
+            continue
         approved = _approved_for_table(table, safe_columns)
         if table.column_count and not approved:
             raise ValueError(
@@ -150,7 +210,7 @@ def derive_profile(
         distribution_profile=figure_profile,
         producer=_public_producer(record.producer),
         analysis=_public_analysis(record.analysis),
-        data_status=record.data_status,
+        data_status="incomplete" if omitted_protected_tables else record.data_status,
         data_tables=embedded_tables,
         statistics_status=record.statistics_status,
         statistics=record.statistics,
@@ -163,6 +223,55 @@ def derive_profile(
         },
         extensions=dict(record.extensions),
     )
+    original_proof = record.extensions.get("proof")
+    if isinstance(original_proof, Mapping) and original_proof.get("root_sha256"):
+        parent_root = str(original_proof["root_sha256"])
+        parent_signatures = list(original_proof.get("signatures", []))
+        result.extensions.pop("proof", None)
+        result.extensions["proof_lineage"] = {
+            "schema": "reprofig-proof-lineage/1",
+            "parent_profile": record.distribution_profile,
+            "parent_evidence_root": parent_root,
+            "parent_signatures": parent_signatures,
+            "relationship": "one_way_public_derivative",
+            "encrypted_section_policy": encrypted_section_policy,
+        }
+        from .evidence import attach_evidence_graph, default_evidence_sections
+        from .schema import EvidenceSection
+
+        sections = default_evidence_sections(result)
+        if encrypted_section_policy == "retain_ciphertext":
+            retained = [
+                EvidenceSection.from_dict(value)
+                for value in original_proof.get("sections", [])
+                if value.get("encrypted") is True
+            ]
+            remapped = {
+                str(section.section_id): (
+                    f"parent-encrypted:{parent_root[:16]}:{section.section_id}"
+                )
+                for section in retained
+            }
+            for section in retained:
+                original_identity = str(section.section_id)
+                section.section_id = remapped[original_identity]
+                if isinstance(section.payload, dict):
+                    section.payload["aad_section_id"] = original_identity
+                section.dependencies = [
+                    remapped.get(identity, identity)
+                    for identity in section.dependencies
+                    if identity in remapped
+                ]
+                section.metadata = {
+                    **section.metadata,
+                    "relationship": "retained_parent_ciphertext",
+                }
+                # The derivative identity and AAD-routing descriptor are part
+                # of the section digest, so the parent digest cannot be reused.
+                section.sha256 = None
+                sections.append(section)
+        result = attach_evidence_graph(result, sections=sections)
+        result.extensions["proof_lineage"]["derivative_evidence_root"] = result.extensions["proof"]["root_sha256"]
     return result
 
 
@@ -184,4 +293,3 @@ def approved_public_tables(
             select_table_columns(table, approved, public_names=_public_names(table))
         )
     return tables
-

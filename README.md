@@ -11,11 +11,15 @@ python -m pip install reprofig
 ```
 
 ReproFig requires Python 3.10 or newer. The core has no required scientific
-stack. Install every binary adapter with:
+stack. The main installation choices are:
 
 ```console
-python -m pip install "reprofig[all-formats,matplotlib,pandas]"
+python -m pip install reprofig           # ordinary save, embed, inspect, extract
+python -m pip install "reprofig[excel]"  # publication workbooks
+python -m pip install "reprofig[proof]"  # workbooks, statistics, visuals, signatures, encryption
 ```
+
+Carrier-specific extras remain available for PDF, HEIF, HDF5, netCDF and FITS.
 
 ## Create a master figure
 
@@ -31,6 +35,9 @@ save_figure(
     figure_profile="master",
 )
 ```
+
+This ordinary workflow is unchanged and does not activate proof checks,
+cryptography, interception, or extra dependencies.
 
 A `master` embeds the exact CSV bytes used for the plot. This is the auditable
 source of truth and may contain private data or local paths, so do not upload it
@@ -100,6 +107,57 @@ Embedded metadata can be stripped by editors, social platforms, publisher
 pipelines, or format conversion. Keep the master. When the delivery route is
 unknown, send a `.reprofig.zip` bundle alongside the visible figure; its fixed
 layout and SHA-256 checksums make missing or changed files detectable.
+
+## Build a publication source-data workbook
+
+Combine every unique embedded CSV with a normalized table of all plotted and
+unplotted tests:
+
+```python
+from reprofig import build_publication_workbook
+
+result = build_publication_workbook(
+    "figures/",
+    "Publication-source-data.xlsx",
+    experiment_statistics="analysis/all-tests.json",
+)
+```
+
+Set the ledger's coverage to `analysis_complete` only when it intentionally
+lists every analysis, including unplotted tests. That is a declaration, not
+proof that undisclosed analyses never occurred. See
+[`docs/publication_workbook.md`](docs/publication_workbook.md).
+
+## Opt into proof-carrying output
+
+```python
+from reprofig import bind_artist, save_figure, verify_proof
+
+bind_artist(line, semantic_id="treated-series", columns=["time", "signal"])
+save_figure(
+    figure,
+    "Figure-1.svg",
+    plotted_data=rows,
+    statistics=statistics,
+    proof=True,
+)
+report = verify_proof(
+    "Figure-1.svg",
+    required=["internally_consistent", "display_verified"],
+)
+```
+
+Typed statistical specifications can additionally reconstruct declared source
+transformations and recalculate supported tests. A passing report proves that
+the stated evidence agrees with the output; it does not prove that source data
+are true or that the chosen method is scientifically appropriate.
+
+Signatures answer “has this evidence changed since this key signed it?” Trust
+stores separately answer “do I accept that key for this purpose?” Individual
+tables, statistics, provenance, or specifications can be encrypted for a
+password or named X25519 recipient before signing. See
+[`docs/proof-carrying-verification.md`](docs/proof-carrying-verification.md)
+and [`docs/security.md`](docs/security.md).
 
 ## Develop and verify
 

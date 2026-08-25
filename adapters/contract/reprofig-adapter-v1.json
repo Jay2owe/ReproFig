@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reprofig.org/schemas/adapter-v1.json",
+  "title": "ReproFig language adapter request",
+  "type": "object",
+  "required": ["schema", "candidate", "record", "policy", "workspace", "destination"],
+  "properties": {
+    "schema": {"const": "reprofig-adapter/1"},
+    "candidate": {"type": "string"},
+    "record": {"type": "string"},
+    "policy": {"type": "string"},
+    "workspace": {"type": "string"},
+    "destination": {"type": "string"},
+    "semantic_bindings": {"type": "string"},
+    "output_name": {"type": "string"}
+  },
+  "additionalProperties": false
+}
