@@ -3,21 +3,24 @@
 from __future__ import annotations
 
 import argparse
-import json
+import sys
 from pathlib import Path
 from typing import Sequence
 
-from .compat import export_fsb
-from .publication import (
-    caption_for,
-    extract_figure,
-    inspect_figure,
-    publish_figures,
-    scan_figures,
+from .api import (
+    bundle_artifacts,
+    embed_file,
+    extract_artifact,
+    extract_record,
+    formats as carrier_formats,
+    inspect_artifact,
+    publish_artifacts,
+    scan_artifacts,
+    validate_artifact,
 )
-from .schema import deterministic_json
-from .svg import extract_record
-from .validation import validate_svg
+from .compat import export_fsb
+from .publication import caption_for
+from .schema import FigureRecord, deterministic_json
 
 
 def _profile(value: str | None) -> str | None:
@@ -38,10 +41,14 @@ def _key_value_pairs(values: Sequence[str] | None, *, option: str) -> dict[str, 
 
 def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog=prog)
+    parser.add_argument("--json", action="store_true", help="emit machine-readable errors")
     commands = parser.add_subparsers(dest="command", required=True)
 
     inspect_parser = commands.add_parser("inspect", help="print embedded figure details")
     inspect_parser.add_argument("figure")
+    inspect_parser.add_argument("--figure-id")
+
+    commands.add_parser("formats", help="list supported carrier formats")
 
     validate_parser = commands.add_parser("validate", help="validate integrity and privacy")
     validate_parser.add_argument("figure")
@@ -55,6 +62,13 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     extract_parser.add_argument("figure")
     extract_parser.add_argument("--output", required=True)
     extract_parser.add_argument("--overwrite", action="store_true")
+    extract_parser.add_argument("--figure-id")
+
+    embed_parser = commands.add_parser("embed", help="embed a record in an existing artifact")
+    embed_parser.add_argument("artifact")
+    embed_parser.add_argument("--record", required=True)
+    embed_parser.add_argument("--output")
+    embed_parser.add_argument("--allow-reencode", action="store_true")
 
     caption_parser = commands.add_parser("caption", help="write a deterministic caption draft")
     caption_parser.add_argument("figure")
@@ -71,6 +85,7 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     )
     publish_parser.add_argument("--no-csv", action="store_true")
     publish_parser.add_argument("--ro-crate", action="store_true")
+    publish_parser.add_argument("--allow-reencode", action="store_true")
     publish_parser.add_argument(
         "--public-source",
         action="append",
@@ -86,16 +101,47 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     fsb_parser = commands.add_parser("fsb-export", help="export an FSB-compatible directory")
     fsb_parser.add_argument("figure")
     fsb_parser.add_argument("--output", required=True)
+
+    bundle_parser = commands.add_parser("bundle", help="build a deterministic ReproFig ZIP")
+    bundle_parser.add_argument("artifacts", nargs="+")
+    bundle_parser.add_argument("--output", required=True)
     return parser
 
 
 def main(argv: Sequence[str] | None = None, *, prog: str = "reprofig") -> int:
-    args = _parser(prog=prog).parse_args(argv)
+    raw = list(argv) if argv is not None else sys.argv[1:]
+    json_requested = "--json" in raw
+    if json_requested:
+        raw = [value for value in raw if value != "--json"]
+    args = _parser(prog=prog).parse_args(raw)
+    args.json = bool(args.json or json_requested)
+    try:
+        return _dispatch(args)
+    except Exception as exc:
+        if args.json:
+            print(
+                deterministic_json(
+                    {"error": type(exc).__name__, "message": str(exc)}, indent=2
+                ),
+                file=sys.stderr,
+            )
+            return 2
+        raise
+
+
+def _dispatch(args: argparse.Namespace) -> int:
     if args.command == "inspect":
-        print(deterministic_json(inspect_figure(args.figure), indent=2))
+        print(
+            deterministic_json(
+                inspect_artifact(args.figure, figure_id=args.figure_id), indent=2
+            )
+        )
+        return 0
+    if args.command == "formats":
+        print(deterministic_json(carrier_formats(), indent=2))
         return 0
     if args.command == "validate":
-        report = validate_svg(
+        report = validate_artifact(
             args.figure,
             expected_profile=_profile(args.profile),
             require_complete=args.complete,
@@ -104,8 +150,23 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "reprofig") -> int:
         print(deterministic_json(report.to_dict(), indent=2))
         return 0 if report.valid else 1
     if args.command == "extract":
-        paths = extract_figure(args.figure, args.output, overwrite=args.overwrite)
+        paths = extract_artifact(
+            args.figure,
+            args.output,
+            overwrite=args.overwrite,
+            figure_id=args.figure_id,
+        )
         print("\n".join(str(path) for path in paths))
+        return 0
+    if args.command == "embed":
+        record = FigureRecord.from_json(Path(args.record).read_bytes())
+        output = embed_file(
+            args.artifact,
+            record,
+            output_path=args.output,
+            allow_reencode=args.allow_reencode,
+        )
+        print(output)
         return 0
     if args.command == "caption":
         print(caption_for(extract_record(args.figure)), end="")
@@ -114,7 +175,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "reprofig") -> int:
         safe_columns = None
         if args.safe_columns:
             safe_columns = [value.strip() for value in args.safe_columns.split(",") if value.strip()]
-        result = publish_figures(
+        result = publish_artifacts(
             args.figures,
             output_dir=args.output_dir,
             figure_profile=_profile(args.profile),
@@ -123,22 +184,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "reprofig") -> int:
                 args.public_source, option="--public-source"
             ),
             write_csv=not args.no_csv,
-            rocrate=args.ro_crate,
+            bundle=args.ro_crate,
+            allow_reencode=args.allow_reencode,
         )
         print(deterministic_json({
             "valid": result.valid,
-            "svgs": [str(path) for path in result.svg_paths],
+            "artifacts": [str(path) for path in result.artifact_paths],
             "csvs": [str(path) for path in result.csv_paths],
             "manifest": str(result.manifest_path) if result.manifest_path else None,
             "validation": str(result.validation_path) if result.validation_path else None,
         }, indent=2))
         return 0 if result.valid else 1
     if args.command == "scan":
-        rows = scan_figures(args.path, output_csv=args.csv, output_jsonl=args.jsonl)
+        rows = scan_artifacts(args.path, output_csv=args.csv, output_jsonl=args.jsonl)
         print(deterministic_json({"figures": len(rows)}, indent=2))
         return 0
     if args.command == "fsb-export":
         output = export_fsb(args.figure, args.output, svg_path=args.figure)
+        print(output)
+        return 0
+    if args.command == "bundle":
+        output = bundle_artifacts(args.artifacts, args.output)
         print(output)
         return 0
     raise AssertionError(args.command)

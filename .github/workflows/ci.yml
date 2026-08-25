@@ -32,5 +32,5 @@ jobs:
         run: python -c "import glob, subprocess, sys; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--force-reinstall', glob.glob('dist/*.whl')[0]])"
       - name: Smoke test the installed package
         run: |
-          python -c "import reprofig; assert reprofig.__version__ == '0.1.0'"
+          python -c "import reprofig; assert reprofig.__version__ == '0.2.0'; assert len(reprofig.formats()) == 16"
           reprofig --help

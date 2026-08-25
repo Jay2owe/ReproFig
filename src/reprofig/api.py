@@ -13,7 +13,7 @@ from typing import Any, Mapping, Sequence
 
 from .profiles import derive_profile
 from .schema import DataTable, FigureRecord, SourceReference, sha256_bytes
-from .svg import embed_record, extract_record
+from .svg import embed_record, extract_record as _extract_svg_record
 from .tables import safe_filename_token, statistics_csv_bytes, table_from_data
 from .validation import privacy_leaks, scrub_private_strings, validate_svg
 
@@ -407,4 +407,22 @@ def save_svg(
 
 
 def read_svg(path: str | os.PathLike[str]) -> FigureRecord:
-    return extract_record(path)
+    return _extract_svg_record(path)
+
+
+# Format-neutral APIs are imported last so their Matplotlib save path can reuse
+# the record-building functions above without an import cycle.
+from .artifacts import (  # noqa: E402
+    ArtifactPublicationResult,
+    bundle_artifacts,
+    embed_file,
+    extract_artifact,
+    extract_record,
+    extract_records,
+    formats,
+    inspect_artifact,
+    publish_artifacts,
+    save_figure,
+    scan_artifacts,
+    validate_artifact,
+)

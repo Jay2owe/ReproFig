@@ -1,13 +1,24 @@
 """Portable, self-describing scientific figure artifacts."""
 
 from .api import (
+    ArtifactPublicationResult,
     attach,
     attachment_for,
+    bundle_artifacts,
     build_record,
     build_record_for_figure,
     detach,
+    embed_file,
+    extract_artifact,
+    extract_records,
+    formats,
+    inspect_artifact,
+    publish_artifacts,
     read_svg,
     save_svg,
+    save_figure,
+    scan_artifacts,
+    validate_artifact,
     write_companion_tables,
 )
 from .compat import export_fsb, import_fsb
@@ -32,7 +43,8 @@ from .schema import (
     SourceReference,
 )
 from .sources import file_sha256, source_reference, source_status
-from .svg import FigureRecordError, embed_record, extract_record, try_extract_record
+from .artifacts import extract_record
+from .svg import FigureRecordError, embed_record, try_extract_record
 from .tables import statistics_csv_bytes, table_from_data
 from .validation import ValidationIssue, ValidationReport, validate_record, validate_svg
 
@@ -44,6 +56,7 @@ __all__ = [
     "DataTable",
     "FigureRecord",
     "FigureRecordError",
+    "ArtifactPublicationResult",
     "PublicationResult",
     "SourceReference",
     "ValidationIssue",
@@ -51,23 +64,32 @@ __all__ = [
     "approved_public_tables",
     "attach",
     "attachment_for",
+    "bundle_artifacts",
     "build_record",
     "build_record_for_figure",
     "caption_for",
     "classify_figure",
     "derive_profile",
     "detach",
+    "embed_file",
     "embed_record",
     "export_fsb",
     "export_rocrate",
     "extract_figure",
+    "extract_artifact",
     "extract_record",
+    "extract_records",
     "file_sha256",
     "import_fsb",
     "inspect_figure",
+    "inspect_artifact",
+    "formats",
+    "publish_artifacts",
     "publish_figures",
     "read_svg",
     "save_svg",
+    "save_figure",
+    "scan_artifacts",
     "scan_figures",
     "source_reference",
     "source_status",
@@ -75,8 +97,9 @@ __all__ = [
     "table_from_data",
     "try_extract_record",
     "validate_record",
+    "validate_artifact",
     "validate_svg",
     "write_companion_tables",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

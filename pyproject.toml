@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "reprofig"
-version = "0.1.0"
-description = "Scientific SVG figures with their data, statistics, and provenance built in"
+version = "0.2.0"
+description = "Scientific figures with their exact data, statistics, and provenance built in"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 authors = [{name = "Jamie Malcolm"}]
-keywords = ["svg", "provenance", "reproducibility", "scientific-figures", "metadata"]
+keywords = ["figures", "provenance", "reproducibility", "scientific-figures", "metadata"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Science/Research",
@@ -32,7 +32,34 @@ Changelog = "https://github.com/Jay2owe/ReproFig/releases"
 matplotlib = ["matplotlib>=3.6"]
 pandas = ["pandas>=1.5"]
 rocrate = ["rocrate>=0.13"]
-dev = ["pytest>=8", "build>=1", "pandas>=1.5", "matplotlib>=3.6"]
+pdf = ["pikepdf>=10"]
+raster = ["Pillow>=10", "tifftools>=1.6"]
+heif = ["Pillow>=11.3", "pillow-heif>=1.0"]
+hdf5 = ["h5py>=3.10"]
+netcdf = ["netCDF4>=1.7", "h5py>=3.10"]
+fits = ["astropy>=6"]
+all-formats = [
+  "pikepdf>=10",
+  "Pillow>=11.3",
+  "tifftools>=1.6",
+  "pillow-heif>=1.0",
+  "h5py>=3.10",
+  "netCDF4>=1.7",
+  "astropy>=6",
+]
+dev = [
+  "pytest>=8",
+  "build>=1",
+  "pandas>=1.5",
+  "matplotlib>=3.6",
+  "pikepdf>=10",
+  "Pillow>=11.3",
+  "tifftools>=1.6",
+  "pillow-heif>=1.0",
+  "h5py>=3.10",
+  "netCDF4>=1.7",
+  "astropy>=6",
+]
 
 [project.scripts]
 reprofig = "reprofig.cli:main"

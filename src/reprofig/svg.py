@@ -156,7 +156,21 @@ def embed_record(
             if not opened:
                 raise FigureRecordError("file does not contain an SVG root element")
             metadata = f"\n<metadata>\n  {node}\n</metadata>"
-            updated = text[: opened.end()] + metadata + text[opened.end() :]
+            opened_text = opened.group(0)
+            if opened_text.rstrip().endswith("/>"):
+                name_match = re.match(r"<\s*([A-Za-z_][\w.:-]*)", opened_text)
+                if name_match is None:
+                    raise FigureRecordError("SVG root element name is invalid")
+                expanded = re.sub(r"/\s*>$", ">", opened_text)
+                updated = (
+                    text[: opened.start()]
+                    + expanded
+                    + metadata
+                    + f"\n</{name_match.group(1)}>"
+                    + text[opened.end() :]
+                )
+            else:
+                updated = text[: opened.end()] + metadata + text[opened.end() :]
     _atomic_write(target, updated)
     return target
 
@@ -180,6 +194,7 @@ def extract_record(
     # declarations and internal subsets are rejected.
     if b"<!ENTITY" in prefix or re.search(br"<!DOCTYPE[^>]*\[", prefix):
         raise FigureRecordError("custom DTD entity declarations are not accepted")
+    found: FigureRecord | None = None
     try:
         for _event, element in ET.iterparse(path, events=("end",)):
             if _local_name(element.tag) != ELEMENT:
@@ -199,9 +214,13 @@ def extract_record(
             declared = element.attrib.get("schema")
             if declared and declared != record.schema:
                 raise FigureRecordError("embedded schema attribute disagrees with payload")
-            return record
+            if found is not None:
+                raise FigureRecordError("SVG contains multiple ReproFig records")
+            found = record
     except ET.ParseError as exc:
         raise FigureRecordError("SVG XML is not well formed") from exc
+    if found is not None:
+        return found
     raise FigureRecordError("SVG has no embedded ReproFig record")
 
 

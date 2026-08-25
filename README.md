@@ -1,26 +1,30 @@
 # ReproFig
 
-ReproFig makes a scientific Scalable Vector Graphics (SVG) figure carry the
-exact analysis-ready comma-separated values (CSV) tables, statistics, software
-version, and source fingerprints needed to audit and reproduce it later. It can
-extract those records and create privacy-checked publication copies without
-altering the internal master.
+ReproFig makes a scientific figure carry the exact comma-separated values
+(CSV), statistics, software version, source fingerprints, and reproduction
+instructions needed to audit it later. The same `reprofig/1` record works in
+SVG, PDF, PNG, JPEG, TIFF, WebP, AVIF/HEIF, PowerPoint, Word, Excel, HTML,
+HDF5, netCDF-4, FITS, and deterministic ZIP/RO-Crate bundles.
 
 ```console
 python -m pip install reprofig
 ```
 
 ReproFig requires Python 3.10 or newer. The core has no required scientific
-stack; install optional adapters with `reprofig[matplotlib,pandas,rocrate]`.
+stack. Install every binary adapter with:
+
+```console
+python -m pip install "reprofig[all-formats,matplotlib,pandas]"
+```
 
 ## Create a master figure
 
 ```python
-from reprofig import save_svg
+from reprofig import save_figure
 
-save_svg(
+save_figure(
     figure,
-    "Figure 1.svg",
+    "Figure 1.pdf",
     plotted_data=dataframe,
     statistics=records,
     producer={"package": "my-analysis", "version": "1.4.0"},
@@ -33,11 +37,11 @@ source of truth and may contain private data or local paths, so do not upload it
 without checking it first. Sidecar files are optional and can be regenerated:
 
 ```python
-from reprofig import extract_figure, publish_figures
+from reprofig import extract_artifact, publish_artifacts
 
-extract_figure("Figure 1.svg", "Figure 1 extracted")
-publish_figures(
-    "Figure 1.svg",
+extract_artifact("Figure 1.pdf", "Figure 1 extracted")
+publish_artifacts(
+    ["Figure 1.pdf", "Figure 2.jpg", "Slides.pptx"],
     output_dir="Publication",
     figure_profile="public",
     safe_columns=["condition", "value"],
@@ -49,7 +53,7 @@ publish_figures(
 Attach the plot meaning before its normal save step:
 
 ```python
-from reprofig import attach, save_svg
+from reprofig import attach, save_figure
 
 attach(
     figure,
@@ -62,12 +66,19 @@ attach(
         "participant_id": "private",
     },
 )
-save_svg(
+save_figure(
     figure,
-    "Figure.svg",
+    "Figure.png",
     producer={"package": "my-analysis", "package_version": "2.1.0"},
+    render_preset="line_art",
 )
 ```
+
+New raster figures default to 300 dots per inch (DPI). Use `screen` for 150
+DPI, `continuous_tone` for 300 DPI, `line_art` for 600 DPI, or pass an exact
+`dpi`, `width`, and `height`. Existing raster files are never resampled by
+`embed_file`; AVIF/HEIF metadata changes require `allow_reencode=True` because
+the available backend must rebuild those images.
 
 ## Make publication-safe copies
 
@@ -76,15 +87,19 @@ The `minimal_public` profile retains summary statistics and provenance without
 row-level data. Both are one-way derivatives of the master:
 
 ```text
-reprofig publish Figure.svg --output-dir Submission \
+reprofig publish Figure.svg Figure.jpg --output-dir Submission \
   --profile minimal-public --safe-columns condition,value \
   --public-source dataset=https://repository.example/data.csv
 ```
 
-The command-line interface also provides `inspect`, `validate`, `extract`,
-`caption`, `scan`, and `fsb-export`. ReproFig uses the `reprofig/1` record schema,
-reads legacy pre-release records, and can import or export Figure-Statistics
-Bundle directories and Research Object Crates.
+The command-line interface also provides `formats`, `inspect`, `validate`,
+`embed`, `extract`, `caption`, `scan`, `bundle`, and `fsb-export`. Run
+`reprofig formats` to see optional dependencies and carrier capabilities.
+
+Embedded metadata can be stripped by editors, social platforms, publisher
+pipelines, or format conversion. Keep the master. When the delivery route is
+unknown, send a `.reprofig.zip` bundle alongside the visible figure; its fixed
+layout and SHA-256 checksums make missing or changed files detectable.
 
 ## Develop and verify
 
