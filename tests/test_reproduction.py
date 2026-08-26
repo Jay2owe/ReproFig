@@ -118,7 +118,7 @@ def test_reproduce_figure_saves_and_passively_verifies_separate_carrier(tmp_path
     assert report.valid, report.to_dict()
     assert report.command == ["python", "code/plot.py"]
     assert _sha256(master) == before
-    reproduced = bundle / "verification" / "reproduced" / "chart.reproduced.svg"
+    reproduced = bundle / "verification" / "reproduced" / "chart-reproduced.svg"
     assert reproduced.is_file()
     assert FigureReproductionReport.from_json(report_path).valid
     proof = verify_proof(
@@ -127,6 +127,42 @@ def test_reproduce_figure_saves_and_passively_verifies_separate_carrier(tmp_path
         reproduction_report=report_path,
     )
     assert proof.valid, proof.to_dict()
+
+
+def test_legacy_reproduced_filename_remains_available(tmp_path):
+    bundle, master = _bundle(tmp_path)
+
+    report = reproduce_figure(
+        master,
+        bundle_root=bundle,
+        output_dir=bundle / "verification" / "legacy",
+        report_path=bundle / "verification" / "legacy-report.json",
+        execute_trusted_producer=True,
+        naming="legacy",
+    )
+
+    assert report.valid
+    assert (bundle / "verification" / "legacy" / "chart.reproduced.svg").is_file()
+
+
+def test_reproduction_override_names_carrier_and_default_report(tmp_path):
+    bundle, master = _bundle(tmp_path)
+
+    report = reproduce_figure(
+        master,
+        bundle_root=bundle,
+        output_dir=bundle / "verification" / "named",
+        execute_trusted_producer=True,
+        export_name="Final Figure",
+    )
+
+    assert report.valid
+    assert (
+        bundle / "verification" / "named" / "final-figure-reproduced.svg"
+    ).is_file()
+    assert (
+        bundle / "verification" / "final-figure-reproduction-report.json"
+    ).is_file()
 
 
 def test_passive_verification_detects_reproduced_carrier_tampering(tmp_path):
@@ -139,7 +175,7 @@ def test_passive_verification_detects_reproduced_carrier_tampering(tmp_path):
         report_path=report_path,
         execute_trusted_producer=True,
     )
-    reproduced = bundle / "verification" / "reproduced" / "chart.reproduced.svg"
+    reproduced = bundle / "verification" / "reproduced" / "chart-reproduced.svg"
     reproduced.write_bytes(reproduced.read_bytes() + b"\n<!-- changed -->\n")
 
     proof = verify_proof(
@@ -172,7 +208,7 @@ def test_passive_verification_recalculates_claimed_comparisons(tmp_path):
         check=True,
         capture_output=True,
     )
-    reproduced = bundle / "verification" / "reproduced" / "chart.reproduced.svg"
+    reproduced = bundle / "verification" / "reproduced" / "chart-reproduced.svg"
     reproduced.write_bytes(other_master.read_bytes())
     report = json.loads(report_path.read_text(encoding="utf-8"))
     report["reproduced_sha256"] = _sha256(reproduced)

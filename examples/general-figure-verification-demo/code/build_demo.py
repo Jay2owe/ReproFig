@@ -570,6 +570,15 @@ def _unpack_overview(root: Path) -> None:
 def _extract_without_sync_race(figure: Path, destination: Path) -> None:
     """Avoid cloud-sync locks on ReproFig's short-lived extraction directory."""
 
+    if destination.exists():
+        for attempt in range(20):
+            try:
+                shutil.rmtree(destination)
+                break
+            except PermissionError:
+                if attempt == 19:
+                    raise
+                time.sleep(0.5)
     destination.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="reprofig-demo-extract-") as temporary:
         outputs = extract_artifact(figure, temporary, overwrite=True)

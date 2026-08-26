@@ -57,6 +57,21 @@ publish_artifacts(
 )
 ```
 
+### Readable export names
+
+Automatic exports use lowercase hyphenated names such as
+`paired-change-record.json`, `paired-change-figure-data.csv`, and
+`paired-change-reproduced.svg`. The permanent `rf-...` figure identifier stays
+inside the record and is added to a filename only when two readable names
+collide.
+
+Pass `export_name="paired-change"` to `extract_artifact`, `publish_artifacts`,
+or `reproduce_figure` to override the automatic name. The fallback order is
+the explicit export name, original figure stem, current artifact stem, figure
+title, then `figure`. Existing automation can request the previous identifier
+and dotted-suffix names with `naming="legacy"`; the command-line equivalents
+are `--name` and `--naming legacy`.
+
 ## Integrate another plotting package
 
 Attach the plot meaning before its normal save step:
@@ -163,6 +178,10 @@ run = reproduce_figure(
     execute_trusted_producer=True,
 )
 ```
+
+This writes a readable carrier such as `Figure-1-reproduced.svg`; an explicit
+`report_path` remains available when a bundle requires a fixed internal report
+location.
 
 Use `statistics_reproduced` when declared statistics match the same
 implementation, `statistics_independently_verified` when a separate reference

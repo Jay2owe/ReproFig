@@ -31,12 +31,21 @@ def test_diverse_example_is_one_complete_reproducible_figure(folder: str) -> Non
     assert len(masters) == 1
     master = masters[0]
     assert master.suffix == suffix
+    stem = master.stem
 
-    report = json.loads((bundle / "verification" / "report.json").read_text(encoding="utf-8"))
+    report = json.loads(
+        (bundle / "verification" / f"{stem}-verification-report.json").read_text(
+            encoding="utf-8"
+        )
+    )
     assert report["valid"] is True
     assert all(report["meanings"][meaning] == "pass" for meaning in report["required"])
     reproduction = json.loads(
-        (bundle / "verification" / "reproduction-report.json").read_text(encoding="utf-8")
+        (
+            bundle
+            / "verification"
+            / "reproduction-report.json"
+        ).read_text(encoding="utf-8")
     )
     assert reproduction["valid"] is True
     assert reproduction["comparisons"] == {
@@ -53,17 +62,29 @@ def test_diverse_example_is_one_complete_reproducible_figure(folder: str) -> Non
     assert record.producer["package"] == package
     assert record.reproduction["script"] == producer.read_text(encoding="utf-8")
     assert [item.algorithm_id for item in specifications_from_record(record)] == [algorithm_id]
-    with (bundle / "data" / "der" / "statistics.csv").open(newline="", encoding="utf-8") as handle:
+    with (bundle / "data" / "der" / "statistics.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
         assert len(list(csv.DictReader(handle))) == 1
 
-    source = next(csv.DictReader((bundle / "data" / "sources.csv").open(newline="", encoding="utf-8")))
+    source = next(
+        csv.DictReader(
+            (bundle / "data" / "sources.csv").open(
+                newline="", encoding="utf-8"
+            )
+        )
+    )
     copied = bundle / Path(source["copied_path"])
     assert _sha256(copied) == source["sha256"]
     presentation = (bundle / "presentation" / "index.html").read_text(encoding="utf-8")
-    rendered_code = (bundle / "presentation" / "plot.py.html").read_text(encoding="utf-8")
-    assert 'src="plot.py.html"' in presentation
+    rendered_code = (bundle / "presentation" / f"{stem}-code.html").read_text(
+        encoding="utf-8"
+    )
+    assert f'src="{stem}-code.html"' in presentation
     assert "Exact producer code" in rendered_code
-    assert (bundle / "presentation" / "plot.py.svg").stat().st_size > producer.stat().st_size
+    assert (
+        bundle / "presentation" / f"{stem}-code.svg"
+    ).stat().st_size > producer.stat().st_size
 
 
 def test_diverse_example_summary_lists_only_the_three_workflows() -> None:

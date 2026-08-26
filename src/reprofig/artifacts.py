@@ -13,9 +13,19 @@ from .carriers.base import CarrierError
 from .carriers.manifest import CarrierManifest
 from .carriers.payload import DEFAULT_MAX_COMPRESSED, DEFAULT_MAX_DECOMPRESSED
 from .carriers.registry import formats, get_adapter, identify_format
+from .naming import (
+    collision_safe_stems,
+    export_name_override,
+    export_stem,
+    normalize_naming_mode,
+    readable_filename_token,
+    role_filename,
+    short_figure_identity,
+    unique_role_filenames,
+)
 from .profiles import derive_profile
 from .profiles import approved_public_tables
-from .schema import FigureRecord, deterministic_json
+from .schema import FigureRecord, deterministic_json, sha256_bytes
 from .tables import safe_filename_token, statistics_csv_bytes
 from .validation import (
     ValidationReport,
@@ -231,7 +241,10 @@ def extract_artifact(
     *,
     overwrite: bool = False,
     figure_id: str | None = None,
+    export_name: str | None = None,
+    naming: str = "readable",
 ) -> list[Path]:
+    mode = normalize_naming_mode(naming)
     records, manifest = extract_records(path, include_manifest=True)
     if figure_id is not None:
         records = [record for record in records if record.figure_id == figure_id]
@@ -250,26 +263,64 @@ def extract_artifact(
         planned.append((name, value))
 
     write("reprofig-manifest.json", manifest.to_json(indent=2).encode("utf-8"))
-    for record in records:
-        prefix = safe_filename_token(record.figure_id)
-        write(f"{prefix}.record.json", record.to_json(indent=2).encode("utf-8"))
+    if mode == "readable":
+        prefixes = collision_safe_stems(
+            [
+                export_stem(
+                    record,
+                    path,
+                    export_name=export_name,
+                    naming=mode,
+                )
+                for record in records
+            ],
+            [record.figure_id for record in records],
+        )
+    else:
+        prefixes = [safe_filename_token(record.figure_id) for record in records]
+    for record, prefix in zip(records, prefixes):
+        write(
+            role_filename(prefix, "record", "json", naming=mode),
+            record.to_json(indent=2).encode("utf-8"),
+        )
+        readable_tables = unique_role_filenames(
+            prefix,
+            [table.name for table in record.data_tables],
+            "csv",
+            naming=mode,
+        ) if mode == "readable" else []
         for index, table in enumerate(record.data_tables):
             if table.contents is not None:
+                table_name = (
+                    readable_tables[index]
+                    if mode == "readable"
+                    else f"{prefix}.{index:03d}-{safe_filename_token(table.name)}.csv"
+                )
                 write(
-                    f"{prefix}.{index:03d}-{safe_filename_token(table.name)}.csv",
+                    table_name,
                     table.contents.encode("utf-8"),
                 )
-        write(f"{prefix}.statistics.csv", statistics_csv_bytes(record.statistics))
+        write(
+            role_filename(prefix, "statistics", "csv", naming=mode),
+            statistics_csv_bytes(record.statistics),
+        )
         from .publication import caption_for
 
-        write(f"{prefix}.caption.md", caption_for(record).encode("utf-8"))
         write(
-            f"{prefix}.producer.json",
+            role_filename(prefix, "caption", "md", naming=mode),
+            caption_for(record).encode("utf-8"),
+        )
+        write(
+            role_filename(prefix, "producer", "json", naming=mode),
             (deterministic_json(record.producer, indent=2) + "\n").encode("utf-8"),
         )
         script = record.reproduction.get("script")
         if isinstance(script, str) and script:
-            write(f"{prefix}.reproduce.py", script.encode("utf-8"))
+            script_role = "plot" if mode == "readable" else "reproduce"
+            write(
+                role_filename(prefix, script_role, "py", naming=mode),
+                script.encode("utf-8"),
+            )
     names = [name for name, _value in planned]
     if len(names) != len(set(names)):
         raise ValueError("artifact extraction filenames collide")
@@ -590,24 +641,71 @@ def publish_artifacts(
     write_csv: bool = True,
     allow_reencode: bool = False,
     bundle: bool = False,
+    export_name: str | Mapping[str, str] | None = None,
+    naming: str = "readable",
 ) -> ArtifactPublicationResult:
     """Create validated public derivatives from a mixed-format artifact batch."""
 
     if figure_profile not in {"public", "minimal_public"}:
         raise ValueError("publication profile must be public or minimal_public")
+    mode = normalize_naming_mode(naming)
     sources = _artifact_paths(artifacts)
+    source_records: list[tuple[Path, list[FigureRecord], CarrierManifest]] = []
+    requested_stems: list[str] = []
+    primary_ids: list[str] = []
+    for source in sources:
+        records, old_manifest = extract_records(source, include_manifest=True)
+        source_records.append((source, records, old_manifest))
+        if mode == "readable":
+            override = export_name_override(
+                export_name,
+                source,
+                records,
+                source_count=len(sources),
+            )
+            record_for_name = records[0] if len(records) == 1 else None
+            requested_stems.append(
+                export_stem(
+                    record_for_name,
+                    source,
+                    export_name=override,
+                    naming=mode,
+                )
+            )
+        else:
+            requested_stems.append(source.stem)
+        primary_ids.append(records[0].figure_id)
+    stems = (
+        collision_safe_stems(
+            requested_stems,
+            primary_ids,
+            qualifiers=[source.suffix for source in sources],
+        )
+        if mode == "readable"
+        else requested_stems
+    )
     output = Path(output_dir).resolve()
     output.mkdir(parents=True, exist_ok=True)
     result = ArtifactPublicationResult(output_dir=output)
     manifest_rows: list[dict[str, Any]] = []
     validation_rows: list[dict[str, Any]] = []
-    reserved: set[str] = {"publication_manifest.json", "publication_validation.json"}
+    manifest_name = (
+        "publication-manifest.json"
+        if mode == "readable"
+        else "publication_manifest.json"
+    )
+    validation_name = (
+        "publication-validation.json"
+        if mode == "readable"
+        else "publication_validation.json"
+    )
+    reserved: set[str] = {manifest_name, validation_name}
+    planned_csv_hashes: dict[str, str] = {}
     with tempfile.TemporaryDirectory(dir=output, prefix=".reprofig-") as temporary_name:
         temporary = Path(temporary_name)
         pending: list[tuple[Path, Path, str]] = []
         all_derived: list[FigureRecord] = []
-        for source in sources:
-            records, old_manifest = extract_records(source, include_manifest=True)
+        for (source, records, old_manifest), stem in zip(source_records, stems):
             derived_records: list[FigureRecord] = []
             public_table_sets: list[list[Any]] = []
             for master in records:
@@ -625,7 +723,12 @@ def publish_artifacts(
                     )
                 )
             suffix = "public" if figure_profile == "public" else "minimal-public"
-            output_name = f"{source.stem}.{suffix}{source.suffix}"
+            output_name = role_filename(
+                stem,
+                suffix,
+                source.suffix,
+                naming=mode,
+            )
             if output_name in reserved or (output / output_name).exists():
                 raise FileExistsError(f"publication output collision at {output_name}")
             reserved.add(output_name)
@@ -670,24 +773,81 @@ def publish_artifacts(
             csv_names: list[str] = []
             if write_csv:
                 for derived, tables in zip(derived_records, public_table_sets):
-                    prefix = source.stem if len(records) == 1 else f"{source.stem}.{safe_filename_token(derived.figure_id)}"
+                    if len(records) == 1:
+                        prefix = stem
+                    elif mode == "readable":
+                        prefix = f"{stem}-{short_figure_identity(derived.figure_id)}"
+                    else:
+                        prefix = f"{source.stem}.{safe_filename_token(derived.figure_id)}"
+                    table_roles = [
+                        (
+                            "source-data"
+                            if index == 0
+                            else (
+                                readable_filename_token(table.name, fallback="data")
+                                if mode == "readable"
+                                else safe_filename_token(table.name)
+                            )
+                        )
+                        for index, table in enumerate(tables)
+                    ]
+                    readable_table_names = (
+                        unique_role_filenames(
+                            prefix,
+                            table_roles,
+                            "csv",
+                            naming=mode,
+                        )
+                        if mode == "readable"
+                        else []
+                    )
                     for index, table in enumerate(tables):
                         if table.contents is None:
                             continue
-                        name = f"{prefix}.source-data.csv" if index == 0 else f"{prefix}.{safe_filename_token(table.name)}.csv"
-                        if name in reserved or (output / name).exists():
+                        name = (
+                            readable_table_names[index]
+                            if mode == "readable"
+                            else role_filename(
+                                prefix,
+                                table_roles[index],
+                                "csv",
+                                naming=mode,
+                            )
+                        )
+                        contents = table.contents.encode("utf-8")
+                        digest = sha256_bytes(contents)
+                        if name in reserved:
+                            if planned_csv_hashes.get(name) == digest:
+                                csv_names.append(name)
+                                continue
+                            raise FileExistsError(f"publication output collision at {name}")
+                        if (output / name).exists():
                             raise FileExistsError(f"publication output collision at {name}")
                         reserved.add(name)
+                        planned_csv_hashes[name] = digest
                         csv_path = temporary / name
-                        csv_path.write_bytes(table.contents.encode("utf-8"))
+                        csv_path.write_bytes(contents)
                         pending.append((csv_path, output / name, "csv"))
                         csv_names.append(name)
-                    stats_name = f"{prefix}.statistics.csv"
-                    if stats_name in reserved or (output / stats_name).exists():
+                    stats_name = role_filename(
+                        prefix,
+                        "statistics",
+                        "csv",
+                        naming=mode,
+                    )
+                    stats_contents = statistics_csv_bytes(derived.statistics)
+                    stats_digest = sha256_bytes(stats_contents)
+                    if stats_name in reserved:
+                        if planned_csv_hashes.get(stats_name) == stats_digest:
+                            csv_names.append(stats_name)
+                            continue
+                        raise FileExistsError(f"publication output collision at {stats_name}")
+                    if (output / stats_name).exists():
                         raise FileExistsError(f"publication output collision at {stats_name}")
                     reserved.add(stats_name)
+                    planned_csv_hashes[stats_name] = stats_digest
                     stats_path = temporary / stats_name
-                    stats_path.write_bytes(statistics_csv_bytes(derived.statistics))
+                    stats_path.write_bytes(stats_contents)
                     pending.append((stats_path, output / stats_name, "csv"))
                     csv_names.append(stats_name)
             manifest_rows.append(
@@ -702,12 +862,12 @@ def publish_artifacts(
                     "output_sha256": file_sha256(candidate),
                 }
             )
-        manifest_path = temporary / "publication_manifest.json"
+        manifest_path = temporary / manifest_name
         manifest_path.write_text(
             deterministic_json({"profile": figure_profile, "artifacts": manifest_rows}, indent=2) + "\n",
             encoding="utf-8",
         )
-        validation_path = temporary / "publication_validation.json"
+        validation_path = temporary / validation_name
         validation_path.write_text(
             deterministic_json({"valid": result.valid, "artifacts": validation_rows}, indent=2) + "\n",
             encoding="utf-8",
@@ -726,7 +886,12 @@ def publish_artifacts(
                 for candidate, _target, kind in pending:
                     if kind in {"artifact", "csv"}:
                         archive.write(candidate, f"figures/{candidate.name}" if kind == "artifact" else f"data/{candidate.name}")
-            bundle_candidate = temporary / "publication.reprofig.zip"
+            bundle_name = (
+                "publication-reprofig.zip"
+                if mode == "readable"
+                else "publication.reprofig.zip"
+            )
+            bundle_candidate = temporary / bundle_name
             embed_file(
                 raw_zip,
                 _dedupe_records(all_derived),
@@ -762,6 +927,7 @@ def save_figure(
     height: float | None = None,
     format_options: Mapping[str, Any] | None = None,
     write_companion_csv: bool = False,
+    companion_naming: str = "readable",
     savefig_kwargs: Mapping[str, Any] | None = None,
     allow_reencode: bool = False,
     safe_columns: Sequence[str] | Mapping[str, Sequence[str]] | None = None,
@@ -803,6 +969,7 @@ def save_figure(
             safe_columns=safe_columns,
             public_sources=public_sources,
             write_companion_csv=write_companion_csv,
+            companion_naming=companion_naming,
             savefig_kwargs=savefig_kwargs,
         )
     chosen_preset = render_preset or dpi_preset
@@ -999,5 +1166,5 @@ def save_figure(
                 safe_columns=safe_columns,
                 public_sources=public_sources,
             )
-        write_companion_tables(companion, target)
+        write_companion_tables(companion, target, naming=companion_naming)
     return final_record

@@ -39,7 +39,7 @@ A passing `figure_reproduced` check means:
 
 - the trusted producer exited successfully and created a valid ReproFig carrier;
 - the reproduced carrier is saved separately as
-  `<name>.reproduced.<extension>`;
+  `<readable-name>-reproduced.<extension>`;
 - embedded data-table identities and normalized statistics match;
 - semantic marks, annotations, and carrier-specific visual bindings match; and
 - the saved carrier and report still match their recorded hashes.
@@ -67,3 +67,9 @@ reprofig verify bundle/fig/Figure-1.svg \
 Legacy verification inputs remain accepted: `reproduced` maps to
 `statistics_reproduced`, and `independently_verified` maps to
 `statistics_independently_verified`.
+
+Automatic reproduction names are lowercase and hyphenated. Pass
+`export_name="dose-response"` in Python or `--name dose-response` on the
+command line to override the inferred name. Pass `naming="legacy"` or
+`--naming legacy` when existing automation requires
+`<name>.reproduced.<extension>`.

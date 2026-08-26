@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 - 2026-08-26
+
+- Add one shared readable naming policy for extracted evidence, public
+  derivatives, companion tables, and separately reproduced figures.
+- Add optional `export_name` overrides, deterministic collision suffixes, and
+  a `legacy` naming mode for existing automation.
+- Regenerate presentation and verification examples with readable unpacked
+  evidence, reproduced carriers, reports, and rendered-code exports.
+
 ## 0.4.0 - 2026-08-26
 
 - Separate statistical repeatability (`statistics_reproduced`), independent

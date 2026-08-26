@@ -15,6 +15,12 @@ from .profiles import derive_profile
 from .schema import DataTable, FigureRecord, SourceReference, sha256_bytes
 from .svg import embed_record, extract_record as _extract_svg_record
 from .tables import safe_filename_token, statistics_csv_bytes, table_from_data
+from .naming import (
+    export_stem,
+    normalize_naming_mode,
+    role_filename,
+    unique_role_filenames,
+)
 from .validation import privacy_leaks, scrub_private_strings, validate_svg
 
 _ATTACHMENTS: "weakref.WeakKeyDictionary[Any, dict[str, Any]]" = weakref.WeakKeyDictionary()
@@ -282,19 +288,41 @@ def _metadata_summary(record: FigureRecord) -> dict[str, str]:
     return metadata
 
 
-def write_companion_tables(record: FigureRecord, svg_path: str | os.PathLike[str]) -> list[Path]:
+def write_companion_tables(
+    record: FigureRecord,
+    svg_path: str | os.PathLike[str],
+    *,
+    naming: str = "readable",
+) -> list[Path]:
     path = Path(svg_path)
+    mode = normalize_naming_mode(naming)
+    stem = (
+        export_stem(artifact=path, naming=mode)
+        if mode == "readable"
+        else path.stem
+    )
     outputs: list[Path] = []
+    readable_names = unique_role_filenames(
+        stem,
+        [table.name for table in record.data_tables],
+        "csv",
+        naming=mode,
+    ) if mode == "readable" else []
     for index, table in enumerate(record.data_tables):
         if table.contents is None:
             continue
-        suffix = "source-data" if index == 0 else safe_filename_token(table.name)
-        output = path.with_name(f"{path.stem}.{suffix}.csv")
+        if mode == "readable":
+            output = path.with_name(readable_names[index])
+        else:
+            suffix = "source-data" if index == 0 else safe_filename_token(table.name)
+            output = path.with_name(f"{path.stem}.{suffix}.csv")
         if output in outputs:
             raise ValueError(f"companion table filenames collide at {output.name}")
         output.write_bytes(table.contents.encode("utf-8"))
         outputs.append(output)
-    stats = path.with_name(f"{path.stem}.statistics.csv")
+    stats = path.with_name(
+        role_filename(stem, "statistics", "csv", naming=mode)
+    )
     if stats in outputs:
         raise ValueError(f"companion table filenames collide at {stats.name}")
     stats.write_bytes(statistics_csv_bytes(record.statistics))
@@ -323,6 +351,7 @@ def save_svg(
     safe_columns: Sequence[str] | Mapping[str, Sequence[str]] | None = None,
     public_sources: Mapping[str, str] | None = None,
     write_companion_csv: bool = False,
+    companion_naming: str = "readable",
     savefig_kwargs: Mapping[str, Any] | None = None,
 ) -> FigureRecord:
     """Save a Matplotlib-like figure and embed its complete record atomically."""
@@ -402,7 +431,11 @@ def save_svg(
         except OSError:
             pass
     if write_companion_csv:
-        write_companion_tables(companion_record, target)
+        write_companion_tables(
+            companion_record,
+            target,
+            naming=companion_naming,
+        )
     return final_record
 
 

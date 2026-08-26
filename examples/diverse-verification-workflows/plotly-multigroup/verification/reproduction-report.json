@@ -8,19 +8,19 @@
     "display": "pass",
     "statistics": "pass"
   },
-  "duration_seconds": 6.938,
+  "duration_seconds": 7.281,
   "execution_status": "pass",
   "master_evidence_root": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
   "master_name": "condition-response.png",
-  "master_sha256": "8da1694ea049669fd146d0cbb589638ab13d5891b089f11a46a028edddb9b6d8",
+  "master_sha256": "55cc3559927b09f7dcff4c7ccd55d2e265c25909d5cf4b14f51d8c2ba4f7db38",
   "messages": {
     "data_tables": "Embedded table identities match.",
     "display": "Semantic marks and carrier-specific visual bindings match.",
     "execution": "Trusted producer completed and wrote a valid carrier.",
     "statistics": "Normalized statistical records match."
   },
-  "reproduced_path": "reproduced/condition-response.reproduced.png",
-  "reproduced_sha256": "8d28f58fa3c83455b8266caa309894f867904401a3988c803c74f79f5e60804c",
+  "reproduced_path": "reproduced/condition-response-reproduced.png",
+  "reproduced_sha256": "4f9982ebdbdfdf60a56811ad96c62dbc9771b0f6813eb60df715160afefb14e1",
   "return_code": 0,
   "runtime": {
     "executable": "python.exe",

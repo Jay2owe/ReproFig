@@ -102,13 +102,13 @@ def test_batch_publication_writes_safe_svg_csvs_and_reports(tmp_path, profile, s
         safe_columns=["condition", "value"],
         public_sources={"dataset": "https://example.org/data.csv"},
     )
-    published = output / f"Figure 1.{suffix}.svg"
+    published = output / f"figure-1-{suffix}.svg"
     assert result.valid
     assert published.is_file()
-    assert (output / "Figure 1.source-data.csv").is_file()
-    assert (output / "Figure 1.statistics.csv").is_file()
-    assert (output / "publication_manifest.csv").is_file()
-    validation = json.loads((output / "publication_validation.json").read_text(encoding="utf-8"))
+    assert (output / "figure-1-source-data.csv").is_file()
+    assert (output / "figure-1-statistics.csv").is_file()
+    assert (output / "publication-manifest.csv").is_file()
+    validation = json.loads((output / "publication-validation.json").read_text(encoding="utf-8"))
     assert validation["valid"] is True
     assert validation["figures"][0]["transformations"]
     record = extract_record(published)
@@ -118,7 +118,7 @@ def test_batch_publication_writes_safe_svg_csvs_and_reports(tmp_path, profile, s
     for path in output.iterdir():
         if path.is_file():
             assert "X:\\private" not in path.read_text(encoding="utf-8-sig")
-    manifest = (output / "publication_manifest.csv").read_text(encoding="utf-8")
+    manifest = (output / "publication-manifest.csv").read_text(encoding="utf-8")
     assert "output_svg_sha256" in manifest
     assert "source_data_sha256s" in manifest
     assert "statistics_csv_sha256" in manifest
@@ -140,11 +140,13 @@ def test_cli_publishes_hyphenated_minimal_profile_with_public_source(tmp_path, c
         "minimal-public",
         "--safe-columns",
         "condition,value",
+        "--name",
+        "Final Figure",
         "--public-source",
         "dataset=https://example.org/data.csv",
     ]) == 0
     capsys.readouterr()
-    record = extract_record(output / "Figure 1.minimal-public.svg")
+    record = extract_record(output / "final-figure-minimal-public.svg")
     assert record.distribution_profile == "minimal_public"
     assert record.sources[0].uri == "https://example.org/data.csv"
 

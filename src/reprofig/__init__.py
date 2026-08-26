@@ -78,6 +78,7 @@ from .sources import file_sha256, source_reference, source_status
 from .artifacts import extract_record
 from .svg import FigureRecordError, embed_record, try_extract_record
 from .tables import statistics_csv_bytes, table_from_data
+from .naming import NamingMode, export_stem, readable_filename_token
 from .validation import ValidationIssue, ValidationReport, validate_record, validate_svg
 
 __all__ = [
@@ -97,6 +98,7 @@ __all__ = [
     "ReproductionPolicy",
     "PublicationResult",
     "PublicationWorkbookResult",
+    "NamingMode",
     "SourceReference",
     "ScientificClaim",
     "StatisticalSpecification",
@@ -130,6 +132,7 @@ __all__ = [
     "embed_record",
     "export_fsb",
     "export_rocrate",
+    "export_stem",
     "extract_figure",
     "extract_artifact",
     "extract_record",
@@ -144,6 +147,7 @@ __all__ = [
     "publish_artifacts",
     "publish_figures",
     "read_svg",
+    "readable_filename_token",
     "reproduce_figure",
     "refresh_visual_reference",
     "save_svg",
@@ -166,4 +170,4 @@ __all__ = [
     "write_companion_tables",
 ]
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"

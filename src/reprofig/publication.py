@@ -11,6 +11,15 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
+from .naming import (
+    collision_safe_stems,
+    export_name_override,
+    export_stem,
+    normalize_naming_mode,
+    readable_filename_token,
+    role_filename,
+    unique_role_filenames,
+)
 from .profiles import approved_public_tables, derive_profile
 from .schema import DataTable, FigureRecord, deterministic_json
 from .sources import file_sha256, source_status
@@ -267,8 +276,11 @@ def extract_figure(
     output_dir: str | os.PathLike[str],
     *,
     overwrite: bool = False,
+    export_name: str | None = None,
+    naming: str = "readable",
 ) -> list[Path]:
     source = Path(svg_path)
+    mode = normalize_naming_mode(naming)
     record = extract_record(source)
     integrity = validate_record(record, require_complete=False)
     if not integrity.valid:
@@ -276,28 +288,73 @@ def extract_figure(
         raise ValueError(f"figure record failed integrity validation: {messages}")
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
-    stem = source.stem
+    stem = (
+        export_stem(
+            record,
+            source,
+            export_name=export_name,
+            naming=mode,
+        )
+        if mode == "readable"
+        else source.stem
+    )
     planned: list[tuple[Path, bytes]] = []
+    readable_names = unique_role_filenames(
+        stem,
+        [table.name for table in record.data_tables],
+        "csv",
+        naming=mode,
+    ) if mode == "readable" else []
     for index, table in enumerate(record.data_tables):
         if table.contents is None:
             continue
-        suffix = "source-data" if index == 0 else safe_filename_token(table.name)
+        if mode == "readable":
+            table_name = readable_names[index]
+        else:
+            suffix = "source-data" if index == 0 else safe_filename_token(table.name)
+            table_name = f"{stem}.{suffix}.csv"
         planned.append(
-            (output / f"{stem}.{suffix}.csv", table.contents.encode("utf-8"))
+            (output / table_name, table.contents.encode("utf-8"))
         )
     planned.extend(
         [
-            (output / f"{stem}.statistics.csv", statistics_csv_bytes(record.statistics)),
-            (output / f"{stem}.provenance.json", (record.to_json(indent=2) + "\n").encode("utf-8")),
-            (output / f"{stem}.caption.md", caption_for(record).encode("utf-8")),
+            (
+                output / role_filename(stem, "statistics", "csv", naming=mode),
+                statistics_csv_bytes(record.statistics),
+            ),
+            (
+                output
+                / role_filename(
+                    stem,
+                    "record" if mode == "readable" else "provenance",
+                    "json",
+                    naming=mode,
+                ),
+                (record.to_json(indent=2) + "\n").encode("utf-8"),
+            ),
+            (
+                output / role_filename(stem, "caption", "md", naming=mode),
+                caption_for(record).encode("utf-8"),
+            ),
         ]
     )
-    planned_paths = [path for path, _contents in planned]
-    if len(planned_paths) != len(set(planned_paths)):
-        raise ValueError("extracted table filenames collide after sanitization")
     script = record.reproduction.get("script")
     if isinstance(script, str) and script:
-        planned.append((output / f"{stem}.reproduce.py", script.encode("utf-8")))
+        planned.append(
+            (
+                output
+                / role_filename(
+                    stem,
+                    "plot" if mode == "readable" else "reproduce",
+                    "py",
+                    naming=mode,
+                ),
+                script.encode("utf-8"),
+            )
+        )
+    planned_paths = [path for path, _contents in planned]
+    if len(planned_paths) != len(set(planned_paths)):
+        raise ValueError("extracted filenames collide after sanitization")
     if not overwrite:
         existing = [str(path) for path, _contents in planned if path.exists()]
         if existing:
@@ -328,11 +385,14 @@ def publish_figures(
     strict: bool = True,
     write_csv: bool = True,
     rocrate: bool = False,
+    export_name: str | Mapping[str, str] | None = None,
+    naming: str = "readable",
 ) -> PublicationResult:
     """Create validated public derivatives and public-safe publisher CSV files."""
 
     if figure_profile not in {"public", "minimal_public"}:
         raise ValueError("publication profile must be public or minimal_public")
+    mode = normalize_naming_mode(naming)
     sources = _paths(figures)
     output = Path(output_dir).resolve()
     output.mkdir(parents=True, exist_ok=True)
@@ -345,8 +405,33 @@ def publish_figures(
         if not integrity.valid:
             messages = "; ".join(issue.message for issue in integrity.issues)
             raise ValueError(f"cannot publish {path.name}: {messages}")
-    stems = [path.stem for path, _record in records]
-    if len(stems) != len(set(stems)):
+    requested_stems = [
+        (
+            export_stem(
+                record,
+                path,
+                export_name=export_name_override(
+                    export_name,
+                    path,
+                    [record],
+                    source_count=len(records),
+                ),
+                naming=mode,
+            )
+            if mode == "readable"
+            else path.stem
+        )
+        for path, record in records
+    ]
+    stems = (
+        collision_safe_stems(
+            requested_stems,
+            [record.figure_id for _path, record in records],
+        )
+        if mode == "readable"
+        else requested_stems
+    )
+    if mode == "legacy" and len(stems) != len(set(stems)):
         raise ValueError("duplicate figure stems would collide in publication output")
     profile_suffix = "public" if figure_profile == "public" else "minimal-public"
     planned_names: set[str] = set()
@@ -357,9 +442,9 @@ def publish_figures(
         planned_names.add(name)
 
     prepared: list[
-        tuple[Path, FigureRecord, FigureRecord, list[DataTable], list[str], str]
+        tuple[Path, FigureRecord, FigureRecord, list[DataTable], list[str], str, str]
     ] = []
-    for source, master in records:
+    for (source, master), stem in zip(records, stems):
         if master.distribution_profile == "minimal_public" and figure_profile == "public":
             raise ValueError(f"cannot recreate public row-level data from {source}")
         configured_columns = _safe_columns_for(source, master, safe_columns)
@@ -370,24 +455,68 @@ def publish_figures(
             safe_columns=configured_columns,
             public_sources=public_sources,
         )
-        output_name = f"{source.stem}.{profile_suffix}.svg"
+        output_name = role_filename(
+            stem,
+            profile_suffix,
+            "svg",
+            naming=mode,
+        )
         reserve(output_name)
         table_names: list[str] = []
         if write_csv:
+            table_roles = [
+                (
+                    "source-data"
+                    if index == 0
+                    else (
+                        readable_filename_token(table.name, fallback="data")
+                        if mode == "readable"
+                        else safe_filename_token(table.name)
+                    )
+                )
+                for index, table in enumerate(safe_tables)
+            ]
+            readable_table_names = (
+                unique_role_filenames(
+                    stem,
+                    table_roles,
+                    "csv",
+                    naming=mode,
+                )
+                if mode == "readable"
+                else []
+            )
             for index, table in enumerate(safe_tables):
                 if table.contents is None:
                     continue
                 csv_name = (
-                    f"{source.stem}.source-data.csv"
-                    if index == 0
-                    else f"{source.stem}.{safe_filename_token(table.name)}.csv"
+                    readable_table_names[index]
+                    if mode == "readable"
+                    else role_filename(
+                        stem,
+                        table_roles[index],
+                        "csv",
+                        naming=mode,
+                    )
                 )
                 reserve(csv_name)
                 table_names.append(csv_name)
-            reserve(f"{source.stem}.statistics.csv")
-        prepared.append((source, master, derived, safe_tables, table_names, output_name))
-    reserve("publication_manifest.csv")
-    reserve("publication_validation.json")
+            reserve(role_filename(stem, "statistics", "csv", naming=mode))
+        prepared.append(
+            (source, master, derived, safe_tables, table_names, output_name, stem)
+        )
+    manifest_name = (
+        "publication-manifest.csv"
+        if mode == "readable"
+        else "publication_manifest.csv"
+    )
+    validation_name = (
+        "publication-validation.json"
+        if mode == "readable"
+        else "publication_validation.json"
+    )
+    reserve(manifest_name)
+    reserve(validation_name)
     existing = [name for name in planned_names if (output / name).exists()]
     if existing:
         raise FileExistsError("publication would overwrite: " + ", ".join(sorted(existing)))
@@ -398,7 +527,15 @@ def publish_figures(
     with tempfile.TemporaryDirectory(dir=output, prefix=".reprofig-") as temporary_name:
         temporary = Path(temporary_name)
         pending: list[tuple[Path, Path, str]] = []
-        for source, master, derived, safe_tables, reserved_table_names, output_name in prepared:
+        for (
+            source,
+            master,
+            derived,
+            safe_tables,
+            reserved_table_names,
+            output_name,
+            stem,
+        ) in prepared:
             temporary_svg = temporary / output_name
             shutil.copy2(source, temporary_svg)
             replace_dublin_core_description(temporary_svg, _public_description(derived))
@@ -475,7 +612,12 @@ def publish_figures(
                     table_path.write_bytes(table.contents.encode("utf-8"))
                     pending.append((table_path, output / csv_name, "csv"))
                     table_names.append(csv_name)
-                stats_name = f"{source.stem}.statistics.csv"
+                stats_name = role_filename(
+                    stem,
+                    "statistics",
+                    "csv",
+                    naming=mode,
+                )
                 stats_path = temporary / stats_name
                 stats_path.write_bytes(statistics_csv_bytes(derived.statistics))
                 pending.append((stats_path, output / stats_name, "csv"))
@@ -489,7 +631,11 @@ def publish_figures(
                     "source_data_sha256s": ";".join(
                         table.sha256 for table in safe_tables if table.contents is not None
                     ),
-                    "statistics_csv": f"{source.stem}.statistics.csv" if write_csv else "",
+                    "statistics_csv": (
+                        role_filename(stem, "statistics", "csv", naming=mode)
+                        if write_csv
+                        else ""
+                    ),
                     "statistics_csv_sha256": derived.statistics_csv_sha256 or "",
                     "public_source_links": ";".join(
                         source_ref.uri for source_ref in derived.sources if source_ref.uri
@@ -499,7 +645,7 @@ def publish_figures(
                     "output_svg_sha256": file_sha256(temporary_svg),
                 }
             )
-        manifest = temporary / "publication_manifest.csv"
+        manifest = temporary / manifest_name
         fields = [
             "figure_id",
             "master_svg",
@@ -518,7 +664,7 @@ def publish_figures(
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             writer.writerows(manifest_rows)
-        validation = temporary / "publication_validation.json"
+        validation = temporary / validation_name
         validation.write_text(
             deterministic_json({"valid": result.valid, "figures": validation_rows}, indent=2)
             + "\n",

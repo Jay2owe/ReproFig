@@ -15,7 +15,7 @@
           "display": "pass",
           "statistics": "pass"
         },
-        "reproduced_sha256": "10b26dab28144a7d251d9f27444b19fcd4388dad5c265189eafcd852a1e0c21e"
+        "reproduced_sha256": "c472873ad6b158f33d9c3c3fd157e534df880e9ff8fc02fb9f6cfa8647f5f022"
       },
       "check_id": "figure-reproduction",
       "expected": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",

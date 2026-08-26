@@ -56,7 +56,12 @@ class Example:
     input_name: str
     producer_name: str
     figure_name: str
+    figure_id: str
     columns: tuple[str, ...]
+
+    @property
+    def export_stem(self) -> str:
+        return Path(self.figure_name).stem
 
 
 EXAMPLES = (
@@ -70,6 +75,7 @@ EXAMPLES = (
         input_name="paired-change.csv",
         producer_name="matplotlib_paired.py",
         figure_name="paired-change.svg",
+        figure_id="rf-8e6d99733d1044799d5d6f925b427db1",
         columns=("participant", "before", "after"),
     ),
     Example(
@@ -82,6 +88,7 @@ EXAMPLES = (
         input_name="regression.csv",
         producer_name="seaborn_regression.py",
         figure_name="exposure-response.svg",
+        figure_id="rf-d13001a42c854d189991e887131b67a4",
         columns=("sample", "exposure", "response"),
     ),
     Example(
@@ -94,6 +101,7 @@ EXAMPLES = (
         input_name="multigroup.csv",
         producer_name="plotly_multigroup.py",
         figure_name="condition-response.png",
+        figure_id="rf-594c5332dd8b44f28c8afe3eb1d5fb9f",
         columns=("sample", "condition", "response"),
     ),
 )
@@ -125,9 +133,14 @@ def _remove_generated(path: Path) -> None:
             time.sleep(0.5)
 
 
-def _write_sources(bundle: Path, copied: Path, original: Path) -> None:
+def _write_sources(
+    bundle: Path,
+    copied: Path,
+    original: Path,
+) -> None:
     stat = copied.stat()
-    with (bundle / "data" / "sources.csv").open("w", newline="", encoding="utf-8") as handle:
+    source_index = bundle / "data" / "sources.csv"
+    with source_index.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle,
             fieldnames=["original_path", "copied_path", "file_name", "modification_time", "byte_size", "sha256", "public_uri"],
@@ -149,7 +162,7 @@ def _write_sources(bundle: Path, copied: Path, original: Path) -> None:
         "# Source index\n\n"
         f"`data/src/{copied.name}` is an exact copy of the synthetic raw input "
         f"at `input/{original.name}`. Its byte size and SHA-256 digest are in "
-        "`sources.csv`.\n",
+        f"`{source_index.name}`.\n",
         encoding="utf-8",
     )
 
@@ -169,7 +182,7 @@ def _readme(example: Example) -> str:
     )
 
 
-def _render_code(source: Path, presentation: Path) -> None:
+def _render_code(source: Path, presentation: Path, *, export_stem: str) -> None:
     code = source.read_text(encoding="utf-8")
     presentation.mkdir(parents=True, exist_ok=True)
     rendered = highlight(
@@ -177,13 +190,19 @@ def _render_code(source: Path, presentation: Path) -> None:
         PythonLexer(),
         HtmlFormatter(full=True, linenos="table", style="friendly", title="Exact producer code"),
     )
-    (presentation / "plot.py.html").write_text(rendered, encoding="utf-8")
+    (presentation / f"{export_stem}-code.html").write_text(
+        rendered,
+        encoding="utf-8",
+    )
     vector = highlight(
         code,
         PythonLexer(),
         SvgFormatter(font_size=12, linenos=True, style="friendly"),
     )
-    (presentation / "plot.py.svg").write_text(vector, encoding="utf-8")
+    (presentation / f"{export_stem}-code.svg").write_text(
+        vector,
+        encoding="utf-8",
+    )
 
 
 def _prepare(example: Example) -> Path:
@@ -208,7 +227,11 @@ def _prepare(example: Example) -> Path:
             ]
         },
     )
-    _render_code(producer, bundle / "presentation")
+    _render_code(
+        producer,
+        bundle / "presentation",
+        export_stem=example.export_stem,
+    )
     return bundle
 
 
@@ -243,6 +266,7 @@ def _source_table(bundle: Path, example: Example):
 def _attach_source_link(bundle: Path, example: Example) -> None:
     master = bundle / "fig" / example.figure_name
     record = extract_record(master)
+    record.figure_id = example.figure_id
     target = next(table for table in record.data_tables if table.name == "figure_data")
     transformation = TransformationSpec(
         operation="select",
@@ -339,8 +363,17 @@ def _verify(bundle: Path, example: Example):
     report = _portable(report, example)
     if not report.valid:
         raise RuntimeError(report.to_json(indent=2))
-    _write_json(bundle / "verification" / "report.json", report.to_dict())
-    with (bundle / "verification" / "meaning-summary.csv").open("w", newline="", encoding="utf-8") as handle:
+    _write_json(
+        bundle
+        / "verification"
+        / f"{example.export_stem}-verification-report.json",
+        report.to_dict(),
+    )
+    with (
+        bundle
+        / "verification"
+        / f"{example.export_stem}-verification-summary.csv"
+    ).open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["meaning", "status"])
         writer.writerows((meaning, report.meanings[meaning]) for meaning in REQUIRED)
@@ -380,8 +413,8 @@ body{{font-family:Arial,Helvetica,sans-serif;color:#303030;margin:0;background:#
 <p class="lede">One {html.escape(example.library)} figure, one {html.escape(example.test)}, one verification workflow.</p>
 <section class="card"><img class="figure" src="../fig/preview.png" alt="{html.escape(example.title)} figure"></section>
 <section class="card"><div class="workflow"><span class="step">Raw CSV</span><span class="arrow">→</span><span class="step">Exact producer</span><span class="arrow">→</span><span class="step">ReproFig master</span><span class="arrow">→</span><span class="step">Independent checks</span><span class="arrow">→</span><span class="step">Saved reproduction</span></div></section>
-<section class="grid"><div class="card"><h2>Claim</h2><p>{html.escape(example.claim)}</p><h2>Analysis</h2><p>{html.escape(example.test)}</p></div><div class="card"><h2>Verification</h2><ul>{passed}</ul><p>Complete machine report: <code>../verification/report.json</code></p></div></section>
-<section class="card"><h2>Exact producer code</h2><p>This is a rendered copy of <code>../code/plot.py</code>, not a shortened illustration.</p><iframe src="plot.py.html" title="Exact syntax-highlighted producer code"></iframe></section>
+<section class="grid"><div class="card"><h2>Claim</h2><p>{html.escape(example.claim)}</p><h2>Analysis</h2><p>{html.escape(example.test)}</p></div><div class="card"><h2>Verification</h2><ul>{passed}</ul><p>Complete machine report: <code>../verification/{example.export_stem}-verification-report.json</code></p></div></section>
+<section class="card"><h2>Exact producer code</h2><p>This is a rendered copy of <code>../code/plot.py</code>, not a shortened illustration.</p><iframe src="{example.export_stem}-code.html" title="Exact syntax-highlighted producer code"></iframe></section>
 </main></body></html>"""
     (presentation / "index.html").write_text(page, encoding="utf-8")
 
@@ -396,10 +429,12 @@ def _check_files(bundle: Path, example: Example) -> None:
         bundle / "fig" / example.figure_name,
         bundle / "fig" / "preview.png",
         bundle / "presentation" / "index.html",
-        bundle / "presentation" / "plot.py.html",
-        bundle / "presentation" / "plot.py.svg",
+        bundle / "presentation" / f"{example.export_stem}-code.html",
+        bundle / "presentation" / f"{example.export_stem}-code.svg",
         bundle / "verification" / "reproduction-report.json",
-        bundle / "verification" / "report.json",
+        bundle
+        / "verification"
+        / f"{example.export_stem}-verification-report.json",
     )
     missing = [path.relative_to(bundle).as_posix() for path in required if not path.is_file()]
     if missing:

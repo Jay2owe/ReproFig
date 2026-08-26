@@ -111,6 +111,10 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     extract_parser.add_argument("--output", required=True)
     extract_parser.add_argument("--overwrite", action="store_true")
     extract_parser.add_argument("--figure-id")
+    extract_parser.add_argument("--name", help="human-readable export name")
+    extract_parser.add_argument(
+        "--naming", choices=["readable", "legacy"], default="readable"
+    )
 
     embed_parser = commands.add_parser("embed", help="embed a record in an existing artifact")
     embed_parser.add_argument("artifact")
@@ -134,6 +138,12 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     publish_parser.add_argument("--no-csv", action="store_true")
     publish_parser.add_argument("--ro-crate", action="store_true")
     publish_parser.add_argument("--allow-reencode", action="store_true")
+    publish_parser.add_argument(
+        "--name", help="human-readable export name for a single input"
+    )
+    publish_parser.add_argument(
+        "--naming", choices=["readable", "legacy"], default="readable"
+    )
     publish_parser.add_argument(
         "--public-source",
         action="append",
@@ -206,6 +216,10 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     reproduce_parser.add_argument("--max-log-bytes", type=int, default=1_000_000)
     reproduce_parser.add_argument("--execute-trusted-producer", action="store_true")
     reproduce_parser.add_argument("--overwrite", action="store_true")
+    reproduce_parser.add_argument("--name", help="human-readable export name")
+    reproduce_parser.add_argument(
+        "--naming", choices=["readable", "legacy"], default="readable"
+    )
 
     key_parser = commands.add_parser("key", help="create protected signing or recipient keys")
     key_commands = key_parser.add_subparsers(dest="key_command", required=True)
@@ -366,6 +380,8 @@ def _dispatch(args: argparse.Namespace) -> int:
             args.output,
             overwrite=args.overwrite,
             figure_id=args.figure_id,
+            export_name=args.name,
+            naming=args.naming,
         )
         print("\n".join(str(path) for path in paths))
         return 0
@@ -397,6 +413,8 @@ def _dispatch(args: argparse.Namespace) -> int:
             write_csv=not args.no_csv,
             bundle=args.ro_crate,
             allow_reencode=args.allow_reencode,
+            export_name=args.name,
+            naming=args.naming,
         )
         print(deterministic_json({
             "valid": result.valid,
@@ -502,6 +520,8 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             execute_trusted_producer=args.execute_trusted_producer,
             overwrite=args.overwrite,
+            export_name=args.name,
+            naming=args.naming,
         )
         print(report.to_json(indent=2))
         return 0 if report.valid else 1

@@ -60,11 +60,29 @@ def test_master_round_trip_extracts_exact_csv_and_statistics(tmp_path):
 
     output = tmp_path / "extracted"
     written = extract_figure(svg, output)
-    data = output / "probe.source-data.csv"
-    stats = output / "probe.statistics.csv"
+    data = output / "probe-plotted-data.csv"
+    stats = output / "probe-statistics.csv"
     assert data in written
     assert data.read_bytes() == record.data_tables[0].contents.encode("utf-8")
     assert stats.read_bytes() == statistics_csv_bytes(statistics)
+
+
+def test_legacy_extraction_names_remain_available(tmp_path):
+    record = build_record(
+        plotted_data=b"x,y\n1,2\n",
+        statistics=[],
+        statistics_status="not_applicable",
+        producer={"package": "example"},
+    )
+    svg = tmp_path / "probe.svg"
+    _svg(svg)
+    embed_record(svg, record)
+
+    output = tmp_path / "legacy"
+    written = extract_figure(svg, output, naming="legacy")
+
+    assert output / "probe.source-data.csv" in written
+    assert output / "probe.statistics.csv" in written
 
 
 def test_embedding_is_idempotent_and_survives_move(tmp_path):

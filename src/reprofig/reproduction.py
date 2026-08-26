@@ -16,6 +16,7 @@ from typing import Any, Mapping
 
 from .artifacts import extract_record, validate_artifact
 from .evidence import graph_from_record
+from .naming import export_stem, normalize_naming_mode, role_filename
 from .schema import deterministic_json, sha256_bytes
 from .validation import scrub_private_strings
 from .verification import ProofCheck
@@ -283,6 +284,8 @@ def reproduce_figure(
     policy: ReproductionPolicy | None = None,
     execute_trusted_producer: bool = False,
     overwrite: bool = False,
+    export_name: str | None = None,
+    naming: str = "readable",
 ) -> FigureReproductionReport:
     """Explicitly rerun trusted producer code and preserve a compared carrier."""
 
@@ -292,6 +295,7 @@ def reproduce_figure(
             "execute_trusted_producer=True only after trusting the producer"
         )
     chosen = policy or ReproductionPolicy()
+    mode = normalize_naming_mode(naming)
     master_path = Path(artifact).resolve()
     master = extract_record(master_path)
     reproduction = dict(master.reproduction)
@@ -322,11 +326,27 @@ def reproduce_figure(
         label="reproduction output",
     )
     destination_dir = Path(output_dir).resolve()
-    destination = destination_dir / f"{master_path.stem}.reproduced{master_path.suffix}"
+    stem = (
+        export_stem(
+            master,
+            master_path,
+            export_name=export_name,
+            naming=mode,
+        )
+        if mode == "readable"
+        else master_path.stem
+    )
+    destination = destination_dir / role_filename(
+        stem,
+        "reproduced",
+        master_path.suffix,
+        naming=mode,
+    )
     report_destination = (
         Path(report_path).resolve()
         if report_path is not None
-        else destination_dir.parent / "reproduction-report.json"
+        else destination_dir.parent
+        / role_filename(stem, "reproduction-report", "json", naming=mode)
     )
     report = FigureReproductionReport(
         source_figure_id=master.figure_id,

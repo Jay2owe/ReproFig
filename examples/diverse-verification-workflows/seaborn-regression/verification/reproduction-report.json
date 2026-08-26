@@ -8,19 +8,19 @@
     "display": "pass",
     "statistics": "pass"
   },
-  "duration_seconds": 5.469,
+  "duration_seconds": 5.937,
   "execution_status": "pass",
   "master_evidence_root": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
   "master_name": "exposure-response.svg",
-  "master_sha256": "e3899d69963b661efa7dafc214aab5f81fbc2f22c731e2ae0eb2f8648eee29a3",
+  "master_sha256": "591337055da50358b6ce9e48494d59d25ecc9b9c2c0aa27ecbc1fd84d01bcf4c",
   "messages": {
     "data_tables": "Embedded table identities match.",
     "display": "Semantic marks and carrier-specific visual bindings match.",
     "execution": "Trusted producer completed and wrote a valid carrier.",
     "statistics": "Normalized statistical records match."
   },
-  "reproduced_path": "reproduced/exposure-response.reproduced.svg",
-  "reproduced_sha256": "10b26dab28144a7d251d9f27444b19fcd4388dad5c265189eafcd852a1e0c21e",
+  "reproduced_path": "reproduced/exposure-response-reproduced.svg",
+  "reproduced_sha256": "c472873ad6b158f33d9c3c3fd157e534df880e9ff8fc02fb9f6cfa8647f5f022",
   "return_code": 0,
   "runtime": {
     "executable": "python.exe",
