@@ -1,0 +1,2 @@
+# Matplotlib writes path-data lines with significant trailing spaces in SVG.
+*.svg -whitespace

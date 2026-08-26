@@ -65,8 +65,9 @@ class CheckStatus(str, Enum):
 class VerificationGrade(str, Enum):
     DISPLAY_VERIFIED = "display_verified"
     INTERNALLY_CONSISTENT = "internally_consistent"
-    REPRODUCED = "reproduced"
-    INDEPENDENTLY_VERIFIED = "independently_verified"
+    STATISTICS_REPRODUCED = "statistics_reproduced"
+    STATISTICS_INDEPENDENTLY_VERIFIED = "statistics_independently_verified"
+    FIGURE_REPRODUCED = "figure_reproduced"
     SOURCE_LINKED = "source_linked"
     SIGNATURE_VALID = "signature_valid"
     SIGNER_TRUSTED = "signer_trusted"

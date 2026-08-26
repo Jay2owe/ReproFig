@@ -73,7 +73,7 @@ Adapter response:
   "candidate_sha256": "...",
   "record_sha256": "...",
   "broker_receipt": "run/receipts/Figure1.json",
-  "achieved_grades": ["internally_consistent", "independently_verified"]
+  "achieved_grades": ["internally_consistent", "statistics_independently_verified"]
 }
 ```
 

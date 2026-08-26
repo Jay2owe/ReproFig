@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from ..schema import json_safe
-from ..verification import VERIFICATION_MEANINGS
+from ..verification import VERIFICATION_MEANINGS, normalize_verification_meaning
 
 
 @dataclass
@@ -28,6 +28,9 @@ class OutputPolicy:
 
     def __post_init__(self) -> None:
         self.profile = self.profile.replace("-", "_")
+        self.required_meanings = [
+            normalize_verification_meaning(value) for value in self.required_meanings
+        ]
         unknown = sorted(set(self.required_meanings) - set(VERIFICATION_MEANINGS))
         if unknown:
             raise ValueError("unknown required verification meanings: " + ", ".join(unknown))

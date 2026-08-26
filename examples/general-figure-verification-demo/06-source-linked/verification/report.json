@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "actual": "0a524f1f95929bb333eca1f05263856985c7658f9b7a613c62f74ce8753bfe65",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-6af7c08692c44b8fb06e05ff99c22063"
+    },
+    {
+      "actual": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+      "check_id": "transform:transform:ba7169b1884e93b8b240bf81",
+      "expected": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+      "meaning": "source_linked",
+      "message": "Reconstructed table matches exact canonical bytes.",
+      "status": "pass",
+      "subject_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "not_requested",
+    "figure_reproduced": "not_requested",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "pass",
+    "statistics_independently_verified": "not_requested",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [
+    "internally_consistent",
+    "source_linked"
+  ],
+  "valid": true
+}

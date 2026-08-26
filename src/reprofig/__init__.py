@@ -1,10 +1,12 @@
-"""Portable, self-describing scientific figure artifacts."""
+"""Portable, self-describing and verifiable figure artifacts."""
 
 from .api import (
     ArtifactPublicationResult,
     EvidenceGraph,
+    FigureReproductionReport,
     ProofCheck,
     ProofVerificationReport,
+    ReproductionPolicy,
     PublicationWorkbookResult,
     attach,
     apply_artifact_policy,
@@ -31,6 +33,7 @@ from .api import (
     inspect_artifact,
     publish_artifacts,
     read_svg,
+    reproduce_figure,
     refresh_visual_reference,
     save_svg,
     save_figure,
@@ -38,6 +41,7 @@ from .api import (
     scan_artifacts,
     validate_artifact,
     verify_proof,
+    verify_figure_reproduction,
     verify_record_signatures,
     TrustEntry,
     TrustPolicy,
@@ -87,8 +91,10 @@ __all__ = [
     "FigureRecordError",
     "ArtifactPublicationResult",
     "EvidenceGraph",
+    "FigureReproductionReport",
     "ProofCheck",
     "ProofVerificationReport",
+    "ReproductionPolicy",
     "PublicationResult",
     "PublicationWorkbookResult",
     "SourceReference",
@@ -138,6 +144,7 @@ __all__ = [
     "publish_artifacts",
     "publish_figures",
     "read_svg",
+    "reproduce_figure",
     "refresh_visual_reference",
     "save_svg",
     "save_figure",
@@ -153,9 +160,10 @@ __all__ = [
     "validate_artifact",
     "validate_svg",
     "verify_proof",
+    "verify_figure_reproduction",
     "verify_record_signatures",
     "evaluate_record_trust",
     "write_companion_tables",
 ]
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"

@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.4.0 - 2026-08-26
+
+- Separate statistical repeatability (`statistics_reproduced`), independent
+  statistical verification (`statistics_independently_verified`), and complete
+  saved-figure reproduction (`figure_reproduced`) while retaining legacy input
+  aliases.
+- Add an explicit trusted-producer runner with bounded temporary workspaces,
+  portable audit reports, separately retained reproduced carriers, and passive
+  data, statistics, display, and hash verification.
+- Add Python and command-line reproduction interfaces without changing the
+  ordinary save, inspect, extract, validate, or verify paths.
+- Regenerate the general Matplotlib demonstration as a traceable baseline plus
+  nine verification layers, including separately unpacked reproduced figures.
+
+## 0.3.1 - 2026-08-26
+
+- Deduplicate identical content-addressed table nodes when constructing proof
+  graphs, so a figure can safely carry two named views of the same canonical
+  comma-separated values table.
+- Replace the application-specific PyFLASH verification demonstration with a
+  synthetic Matplotlib example that begins with a plain user-entered table.
+
 ## 0.3.0 - 2026-08-25
 
 - Add deterministic publication workbooks combining deduplicated source CSVs, figure indexes, complete statistical-test ledgers, exact probability values, sample sizes, confidence intervals, effect sizes, correction families, and declared analysis coverage.

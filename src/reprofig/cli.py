@@ -183,6 +183,7 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     verify_parser = commands.add_parser("verify", help="verify proof meanings independently")
     verify_parser.add_argument("artifact")
     verify_parser.add_argument("--require", action="append", default=[])
+    verify_parser.add_argument("--reproduction-report")
     verify_parser.add_argument("--trust-store")
     verify_parser.add_argument("--password-env")
     verify_parser.add_argument("--recipient-key")
@@ -190,6 +191,21 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     verify_parser.add_argument(
         "--source-table", action="append", default=[], metavar="ID=CSV"
     )
+
+    reproduce_parser = commands.add_parser(
+        "reproduce",
+        help="explicitly run a trusted embedded producer and save its figure",
+    )
+    reproduce_parser.add_argument("artifact")
+    reproduce_parser.add_argument("--bundle-root")
+    reproduce_parser.add_argument("--output-dir", required=True)
+    reproduce_parser.add_argument("--report")
+    reproduce_parser.add_argument("--timeout-seconds", type=float, default=120.0)
+    reproduce_parser.add_argument("--max-input-bytes", type=int, default=250_000_000)
+    reproduce_parser.add_argument("--max-output-bytes", type=int, default=100_000_000)
+    reproduce_parser.add_argument("--max-log-bytes", type=int, default=1_000_000)
+    reproduce_parser.add_argument("--execute-trusted-producer", action="store_true")
+    reproduce_parser.add_argument("--overwrite", action="store_true")
 
     key_parser = commands.add_parser("key", help="create protected signing or recipient keys")
     key_commands = key_parser.add_subparsers(dest="key_command", required=True)
@@ -216,6 +232,7 @@ def _parser(*, prog: str = "reprofig") -> argparse.ArgumentParser:
     attest_parser.add_argument("--key", required=True)
     attest_parser.add_argument("--password-env", required=True)
     attest_parser.add_argument("--require", action="append", default=[])
+    attest_parser.add_argument("--reproduction-report")
     attest_parser.add_argument("--trust-store")
     attest_parser.add_argument("--evidence-password-env")
     attest_parser.add_argument("--recipient-key")
@@ -465,6 +482,26 @@ def _dispatch(args: argparse.Namespace) -> int:
             source_tables=_source_table_arguments(args.source_table),
             decryption=decryption,
             trust_store=args.trust_store,
+            reproduction_report=args.reproduction_report,
+        )
+        print(report.to_json(indent=2))
+        return 0 if report.valid else 1
+    if args.command == "reproduce":
+        from .reproduction import ReproductionPolicy, reproduce_figure
+
+        report = reproduce_figure(
+            args.artifact,
+            bundle_root=args.bundle_root,
+            output_dir=args.output_dir,
+            report_path=args.report,
+            policy=ReproductionPolicy(
+                timeout_seconds=args.timeout_seconds,
+                max_input_bytes=args.max_input_bytes,
+                max_output_bytes=args.max_output_bytes,
+                max_log_bytes=args.max_log_bytes,
+            ),
+            execute_trusted_producer=args.execute_trusted_producer,
+            overwrite=args.overwrite,
         )
         print(report.to_json(indent=2))
         return 0 if report.valid else 1
@@ -533,6 +570,7 @@ def _dispatch(args: argparse.Namespace) -> int:
                 args, password_attribute="evidence_password_env"
             ),
             trust_store=args.trust_store,
+            reproduction_report=args.reproduction_report,
         )
         if args.require and not report.valid:
             raise ValueError("cannot attest a report that failed its required meanings")

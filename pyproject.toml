@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "reprofig"
-version = "0.3.0"
-description = "Scientific figures with their exact data, statistics, and provenance built in"
+version = "0.4.0"
+description = "Verifiable figures with their data, provenance, and optional statistics built in"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "BSD-3-Clause"

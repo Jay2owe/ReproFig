@@ -1,0 +1,236 @@
+{
+  "checks": [
+    {
+      "actual": "9ebe075facb31b05d7c258a29a339ff5e2ebd79886d202eef9e8ae828c7a1ef9",
+      "check_id": "attestation:sha256:c61a1bd32b37550fd8a8f793183781811628a57e0bab6ff3f36eec8a352fb593",
+      "meaning": "attested",
+      "message": "A valid signature binds the declared verification-report hash.",
+      "status": "pass",
+      "subject_id": "sha256:c61a1bd32b37550fd8a8f793183781811628a57e0bab6ff3f36eec8a352fb593"
+    },
+    {
+      "actual": "fb0f41679a7855ebcee24afef4f84f8a97131d226e2e785639895320faf679bc",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-77d0218b4ed44fc0b979d5b11c3e1002"
+    },
+    {
+      "actual": {
+        "comparisons": {
+          "data_tables": "pass",
+          "display": "pass",
+          "statistics": "pass"
+        },
+        "reproduced_sha256": "2eea5ba2067c3abb3dcf2c42298940e97cd1ec848f85cfd5dd7978c44c96d5eb"
+      },
+      "check_id": "figure-reproduction",
+      "expected": "fb0f41679a7855ebcee24afef4f84f8a97131d226e2e785639895320faf679bc",
+      "meaning": "figure_reproduced",
+      "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
+      "status": "pass",
+      "subject_id": "rf-77d0218b4ed44fc0b979d5b11c3e1002"
+    },
+    {
+      "check_id": "signature:sha256:c61a1bd32b37550fd8a8f793183781811628a57e0bab6ff3f36eec8a352fb593",
+      "meaning": "signature_valid",
+      "message": "Ed25519 signature is mathematically valid.",
+      "status": "pass",
+      "subject_id": "sha256:c61a1bd32b37550fd8a8f793183781811628a57e0bab6ff3f36eec8a352fb593"
+    },
+    {
+      "actual": "p < 0.001",
+      "check_id": "stat-display:welch-treatment-vs-control",
+      "expected": "p < 0.001",
+      "meaning": "statistics_independently_verified",
+      "message": "Calculated value reproduces the declared display text.",
+      "status": "pass",
+      "subject_id": "welch-treatment-vs-control"
+    },
+    {
+      "actual": {
+        "alternative": "two_sided",
+        "ci_high": -0.8283459410502769,
+        "ci_low": -1.4049873922830574,
+        "confidence_level": 0.95,
+        "df": 9.951560818083962,
+        "mean_a": 5.066666666666666,
+        "mean_b": 6.183333333333334,
+        "mean_difference": -1.1166666666666671,
+        "n_a": 6,
+        "n_b": 6,
+        "p_value": 6.1905863849507795e-06,
+        "pooled_variance": null,
+        "standard_error": 0.1293144316084722,
+        "statistic": -8.635282642293324,
+        "variance_a": 0.04666666666666672,
+        "variance_b": 0.053666666666666675
+      },
+      "check_id": "stat:welch-treatment-vs-control",
+      "expected": {
+        "alternative": "two_sided",
+        "ci_high": -0.8283459410473892,
+        "ci_low": -1.404987392285945,
+        "confidence_level": 0.95,
+        "df": 9.951560818083962,
+        "mean_a": 5.066666666666666,
+        "mean_b": 6.183333333333334,
+        "mean_difference": -1.1166666666666671,
+        "n_a": 6,
+        "n_b": 6,
+        "p_value": 6.190586384950773e-06,
+        "pooled_variance": null,
+        "standard_error": 0.1293144316084722,
+        "statistic": -8.635282642293324,
+        "variance_a": 0.04666666666666672,
+        "variance_b": 0.053666666666666675
+      },
+      "meaning": "statistics_independently_verified",
+      "message": "welch-t/v1 independently matched declared outputs.",
+      "status": "pass",
+      "subject_id": "welch-treatment-vs-control",
+      "tolerance": {
+        "*": {
+          "absolute": 1e-12,
+          "relative": 1e-10
+        }
+      }
+    },
+    {
+      "actual": {
+        "hash": "7f24e3ed190de62f0ceabe11d1a6cd4a96eec0decb93e2d09b6feef4bcffc7aa",
+        "text_present": true
+      },
+      "check_id": "svg:axes-0-text-1",
+      "expected": {
+        "hash": "7f24e3ed190de62f0ceabe11d1a6cd4a96eec0decb93e2d09b6feef4bcffc7aa",
+        "text": "Dots: entered values   Black lines: means"
+      },
+      "meaning": "display_verified",
+      "message": "Annotation text and vector geometry match.",
+      "status": "pass",
+      "subject_id": "axes-0-text-1"
+    },
+    {
+      "actual": "fbbb7e7c91f0da10c3b223b089e5d655f922bf5b9b770622e0d58714c0870443",
+      "check_id": "svg:control-mean",
+      "expected": "fbbb7e7c91f0da10c3b223b089e5d655f922bf5b9b770622e0d58714c0870443",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "control-mean"
+    },
+    {
+      "actual": "c1b9e993e822b92fa26e72a65a2c51253c8e9cd1287824877040fa1dd8ef7e98",
+      "check_id": "svg:control-observations",
+      "expected": "c1b9e993e822b92fa26e72a65a2c51253c8e9cd1287824877040fa1dd8ef7e98",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "control-observations"
+    },
+    {
+      "actual": "27b05788a0fcc4d44ab06f4e155cbb2231907d655645c92f26c8fdbfb4573762",
+      "check_id": "svg:group-comparison-bracket",
+      "expected": "27b05788a0fcc4d44ab06f4e155cbb2231907d655645c92f26c8fdbfb4573762",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "group-comparison-bracket"
+    },
+    {
+      "actual": "e8fc421d2094aa54bebb3a95eaabf10f9baae29ee22e4260c4081a01f33a93b2",
+      "check_id": "svg:treatment-mean",
+      "expected": "e8fc421d2094aa54bebb3a95eaabf10f9baae29ee22e4260c4081a01f33a93b2",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "treatment-mean"
+    },
+    {
+      "actual": "6b4e2df848eeae22ec61f103d3f205b5fa299a1b5ea64c70bbb79209558a33ac",
+      "check_id": "svg:treatment-observations",
+      "expected": "6b4e2df848eeae22ec61f103d3f205b5fa299a1b5ea64c70bbb79209558a33ac",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "treatment-observations"
+    },
+    {
+      "actual": {
+        "hash": "7b6ce764ac0707edb6613cb662b22aef458d40a8e7cb04c1752cbf5aceecef4e",
+        "text_present": true
+      },
+      "check_id": "svg:welch-p-value",
+      "expected": {
+        "hash": "7b6ce764ac0707edb6613cb662b22aef458d40a8e7cb04c1752cbf5aceecef4e",
+        "text": "p < 0.001"
+      },
+      "meaning": "display_verified",
+      "message": "Annotation text and vector geometry match.",
+      "status": "pass",
+      "subject_id": "welch-p-value"
+    },
+    {
+      "actual": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+      "check_id": "transform:transform:ba7169b1884e93b8b240bf81",
+      "expected": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+      "meaning": "source_linked",
+      "message": "Reconstructed table matches exact canonical bytes.",
+      "status": "pass",
+      "subject_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+    },
+    {
+      "check_id": "trust:policy",
+      "meaning": "signer_trusted",
+      "message": "Trust policy signer requirements are satisfied.",
+      "status": "pass",
+      "subject_id": "rf-77d0218b4ed44fc0b979d5b11c3e1002"
+    },
+    {
+      "check_id": "trust:sha256:c61a1bd32b37550fd8a8f793183781811628a57e0bab6ff3f36eec8a352fb593",
+      "meaning": "signer_trusted",
+      "message": "Signer is trusted as 'ReproFig synthetic-example signer' for scopes ['figure'].",
+      "status": "pass",
+      "subject_id": "sha256:c61a1bd32b37550fd8a8f793183781811628a57e0bab6ff3f36eec8a352fb593"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "pass",
+    "display_verified": "pass",
+    "figure_reproduced": "pass",
+    "internally_consistent": "pass",
+    "signature_valid": "pass",
+    "signer_trusted": "pass",
+    "source_linked": "pass",
+    "statistics_independently_verified": "pass",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [
+    "attested",
+    "display_verified",
+    "figure_reproduced",
+    "internally_consistent",
+    "signature_valid",
+    "signer_trusted",
+    "source_linked",
+    "statistics_independently_verified"
+  ],
+  "valid": true
+}

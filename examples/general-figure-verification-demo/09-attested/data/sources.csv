@@ -1,0 +1,2 @@
+original_path,copied_path,file_name,modification_time,byte_size,sha256,public_uri
+input/raw-observations.csv,data/src/raw-observations.csv,raw-observations.csv,2026-08-26T14:59:55+00:00,234,1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0,

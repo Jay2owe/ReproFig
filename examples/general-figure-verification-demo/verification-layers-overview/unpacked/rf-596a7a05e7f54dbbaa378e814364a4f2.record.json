@@ -1,0 +1,83 @@
+{
+  "analysis": {
+    "claim": "ReproFig separates traceability from nine verification meanings so each claim can be checked and reported explicitly.",
+    "grammar": "timeline",
+    "input_kind": "plain CSV"
+  },
+  "created_at": "2026-08-26T18:25:04+01:00",
+  "data_status": "complete",
+  "data_tables": [
+    {
+      "column_count": 4,
+      "columns": [
+        {
+          "dtype": "unknown",
+          "name": "layer",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "label",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "check",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "limit",
+          "public_state": "unclassified"
+        }
+      ],
+      "contents": "layer,label,check,limit\n0,Traceable carrier,\"Exact data, statistics, source hash and producer can be recovered\",\"No formal verification claim\"\n1,Internally consistent,\"Carrier, record, evidence sections and root hash agree\",\"Not source truth or analytical suitability\"\n2,Statistics reproduced,\"Numbers match the recorded statistical calculation route\",\"Not an independent implementation\"\n3,Statistics independently verified,\"A separate reference calculation matches declared outputs\",\"Not proof that the chosen test was appropriate\"\n4,Figure reproduced,\"A trusted producer rerun saves a separate matching figure\",\"Requires explicit permission to execute producer code\"\n5,Display verified,\"Bound marks and annotations match their evidence\",\"Unbound decoration is outside the check\"\n6,Source linked,\"Declared transformations reconstruct the plotted table\",\"Not proof that observations were honestly collected\"\n7,Signature valid,\"The signature matches the evidence root and visible binding\",\"Not proof that the signer is trusted\"\n8,Signer trusted,\"The valid signer satisfies an explicit local trust policy\",\"Not a universal identity claim\"\n9,Attested,\"A trusted signer approves a deterministic verification report\",\"Not proof that the report was independently rerun now\"\n",
+      "embedded": true,
+      "format": "text/csv; charset=utf-8",
+      "name": "figure_data",
+      "newline": "LF",
+      "purpose": "verification_layer_overview",
+      "row_count": 10,
+      "sha256": "ab84d32d4e0ebb6da115178ee56b0c2c7f3d3f7d5b3434058307b058e81dd43d"
+    }
+  ],
+  "distribution_profile": "master",
+  "figure_id": "rf-596a7a05e7f54dbbaa378e814364a4f2",
+  "original_stem": "verification-layers",
+  "producer": {
+    "function": "code/plot.py",
+    "package": "matplotlib",
+    "package_version": "3.9.2"
+  },
+  "reproduction": {
+    "bundle_layout": "plot-that/2",
+    "command": "python code/plot.py",
+    "exact_table": "data/der/figure_data.csv",
+    "exact_table_sha256": "ab84d32d4e0ebb6da115178ee56b0c2c7f3d3f7d5b3434058307b058e81dd43d",
+    "input": "data/src/verification-layers.csv",
+    "producer": "code/plot.py",
+    "producer_language": "py",
+    "producer_sha256": "6797ec66a11a4b456fb6b087e8b883d7ff7aab8dd0d0fca86eaf2e967f161c68",
+    "readme": "README.md",
+    "readme_sha256": "e043043c99ce5bab9158ef0655dd175e7020bfbb25e258de5c333ff8c036d0df",
+    "script": "\"\"\"Render the ReproFig verification-layer overview from a plain CSV file.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\n\nfrom reprofig import build_record, save_figure, source_reference, table_from_data\n\ntry:\n    from plot_style import COLORS, apply\nexcept ImportError:\n    COLORS = {\n        \"blue\": \"#4878A8\",\n        \"orange\": \"#d98a17\",\n        \"teal\": \"#0e8f8f\",\n        \"dark\": \"#303030\",\n    }\n\n    def apply() -> None:\n        plt.rcParams.update(\n            {\n                \"font.family\": \"sans-serif\",\n                \"font.sans-serif\": [\"Arial\", \"DejaVu Sans\"],\n                \"svg.fonttype\": \"none\",\n            }\n        )\n\n\nCLAIM = (\n    \"ReproFig separates traceability from nine verification meanings so each \"\n    \"claim can be checked and reported explicitly.\"\n)\nGRAMMAR = \"timeline\"\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"verification-layers.csv\"\n    derived = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    derived.write_bytes(source.read_bytes())\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n\n    apply()\n    fig, ax = plt.subplots(figsize=(12.4, 10.1))\n    ax.set_xlim(0, 1)\n    ax.set_ylim(-0.3, 9.8)\n    ax.axis(\"off\")\n\n    ax.text(\n        0.0,\n        9.65,\n        \"What each ReproFig verification layer establishes\",\n        fontsize=20,\n        fontweight=\"bold\",\n        color=COLORS[\"dark\"],\n    )\n    ax.text(\n        0.0,\n        9.28,\n        \"Each check is explicit and opt-in; statistical and complete-figure reproduction are separate claims.\",\n        fontsize=10.5,\n        color=\"#5a5a5a\",\n    )\n    ax.text(0.14, 8.86, \"Layer\", fontsize=10, fontweight=\"bold\", color=\"#555555\")\n    ax.text(0.36, 8.86, \"What a pass establishes\", fontsize=10, fontweight=\"bold\", color=\"#555555\")\n    ax.text(0.70, 8.86, \"What it does not establish\", fontsize=10, fontweight=\"bold\", color=\"#555555\")\n\n    colors = [\n        \"#777777\",\n        COLORS[\"blue\"],\n        COLORS[\"teal\"],\n        COLORS[\"teal\"],\n        COLORS[\"blue\"],\n        COLORS[\"orange\"],\n        \"#7b61a8\",\n        \"#c05a47\",\n        \"#a33e56\",\n        COLORS[\"dark\"],\n    ]\n    y_positions = [8.35 - index * 0.88 for index in range(len(rows))]\n    ax.plot(\n        [0.065, 0.065],\n        [y_positions[-1], y_positions[0]],\n        color=\"#c7c7c7\",\n        linewidth=3,\n        zorder=0,\n    )\n    for row, y, color in zip(rows, y_positions, colors):\n        ax.scatter([0.065], [y], s=640, color=color, edgecolor=\"white\", linewidth=2, zorder=2)\n        ax.text(\n            0.065,\n            y,\n            row[\"layer\"],\n            ha=\"center\",\n            va=\"center\",\n            color=\"white\",\n            fontsize=12,\n            fontweight=\"bold\",\n            zorder=3,\n        )\n        ax.text(0.14, y, row[\"label\"], va=\"center\", fontsize=11.2, fontweight=\"bold\")\n        ax.text(0.36, y, row[\"check\"], va=\"center\", fontsize=9.4, wrap=True)\n        ax.text(0.70, y, row[\"limit\"], va=\"center\", fontsize=9.2, color=\"#555555\", wrap=True)\n        ax.plot([0.12, 0.98], [y - 0.43, y - 0.43], color=\"#e5e5e5\", linewidth=0.8)\n\n    fig.tight_layout()\n\n    plotted_table = table_from_data(\n        derived.read_bytes(), name=\"figure_data\", purpose=\"verification_layer_overview\"\n    )\n    producer = Path(__file__)\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"verification-layers\",\n        producer={\n            \"package\": \"matplotlib\",\n            \"package_version\": importlib.metadata.version(\"matplotlib\"),\n            \"function\": \"code/plot.py\",\n        },\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        sources=[\n            source_reference(\n                source,\n                role=\"verification_layer_definitions\",\n                project_root=bundle,\n                source_id=\"verification-layers\",\n            )\n        ],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer.read_text(encoding=\"utf-8\"),\n            \"working_directory\": \".\",\n            \"input\": \"data/src/verification-layers.csv\",\n            \"bundle_layout\": \"plot-that/2\",\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"py\",\n            \"producer_sha256\": _sha256(producer),\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(derived),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"not_applicable\",\n    )\n    record = save_figure(\n        fig,\n        bundle / \"fig\" / \"verification-layers.svg\",\n        record=record,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        fig,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        dpi=180,\n        savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "source_index": "data/sources.csv",
+    "source_index_sha256": "df1adf032f4ac281b56b5c71bad07a78ee7d561b71dbe21f4f029b67c736c6a9",
+    "working_directory": "."
+  },
+  "schema": "reprofig/1",
+  "sources": [
+    {
+      "modified_at": "2026-08-26T18:18:29+01:00",
+      "relative_path": "data/src/verification-layers.csv",
+      "role": "verification_layer_definitions",
+      "sha256": "ab84d32d4e0ebb6da115178ee56b0c2c7f3d3f7d5b3434058307b058e81dd43d",
+      "size_bytes": 1268,
+      "source_id": "verification-layers"
+    }
+  ],
+  "statistics": [],
+  "statistics_csv_sha256": "3d60422723e2b1e820f9fe66e3f79a5b81686f5908decb605bdfdfa1eebe3799",
+  "statistics_status": "not_applicable",
+  "title": "ReproFig separates traceability from nine verification meanings so each claim can be checked and reported explicitly."
+}

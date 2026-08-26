@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="860.943273pt" height="704.674174pt" viewBox="0 0 860.943273 704.674174" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>ReproFig separates traceability from nine verification meanings so each claim can be checked and reported explicitly.</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>ReproFig separates traceability from nine verification meanings so each claim can be checked and reported explicitly.</dc:title>
+    <dc:date>2026-08-26T18:25:04.809712</dc:date>
+    <dc:description>{"distribution_profile": "master", "figure_id": "rf-596a7a05e7f54dbbaa378e814364a4f2", "producer": {"function": "code/plot.py", "package": "matplotlib", "package_version": "3.9.2"}, "schema": "reprofig/1"}</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>ReproFig</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ 
+  <fig:figure-record xmlns:fig="https://reprofig.org/ns/figure-record/1" schema="reprofig/1" encoding="gzip+base64">H4sIAAAAAAACCsVaaW/bRhr+KwPli7Qr0yQlUZRaLeDNsSiQtIWT7X6wDGJIDqWpKVJLUj4a5L/v884ML0l20zbAWolNzvHe17yjzwOe8fSplOVg+XkQpVzuBsvBtdgX+Tu5YaXY84JXomRVwSPBQ5nK6oklRb5jmcwEuxeFTGTEK5lnbCc4BjclK3MmeLRlCh6LeMZCwaKtiO5EzHgWs0Ls86LCi3jcpzKSVfpkDcaDTcF3O16AgkruRAoEGJTZ/lAFdzKLMb4HxIy9/vjL4Mt4EBUCtMUBrzDj2q53YfsXrvfJ8ZfubGlP/247S9sGiJhXPCgrXh3A5iDKd/tUVKKeqHiYCkzcQAB5ethlQZQfMsCcjs2Anoyrp73A/kN2l+UPGbZnfEcDKX8SBV73hxDMKER6HfgvS8hHxCD3RQChSP8KACXbv0SB3Mnq9wDckjyySmRVWXM9VqSPFf6xArLO7PEnbSwplM6LQmLZevD2kUcVI4GPGYGXZSWjEs/5oYgE2/Jyq0wDlhcfIlHUZlOIKIeViXg9AJQfc5bkxY6nfctThrYerDNn/AMILGDT6RMDsTBsohc7XxtKFMAiHjNxL2ORAXUpIgJSasvM88oQsymEMEirmsyqOFRblhdMuQ04ACXlQVbGM4gEd/yxYY8MXfMTE5zDLhRFyXa8gnNUW2FogR80EgE8/I8OqWasyA9VSwQkAjcQe4FfWcUk2fEOT2ot4Z50cXeWQhhaXoqOq8avQUAC2ZIUulgVgXD6WECwED0DFXDCsiEETOUJOOCVYiPa5qXIGOJExR44BLnHgn0hOdG+zqZjxJJDIfrSuCJhlhQEGpUXojhkrOT3wM1bIhU5CCwsUWAUFdfivwdZYF0dQdheFDsJWwX9FeLPo4gguo455bEiZjZ+I0uEkZ5E/gmHj4GnuNNWwLMs11LtaEsWjc0oEv6dhWpbTErUgpMliarEIiMXuAUh9cYftf0gpt0pjG9q0SKwZqWyaY2OTCIrIZpIy3af5hUJSUWpcwrIw1IU92b3A7TJtnkGTSgHSFMYN/nOOpuPP8pNhhiIFfc8lUTFJyAom9Fa7YS28Q7lECSTe1lKcukQdgVlPGcLBA7ilmWtXsLtK9wYNmMGtSKj3lGS4UIfpIFWq2lOLqG2sX2OsafWG9ghk1BiiQVEbEWpqYkEi/FVRQZ5ZGsGmbJQbWYxUgEsJ1Ne0w8rOk09x6meVQbfdzVtxgiwRAeCqoDbx/DywRJUiPFAa5uynHisLqPy/jtYCi9KUa0OVXLht2FZG3xAUZMGxYPKicvB+3cqVhd7+B1eu0QHKi4HFDPvpXjAuiJ/qDOaY48H5Za7Mw+7eOhP44kbT4UtwtCLuePMnLkvxMwL7ciN5skkniTzeBZOppOpPfMn9jzEH+E7cTyd6IQQQ2yFDA8KNQSUyJQo2nFIm3Ki4UBS8i6Si9nC43Nuz8Q8mU3jMOR8MieA04k35dPExY68kBuJ6IokJHZHzF0o5kpi3vg1lS0J0hTNqtwei0tyGWv/RKt4dMc3mqCKhlMZtsMBGY/eN7EWlks1RR2iNLzPgxAengoSKhxbFSB5dUEmcEm0opTYcV2YPFVbSkR9/IKSni4wsIbUeBmL4rKjVgvq7y8Mvp2CTPFUoy6L6PKMNA0JrURPpGhmIIVsc9Dy7E80JHvzxVxEngdS+TSczrwkBK3+XPih70/ieZLMOdiKYzu2k4j7nuCJKxbePHE8J/LI9FHUxcr4r99evfnw1trFzWCLR9jTCf5Fi0UkZiEPFw7YTmxvNotjZw7zsl07TMLQnQl35sdiFk0mkyTxI3viAXcCkGVUyD3JZq0+1+S+hXLspvw9FRar/UrXwJw1BSkjy7c0rHW2ztR8ECQHCq1BQMmaokUns9AqMwoNNM9UfMBMm3f9ByPWTlScFGmA73lFC2vIP+O1A7I1eCiRnhji1D6tGtqUpcMS6/3hQaZxUFdHlIQDbad1jRY0xcJYZ6OA4ASaonVWFU/Ldcbwo6kDSrjwEzKGQfD6p/c/XX8cU+xNn9aZeIzEvmI/qMm3RZEXZrtex1bss36nn/UgTA9If0s8vZr6c//Kp7DcmUcKzjb1injhc2d+tKISPDXztvATPzmaj5H+zfzEpk8z/4X4o4dYJJr84Yhd/IP9iES7bEFAulYR/YyiZVdahz0EI4btLP187r9qvAlqaivhOwmpKPQlKoKLkmyvR+HRju6qJbtBkkPBBQbHjKqLX/kvB/YRS9aD27MwyvuNRXDoRKDRZuDmBOGX9nVEUlhnr99f/fAB2jGsrb/ZaZH8RkP8Q+dG2gbS/nV99eHD1TUIWzenR+2J64zUZmLHkLxmqZxFqRDZy2gwlhuqX1e1A1pmw0hPP0gU/rTZypHph+tBEa4HI3IqgBB817ED5HcWonC5Q13AJPLgMOW7MOZLs9SiaDZ02PffM9cejVlIMWO07Atek1ObkQJnKCkEQkpWL9iKR/00HLXM7hCUTkxUpzIwSMwPEZoQsIJgBGrKPL0Xw5EF9dHh7sa51TvMoWdVb71UXgJ3H6hH5BPz9ExWqTWKwIpCLX4WEObN01FmPAJgPRQQZxA+wcaGmjglSzMy6qrKTCtlmcJpRXLGwS9DfoPl4VWVW0aNW06kdbSAuqkEySkqnCFosd7IqLoGNuhTrx2N6rhgYoIJf3KDIPeIrRQQykNIobAcYriUv4nV0HGt6Zg5tuXUBPNHC8Vf8IgD9NDGVH/4iYYvbGsyZgvLb+f4oyxhh3mCANBS8mhRVdmJO7Zld3x6YXmzXtT7D5Wzyv/Opj2m0x7sCxFfljge9EIERRDFlWsfjT4IudlWkHGYp3FvD04lebHSUf6mDrt1kBp9LRuu32Pjreo3Uaigo0dzfKCgke+rC5l91ztj03jdB7pI+qdTxTY8oT2AqnhUWuc5hyJnJ9whh8w4fZo9R4xB+zAC3/I9itfvSchkmx2o47Ni7MBXP0r1fcATrwWstIsqhZflkQ6/Caq5fYQKIo9zJAAUOS2+P49N41Mz5Io3XY2/mqufnlIao9LVwu25KV0G/NGpFwDWlcftuE9e6Dn8uEp5FdkzPj2uTF7xyQRF/XlW+v5hIvNTgKOf1Gd+yMW3JjN2oY6hj+xv8BXfV1lIDyALKRKHKWIhRbXR6LbRJAWnjpvdwM8QIZj60+XopoPy5sK5HXdpuLFvb8/5QDSnT48vCsQPMq62q0ln9DdqgxUru+8sxALoBSpjHsTKb3KvmOgRYObLbhal8IkgRvn3xrADLvCrXHlTuzY49RtJId6ImuyHrVRNtw6t7rgm0R31MBxFKROpejFW6evoHQxAtal2++MCbctBRCSokXlSj92/MHdMf3+29UD3zMzz4bqjnq7GzohBxzToquYuFMqdjojuUOJY7tlocBY4xbUGuGmtvQB8QVn2oeD71afiIM5CpPDVkqu61y9DdM+EqWeRKM+C5UHesImFr8wPXmpbU6Ty+um2A1LM6NO3PFul/KaysCoSlOlHDJsZ0yXUHQREhKPzWcdC61KqWzeNGfWbVr3yi6gwHabV+qUOU12jGeabhutxnVkXr3S+VJVge9zskFehphcrdcboGFuvJ7Q6W2/2bLYmYnV04FrXrR994mnPyCcWvz5uEtGO06O4ZWaHfWCjE2h1j0oj7jZYeqi/dJ7rmzkwMTBtzSXTkgEIc1dGY+boQ6PtZZlG1LQn1oMu6M691+qmZzvdWKRLaKzoM3PcDRieHi/1kjPnziJPnzEnHFtkpoP52VMvVPqriKqA+tErfYwYP4c4kPFXGMlRFOty3i0FT23IdP2MhE8bf2eMSTebaEdtmtoBVSA6cyA5AfCQF9DqJoglXKbKC9MqsM7gUjagp3+v7Xdmd6/hWRtR0/M85yeGod+x7P7ippVYC/GltfogTiubQ7yZOpVTp5HaEcGZpusZhKdN2C5OEzhPUdY2R7VWV+zae57B1d10BtkzB+4uyFNCdJNUk9A0T8/g7jVTn8Ha2T96Jj51btVX6+ZWvYevvehtF+JoENB5GdZobrS66aPJD50GZCfA0Nm6fevQi4kXehHl/aZHl8ayMs3ODr1ACkjB3QMvNirwqus53RchSVGWpzgbhvkjlBeps9RStZyQltsga7j500zsC0G51dpnX0d4vJcrx7f/CCvveFoqXhIe6dJXc9JUv1/NJbU5ohSFAvU4TBdKJiwIqKoIArainlwQUFMqCABI79I9KnVB1nWG5rKitfWjFe0tQJw4PE7siZtMeeT6Tjjzwlk0d0Ie23NONyXzeOY54dyJQ+E6yTSx3UXo4Ugy8SKPLwD4JK4CrEUXQSW43nG6tTJ98kunoUN/H2SHoE33x+e+f0JfQVk03z8pBF2swxSof/h1tzGUKM/f7HUS5eBb3uYBFopcXRIOlo7r+a3Y42fu4egGsPVxSKX3HoCVVlmT2LOnrjt3J8INHeG7drJIhOcJULXgs9B3PN9LZgvbj0UUevYsjJM44Y4QoZjMF6Ssk3ACsP1wgkWqgvy/fYnpy/8Ac906QVIlAAA=</fig:figure-record>
+</metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 704.674174 
+L 860.943273 704.674174 
+L 860.943273 0 
+L 0 0 
+L 0 704.674174 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 62.225313 647.899119 
+L 62.225313 110.043721 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #c7c7c7; stroke-width: 3; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="md57711ce7c" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#md57711ce7c" x="62.225313" y="110.043721" style="fill: #777777; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_2">
+    <path d="M 108.785193 139.245466 
+L 836.812407 139.245466 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_2">
+    <defs>
+     <path id="m748e43310f" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#m748e43310f" x="62.225313" y="169.805432" style="fill: #4878a8; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_3">
+    <path d="M 108.785193 199.007177 
+L 836.812407 199.007177 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_3">
+    <defs>
+     <path id="mfc2696e618" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#mfc2696e618" x="62.225313" y="229.567142" style="fill: #0e8f8f; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_4">
+    <path d="M 108.785193 258.768888 
+L 836.812407 258.768888 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_4">
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#mfc2696e618" x="62.225313" y="289.328853" style="fill: #0e8f8f; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_5">
+    <path d="M 108.785193 318.530598 
+L 836.812407 318.530598 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_5">
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#m748e43310f" x="62.225313" y="349.090564" style="fill: #4878a8; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_6">
+    <path d="M 108.785193 378.292309 
+L 836.812407 378.292309 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_6">
+    <defs>
+     <path id="m6890c1cee0" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#m6890c1cee0" x="62.225313" y="408.852275" style="fill: #d98a17; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_7">
+    <path d="M 108.785193 438.05402 
+L 836.812407 438.05402 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_7">
+    <defs>
+     <path id="m57b2a49cc7" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#m57b2a49cc7" x="62.225313" y="468.613986" style="fill: #7b61a8; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_8">
+    <path d="M 108.785193 497.815731 
+L 836.812407 497.815731 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_8">
+    <defs>
+     <path id="m0b6067deb0" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#m0b6067deb0" x="62.225313" y="528.375697" style="fill: #c05a47; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_9">
+    <path d="M 108.785193 557.577442 
+L 836.812407 557.577442 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_9">
+    <defs>
+     <path id="md1ba3e0005" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#md1ba3e0005" x="62.225313" y="588.137408" style="fill: #a33e56; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_10">
+    <path d="M 108.785193 617.339153 
+L 836.812407 617.339153 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_10">
+    <defs>
+     <path id="m35f536aa1e" d="M 0 12.649111 
+C 3.354583 12.649111 6.572223 11.316321 8.944272 8.944272 
+C 11.316321 6.572223 12.649111 3.354583 12.649111 0 
+C 12.649111 -3.354583 11.316321 -6.572223 8.944272 -8.944272 
+C 6.572223 -11.316321 3.354583 -12.649111 0 -12.649111 
+C -3.354583 -12.649111 -6.572223 -11.316321 -8.944272 -8.944272 
+C -11.316321 -6.572223 -12.649111 -3.354583 -12.649111 0 
+C -12.649111 3.354583 -11.316321 6.572223 -8.944272 8.944272 
+C -6.572223 11.316321 -3.354583 12.649111 0 12.649111 
+z
+" style="stroke: #ffffff; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p217ce6eac2)">
+     <use xlink:href="#m35f536aa1e" x="62.225313" y="647.899119" style="fill: #303030; stroke: #ffffff; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="line2d_11">
+    <path d="M 108.785193 677.100864 
+L 836.812407 677.100864 
+" clip-path="url(#p217ce6eac2)" style="fill: none; stroke: #e5e5e5; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #303030; font: 700 20px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="7.2" y="21.759375" transform="rotate(-0 7.2 21.759375)">What each ReproFig verification layer establishes</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #5a5a5a; font: 10.5px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="7.2" y="46.886458" transform="rotate(-0 7.2 46.886458)">Each check is explicit and opt-in; statistical and complete-figure reproduction are separate claims.</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #555555; font: 700 10px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="75.409093" transform="rotate(-0 125.716058 75.409093)">Layer</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #555555; font: 700 10px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="75.409093" transform="rotate(-0 311.955578 75.409093)">What a pass establishes</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #555555; font: 700 10px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="75.409093" transform="rotate(-0 599.780291 75.409093)">What it does not establish</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="113.154346" transform="rotate(-0 62.225313 113.154346)">0</text>
+   </g>
+   <g id="text_7">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="112.946971" transform="rotate(-0 125.716058 112.946971)">Traceable carrier</text>
+   </g>
+   <g id="text_8">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="112.473768" transform="rotate(-0 311.955578 112.473768)">Exact data, statistics, source hash and producer can be recovered</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="112.422064" transform="rotate(-0 599.780291 112.422064)">No formal verification claim</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="172.916057" transform="rotate(-0 62.225313 172.916057)">1</text>
+   </g>
+   <g id="text_11">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="172.635182" transform="rotate(-0 125.716058 172.635182)">Internally consistent</text>
+   </g>
+   <g id="text_12">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="172.237682" transform="rotate(-0 311.955578 172.237682)">Carrier, record, evidence sections and root hash agree</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="172.129869" transform="rotate(-0 599.780291 172.129869)">Not source truth or analytical suitability</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="232.677767" transform="rotate(-0 62.225313 232.677767)">2</text>
+   </g>
+   <g id="text_15">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="232.538642" transform="rotate(-0 125.716058 232.538642)">Statistics reproduced</text>
+   </g>
+   <g id="text_16">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="231.997189" transform="rotate(-0 311.955578 231.997189)">Numbers match the recorded statistical calculation route</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="231.945486" transform="rotate(-0 599.780291 231.945486)">Not an independent implementation</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="292.439478" transform="rotate(-0 62.225313 292.439478)">3</text>
+   </g>
+   <g id="text_19">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="292.226853" transform="rotate(-0 125.716058 292.226853)">Statistics independently verified</text>
+   </g>
+   <g id="text_20">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="291.816181" transform="rotate(-0 311.955578 291.816181)">A separate reference calculation matches declared outputs</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="291.76326" transform="rotate(-0 599.780291 291.76326)">Not proof that the chosen test was appropriate</text>
+   </g>
+   <g id="text_22">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="352.201189" transform="rotate(-0 62.225313 352.201189)">4</text>
+   </g>
+   <g id="text_23">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="351.920314" transform="rotate(-0 125.716058 351.920314)">Figure reproduced</text>
+   </g>
+   <g id="text_24">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="351.522814" transform="rotate(-0 311.955578 351.522814)">A trusted producer rerun saves a separate matching figure</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="351.468908" transform="rotate(-0 599.780291 351.468908)">Requires explicit permission to execute producer code</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="411.9629" transform="rotate(-0 62.225313 411.9629)">5</text>
+   </g>
+   <g id="text_27">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="411.750275" transform="rotate(-0 125.716058 411.750275)">Display verified</text>
+   </g>
+   <g id="text_28">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="411.282322" transform="rotate(-0 311.955578 411.282322)">Bound marks and annotations match their evidence</text>
+   </g>
+   <g id="text_29">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="411.230619" transform="rotate(-0 599.780291 411.230619)">Unbound decoration is outside the check</text>
+   </g>
+   <g id="text_30">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="471.724611" transform="rotate(-0 62.225313 471.724611)">6</text>
+   </g>
+   <g id="text_31">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="471.517236" transform="rotate(-0 125.716058 471.517236)">Source linked</text>
+   </g>
+   <g id="text_32">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="471.101314" transform="rotate(-0 311.955578 471.101314)">Declared transformations reconstruct the plotted table</text>
+   </g>
+   <g id="text_33">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="470.994486" transform="rotate(-0 599.780291 470.994486)">Not proof that observations were honestly collected</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="531.486322" transform="rotate(-0 62.225313 531.486322)">7</text>
+   </g>
+   <g id="text_35">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="531.273697" transform="rotate(-0 125.716058 531.273697)">Signature valid</text>
+   </g>
+   <g id="text_36">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="530.750666" transform="rotate(-0 311.955578 530.750666)">The signature matches the evidence root and visible binding</text>
+   </g>
+   <g id="text_37">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="530.756197" transform="rotate(-0 599.780291 530.756197)">Not proof that the signer is trusted</text>
+   </g>
+   <g id="text_38">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="591.248033" transform="rotate(-0 62.225313 591.248033)">8</text>
+   </g>
+   <g id="text_39">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="591.035408" transform="rotate(-0 125.716058 591.035408)">Signer trusted</text>
+   </g>
+   <g id="text_40">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="590.569658" transform="rotate(-0 311.955578 590.569658)">The valid signer satisfies an explicit local trust policy</text>
+   </g>
+   <g id="text_41">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="590.461845" transform="rotate(-0 599.780291 590.461845)">Not a universal identity claim</text>
+   </g>
+   <g id="text_42">
+    <text style="fill: #ffffff; font: 700 12px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: middle" x="62.225313" y="651.009744" transform="rotate(-0 62.225313 651.009744)">9</text>
+   </g>
+   <g id="text_43">
+    <text style="font: 700 11.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="125.716058" y="650.802369" transform="rotate(-0 125.716058 650.802369)">Attested</text>
+   </g>
+   <g id="text_44">
+    <text style="font: 9.4px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="311.955578" y="650.331369" transform="rotate(-0 311.955578 650.331369)">A trusted signer approves a deterministic verification report</text>
+   </g>
+   <g id="text_45">
+    <text style="fill: #555555; font: 9.2px 'Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans', sans-serif; text-anchor: start" x="599.780291" y="650.279619" transform="rotate(-0 599.780291 650.279619)">Not proof that the report was independently rerun now</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p217ce6eac2">
+   <rect x="7.2" y="11.57272" width="846.543273" height="685.901455"/>
+  </clipPath>
+ </defs>
+</svg>

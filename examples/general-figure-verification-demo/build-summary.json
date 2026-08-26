@@ -1,0 +1,121 @@
+{
+  "claim": "In a small synthetic dataset, treatment observations are higher than control observations.",
+  "dependencies": [
+    "matplotlib",
+    "reprofig[proof]"
+  ],
+  "grammar": "dot/interval plot",
+  "levels": {
+    "00-traceable-carrier": {
+      "figure": "00-traceable-carrier/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-4dea10a129cf41bd887018460818a1a5",
+      "folder": "00-traceable-carrier",
+      "required": [],
+      "valid": true
+    },
+    "01-internally-consistent": {
+      "figure": "01-internally-consistent/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-399a4446bd0d4bc891d97018b7fe0b27",
+      "folder": "01-internally-consistent",
+      "required": [
+        "internally_consistent"
+      ],
+      "valid": true
+    },
+    "02-statistics-reproduced": {
+      "figure": "02-statistics-reproduced/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-dfcfcbe796b34c39bb0128df61651275",
+      "folder": "02-statistics-reproduced",
+      "required": [
+        "internally_consistent",
+        "statistics_reproduced"
+      ],
+      "valid": true
+    },
+    "03-statistics-independently-verified": {
+      "figure": "03-statistics-independently-verified/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-91e5344805a144669fbf31d3affdd07d",
+      "folder": "03-statistics-independently-verified",
+      "required": [
+        "internally_consistent",
+        "statistics_independently_verified"
+      ],
+      "valid": true
+    },
+    "04-figure-reproduced": {
+      "figure": "04-figure-reproduced/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-3f4fa033d0f14e0abdd1d38ff971e681",
+      "folder": "04-figure-reproduced",
+      "required": [
+        "internally_consistent",
+        "figure_reproduced"
+      ],
+      "valid": true
+    },
+    "05-display-verified": {
+      "figure": "05-display-verified/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-3487cf4eca72451dba7c8be7f26ce822",
+      "folder": "05-display-verified",
+      "required": [
+        "internally_consistent",
+        "display_verified"
+      ],
+      "valid": true
+    },
+    "06-source-linked": {
+      "figure": "06-source-linked/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-6af7c08692c44b8fb06e05ff99c22063",
+      "folder": "06-source-linked",
+      "required": [
+        "internally_consistent",
+        "source_linked"
+      ],
+      "valid": true
+    },
+    "07-signature-valid": {
+      "figure": "07-signature-valid/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-59cfd0336ad8475eac27a67d3929cc54",
+      "folder": "07-signature-valid",
+      "required": [
+        "internally_consistent",
+        "signature_valid"
+      ],
+      "valid": true
+    },
+    "08-signer-trusted": {
+      "figure": "08-signer-trusted/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-ec3135380f9d460bb5c0f4b8f9c708e1",
+      "folder": "08-signer-trusted",
+      "required": [
+        "internally_consistent",
+        "signature_valid",
+        "signer_trusted"
+      ],
+      "valid": true
+    },
+    "09-attested": {
+      "figure": "09-attested/fig/raw-user-input-comparison.svg",
+      "figure_id": "rf-77d0218b4ed44fc0b979d5b11c3e1002",
+      "folder": "09-attested",
+      "required": [
+        "internally_consistent",
+        "statistics_independently_verified",
+        "figure_reproduced",
+        "display_verified",
+        "source_linked",
+        "signature_valid",
+        "signer_trusted",
+        "attested"
+      ],
+      "valid": true
+    }
+  },
+  "overview": {
+    "figure": "verification-layers-overview/fig/verification-layers.svg",
+    "figure_id": "rf-596a7a05e7f54dbbaa378e814364a4f2",
+    "folder": "verification-layers-overview"
+  },
+  "private_key": "generated in a temporary directory and deleted",
+  "producer": "code/plot.py",
+  "source_input": "input/raw-observations.csv"
+}

@@ -15,13 +15,25 @@ CHECK_STATUSES = frozenset({"pass", "fail", "unavailable", "inaccessible", "unsu
 VERIFICATION_MEANINGS = (
     "display_verified",
     "internally_consistent",
-    "reproduced",
-    "independently_verified",
+    "statistics_reproduced",
+    "statistics_independently_verified",
+    "figure_reproduced",
     "source_linked",
     "signature_valid",
     "signer_trusted",
     "attested",
 )
+LEGACY_MEANING_ALIASES = {
+    "reproduced": "statistics_reproduced",
+    "independently_verified": "statistics_independently_verified",
+}
+
+
+def normalize_verification_meaning(value: str) -> str:
+    """Return the canonical name for current and legacy proof meanings."""
+
+    text = str(value)
+    return LEGACY_MEANING_ALIASES.get(text, text)
 
 
 @dataclass
@@ -36,6 +48,7 @@ class ProofCheck:
     tolerance: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
+        self.meaning = normalize_verification_meaning(self.meaning)
         if self.status not in CHECK_STATUSES:
             raise ValueError(f"unknown proof-check status {self.status!r}")
         if self.meaning not in VERIFICATION_MEANINGS:
@@ -64,7 +77,11 @@ class ProofVerificationReport:
     required: list[str] = field(default_factory=list)
     integrity: dict[str, Any] | None = None
 
+    def __post_init__(self) -> None:
+        self.required = [normalize_verification_meaning(value) for value in self.required]
+
     def status_for(self, meaning: str) -> str:
+        meaning = normalize_verification_meaning(meaning)
         statuses = [check.status for check in self.checks if check.meaning == meaning]
         if not statuses:
             return "not_requested"
@@ -107,7 +124,7 @@ def verify_record_proof(
     decryption: Mapping[str, Any] | None = None,
     trust_store: str | os.PathLike[str] | None = None,
 ) -> list[ProofCheck]:
-    requested_set = set(requested)
+    requested_set = {normalize_verification_meaning(value) for value in requested}
     checks: list[ProofCheck] = []
     working_record = record
     if decryption:
@@ -165,7 +182,11 @@ def verify_record_proof(
     elif not has_proof:
         checks.append(ProofCheck("source-reconstruction", "source_linked", "unavailable", message="Legacy record has no declared source transformation graph."))
 
-    if "independently_verified" in requested_set or "reproduced" in requested_set:
+    statistical_meanings = {
+        "statistics_reproduced",
+        "statistics_independently_verified",
+    }
+    if requested_set & statistical_meanings:
         try:
             from .stats.engine import verify_record_statistics
             encrypted_statistics = any(
@@ -173,7 +194,7 @@ def verify_record_proof(
                 for section in graph.sections
             )
             if encrypted_statistics and not decryption:
-                for meaning in requested_set & {"reproduced", "independently_verified"}:
+                for meaning in requested_set & statistical_meanings:
                     checks.append(ProofCheck(
                         "statistics", meaning, "inaccessible", record.figure_id,
                         "Statistical specification is encrypted.",
@@ -181,12 +202,21 @@ def verify_record_proof(
             else:
                 checks.extend(verify_record_statistics(working_record))
         except ImportError:
-            checks.append(ProofCheck("statistics", "independently_verified", "unsupported", message="Independent statistics extra is unavailable."))
+            checks.append(ProofCheck("statistics", "statistics_independently_verified", "unsupported", message="Independent statistics extra is unavailable."))
 
     if "display_verified" in requested_set:
         checks.append(ProofCheck(
             "display-route", "display_verified", "unavailable",
             message="Display verification requires the carrier path and is run by verify_artifact.",
+        ))
+
+    if "figure_reproduced" in requested_set:
+        checks.append(ProofCheck(
+            "figure-reproduction-route", "figure_reproduced", "unavailable",
+            message=(
+                "Figure reproduction requires a saved reproduction report and is "
+                "checked by verify_artifact without executing code."
+            ),
         ))
 
     signatures = proof.get("signatures", []) if isinstance(proof, Mapping) else []
@@ -266,8 +296,9 @@ def verify_artifact(
     source_tables: Mapping[str, Any] | None = None,
     decryption: Mapping[str, Any] | None = None,
     trust_store: str | os.PathLike[str] | None = None,
+    reproduction_report: str | os.PathLike[str] | None = None,
 ) -> ProofVerificationReport:
-    required_values = [str(value) for value in required]
+    required_values = [normalize_verification_meaning(value) for value in required]
     unknown = sorted(set(required_values) - set(VERIFICATION_MEANINGS))
     if unknown:
         raise ValueError("unknown required verification meanings: " + ", ".join(unknown))
@@ -310,14 +341,35 @@ def verify_artifact(
                     report.checks.extend(verify_raster_carrier(path, record))
         except ImportError:
             report.checks.append(ProofCheck("display", "display_verified", "unsupported", message="Visual-verification dependencies are unavailable."))
+    if "figure_reproduced" in required_values:
+        report.checks = [
+            check
+            for check in report.checks
+            if check.check_id != "figure-reproduction-route"
+        ]
+        if reproduction_report is None:
+            report.checks.append(ProofCheck(
+                "figure-reproduction",
+                "figure_reproduced",
+                "unavailable",
+                message="No saved figure-reproduction report was supplied.",
+            ))
+        else:
+            from .reproduction import verify_figure_reproduction
+
+            report.checks.append(
+                verify_figure_reproduction(path, reproduction_report)
+            )
     return report
 
 
 __all__ = [
     "CHECK_STATUSES",
+    "LEGACY_MEANING_ALIASES",
     "VERIFICATION_MEANINGS",
     "ProofCheck",
     "ProofVerificationReport",
+    "normalize_verification_meaning",
     "verify_artifact",
     "verify_record_proof",
 ]

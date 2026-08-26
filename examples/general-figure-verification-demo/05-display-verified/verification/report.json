@@ -1,0 +1,118 @@
+{
+  "checks": [
+    {
+      "actual": "dc0f2676870766823fe863c34a47234fba3dd1e9010e2bb5fa2c49485dd31543",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-3487cf4eca72451dba7c8be7f26ce822"
+    },
+    {
+      "actual": {
+        "hash": "7f24e3ed190de62f0ceabe11d1a6cd4a96eec0decb93e2d09b6feef4bcffc7aa",
+        "text_present": true
+      },
+      "check_id": "svg:axes-0-text-1",
+      "expected": {
+        "hash": "7f24e3ed190de62f0ceabe11d1a6cd4a96eec0decb93e2d09b6feef4bcffc7aa",
+        "text": "Dots: entered values   Black lines: means"
+      },
+      "meaning": "display_verified",
+      "message": "Annotation text and vector geometry match.",
+      "status": "pass",
+      "subject_id": "axes-0-text-1"
+    },
+    {
+      "actual": "fbbb7e7c91f0da10c3b223b089e5d655f922bf5b9b770622e0d58714c0870443",
+      "check_id": "svg:control-mean",
+      "expected": "fbbb7e7c91f0da10c3b223b089e5d655f922bf5b9b770622e0d58714c0870443",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "control-mean"
+    },
+    {
+      "actual": "c1b9e993e822b92fa26e72a65a2c51253c8e9cd1287824877040fa1dd8ef7e98",
+      "check_id": "svg:control-observations",
+      "expected": "c1b9e993e822b92fa26e72a65a2c51253c8e9cd1287824877040fa1dd8ef7e98",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "control-observations"
+    },
+    {
+      "actual": "27b05788a0fcc4d44ab06f4e155cbb2231907d655645c92f26c8fdbfb4573762",
+      "check_id": "svg:group-comparison-bracket",
+      "expected": "27b05788a0fcc4d44ab06f4e155cbb2231907d655645c92f26c8fdbfb4573762",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "group-comparison-bracket"
+    },
+    {
+      "actual": "e8fc421d2094aa54bebb3a95eaabf10f9baae29ee22e4260c4081a01f33a93b2",
+      "check_id": "svg:treatment-mean",
+      "expected": "e8fc421d2094aa54bebb3a95eaabf10f9baae29ee22e4260c4081a01f33a93b2",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "treatment-mean"
+    },
+    {
+      "actual": "6b4e2df848eeae22ec61f103d3f205b5fa299a1b5ea64c70bbb79209558a33ac",
+      "check_id": "svg:treatment-observations",
+      "expected": "6b4e2df848eeae22ec61f103d3f205b5fa299a1b5ea64c70bbb79209558a33ac",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "treatment-observations"
+    },
+    {
+      "actual": {
+        "hash": "7b6ce764ac0707edb6613cb662b22aef458d40a8e7cb04c1752cbf5aceecef4e",
+        "text_present": true
+      },
+      "check_id": "svg:welch-p-value",
+      "expected": {
+        "hash": "7b6ce764ac0707edb6613cb662b22aef458d40a8e7cb04c1752cbf5aceecef4e",
+        "text": "p < 0.001"
+      },
+      "meaning": "display_verified",
+      "message": "Annotation text and vector geometry match.",
+      "status": "pass",
+      "subject_id": "welch-p-value"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "pass",
+    "figure_reproduced": "not_requested",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "not_requested",
+    "statistics_independently_verified": "not_requested",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [
+    "display_verified",
+    "internally_consistent"
+  ],
+  "valid": true
+}

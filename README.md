@@ -1,8 +1,10 @@
 # ReproFig
 
-ReproFig makes a scientific figure carry the exact comma-separated values
-(CSV), statistics, software version, source fingerprints, and reproduction
-instructions needed to audit it later. The same `reprofig/1` record works in
+ReproFig makes a figure carry the exact comma-separated values (CSV), optional
+statistics, software version, source fingerprints, and reproduction
+instructions needed to audit it later. It works for general data figures;
+scientific figures and publication workflows are the main use case because
+their evidence and reporting requirements benefit most. The same `reprofig/1` record works in
 SVG, PDF, PNG, JPEG, TIFF, WebP, AVIF/HEIF, PowerPoint, Word, Excel, HTML,
 HDF5, netCDF-4, FITS, and deterministic ZIP/RO-Crate bundles.
 
@@ -126,7 +128,7 @@ result = build_publication_workbook(
 Set the ledger's coverage to `analysis_complete` only when it intentionally
 lists every analysis, including unplotted tests. That is a declaration, not
 proof that undisclosed analyses never occurred. See
-[`docs/publication_workbook.md`](docs/publication_workbook.md).
+[`docs/publication_workbook.md`](https://github.com/Jay2owe/ReproFig/blob/main/docs/publication_workbook.md).
 
 ## Opt into proof-carrying output
 
@@ -147,6 +149,27 @@ report = verify_proof(
 )
 ```
 
+Complete figure reproduction is deliberately separate because it executes the
+embedded producer. It saves a second carrier and a report; later verification
+only reads those files and never reruns code:
+
+```python
+from reprofig import reproduce_figure
+
+run = reproduce_figure(
+    "Figure-1.svg",
+    bundle_root="figure-bundle",
+    output_dir="figure-bundle/verification/reproduced",
+    execute_trusted_producer=True,
+)
+```
+
+Use `statistics_reproduced` when declared statistics match the same
+implementation, `statistics_independently_verified` when a separate reference
+implementation matches, and `figure_reproduced` only when a separately saved
+figure also matches. See
+[`docs/figure-reproduction.md`](https://github.com/Jay2owe/ReproFig/blob/main/docs/figure-reproduction.md).
+
 Typed statistical specifications can additionally reconstruct declared source
 transformations and recalculate supported tests. A passing report proves that
 the stated evidence agrees with the output; it does not prove that source data
@@ -156,8 +179,8 @@ Signatures answer “has this evidence changed since this key signed it?” Trus
 stores separately answer “do I accept that key for this purpose?” Individual
 tables, statistics, provenance, or specifications can be encrypted for a
 password or named X25519 recipient before signing. See
-[`docs/proof-carrying-verification.md`](docs/proof-carrying-verification.md)
-and [`docs/security.md`](docs/security.md).
+[`docs/proof-carrying-verification.md`](https://github.com/Jay2owe/ReproFig/blob/main/docs/proof-carrying-verification.md)
+and [`docs/security.md`](https://github.com/Jay2owe/ReproFig/blob/main/docs/security.md).
 
 ## Develop and verify
 

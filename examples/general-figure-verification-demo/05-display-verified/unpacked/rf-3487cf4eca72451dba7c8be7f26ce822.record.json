@@ -1,0 +1,884 @@
+{
+  "analysis": {
+    "claim": "In a small synthetic dataset, treatment observations are higher than control observations.",
+    "grammar": "dot/interval plot",
+    "input_kind": "plain CSV"
+  },
+  "created_at": "2026-08-26T18:24:44+01:00",
+  "data_status": "complete",
+  "data_tables": [
+    {
+      "column_count": 3,
+      "columns": [
+        {
+          "dtype": "unknown",
+          "name": "observation_id",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "group",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "response",
+          "public_state": "unclassified"
+        }
+      ],
+      "contents": "observation_id,group,response\nC01,Control,4.8\nC02,Control,5.1\nC03,Control,5.4\nC04,Control,5.0\nC05,Control,5.2\nC06,Control,4.9\nT01,Treatment,6.0\nT02,Treatment,6.4\nT03,Treatment,5.9\nT04,Treatment,6.2\nT05,Treatment,6.5\nT06,Treatment,6.1\n",
+      "embedded": true,
+      "format": "text/csv; charset=utf-8",
+      "name": "figure_data",
+      "newline": "LF",
+      "purpose": "plot_and_statistics",
+      "row_count": 12,
+      "sha256": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+    }
+  ],
+  "distribution_profile": "master",
+  "extensions": {
+    "proof": {
+      "claims": [],
+      "root_sha256": "dc0f2676870766823fe863c34a47234fba3dd1e9010e2bb5fa2c49485dd31543",
+      "schema": "reprofig-evidence-graph/1",
+      "sections": [
+        {
+          "dependencies": [],
+          "encrypted": false,
+          "kind": "table",
+          "metadata": {},
+          "payload": {
+            "index": 0,
+            "table": {
+              "column_count": 3,
+              "columns": [
+                {
+                  "dtype": "unknown",
+                  "name": "observation_id",
+                  "public_state": "unclassified"
+                },
+                {
+                  "dtype": "unknown",
+                  "name": "group",
+                  "public_state": "unclassified"
+                },
+                {
+                  "dtype": "unknown",
+                  "name": "response",
+                  "public_state": "unclassified"
+                }
+              ],
+              "contents": "observation_id,group,response\nC01,Control,4.8\nC02,Control,5.1\nC03,Control,5.4\nC04,Control,5.0\nC05,Control,5.2\nC06,Control,4.9\nT01,Treatment,6.0\nT02,Treatment,6.4\nT03,Treatment,5.9\nT04,Treatment,6.2\nT05,Treatment,6.5\nT06,Treatment,6.1\n",
+              "embedded": true,
+              "format": "text/csv; charset=utf-8",
+              "name": "figure_data",
+              "newline": "LF",
+              "purpose": "plot_and_statistics",
+              "row_count": 12,
+              "sha256": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+            }
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+          "sha256": "80df5660bd3e83bf87745a8cd522e52a7218077f4d48f525c8ec85b76a3b849c"
+        },
+        {
+          "dependencies": [
+            "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+          ],
+          "encrypted": false,
+          "kind": "statistics",
+          "metadata": {},
+          "payload": {
+            "records": [
+              {
+                "algorithm_id": "welch-t/v1",
+                "alpha": 0.05,
+                "confidence_interval_high": -0.8283459410473892,
+                "confidence_interval_low": -1.404987392285945,
+                "correction_method": "none",
+                "degrees_of_freedom": 9.951560818083962,
+                "display_json": "{\"field\":\"p_value\",\"format\":\"p_threshold_0.001/v1\",\"text\":\"p < 0.001\"}",
+                "estimate": -1.1166666666666671,
+                "expected_json": "{\"alternative\":\"two_sided\",\"ci_high\":-0.8283459410473892,\"ci_low\":-1.404987392285945,\"confidence_level\":0.95,\"df\":9.951560818083962,\"mean_a\":5.066666666666666,\"mean_b\":6.183333333333334,\"mean_difference\":-1.1166666666666671,\"n_a\":6,\"n_b\":6,\"p_value\":6.190586384950773e-06,\"pooled_variance\":null,\"standard_error\":0.1293144316084722,\"statistic\":-8.635282642293324,\"variance_a\":0.04666666666666672,\"variance_b\":0.053666666666666675}",
+                "group_a": "Control",
+                "group_b": "Treatment",
+                "inputs_json": "{\"values_a\":[4.8,5.1,5.4,5.0,5.2,4.9],\"values_b\":[6.0,6.4,5.9,6.2,6.5,6.1]}",
+                "mean_a": 5.066666666666666,
+                "mean_b": 6.183333333333334,
+                "n_a": 6,
+                "n_b": 6,
+                "p_value": 6.190586384950773e-06,
+                "parameters_json": "{\"alternative\":\"two_sided\",\"confidence_level\":0.95,\"missing_policy\":\"omit\",\"producer_implementation\":\"python-stdlib-welch/1\"}",
+                "statistic": -8.635282642293324,
+                "statistic_id": "welch-treatment-vs-control",
+                "tailedness": "two-sided",
+                "test_name": "Welch independent-samples t-test",
+                "tolerances_json": "{\"*\":{\"absolute\":1e-12,\"relative\":1e-10}}"
+              }
+            ],
+            "status": "complete"
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "statistics:reported",
+          "sha256": "f0a462e42daae30abc86512f23704ff7b4eb3a0706ac1ce70e92db1abd113243"
+        },
+        {
+          "dependencies": [],
+          "encrypted": false,
+          "kind": "provenance",
+          "metadata": {},
+          "payload": {
+            "analysis": {
+              "claim": "In a small synthetic dataset, treatment observations are higher than control observations.",
+              "grammar": "dot/interval plot",
+              "input_kind": "plain CSV"
+            },
+            "producer": {
+              "function": "code/plot.py",
+              "package": "matplotlib",
+              "package_version": "3.9.2"
+            },
+            "reproduction": {
+              "bundle_layout": "plot-that/2",
+              "command": "python code/plot.py",
+              "exact_table": "data/der/figure_data.csv",
+              "exact_table_sha256": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+              "input": "data/src/raw-observations.csv",
+              "producer": "code/plot.py",
+              "producer_language": "py",
+              "producer_sha256": "b3e3d06ea5e33f97b9ca5af9d6e02929e7b85efd7529e945d87dd7e31c0c84e5",
+              "readme": "README.md",
+              "readme_sha256": "e7c864393d2fc0743e358e1fbc296002fa3bdabcd30c6bbed753b26e735f699c",
+              "script": "\"\"\"Plot raw user observations and hand them directly to ReproFig.\n\nRun this file from any verification-layer folder. It performs no prerequisite\nanalysis and uses no analysis dependency beyond ReproFig itself. For the\nindependent layer, a small Python-standard-library Welch calculation supplies\nthe declared result and ReproFig checks it through its reference route.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nimport math\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\nfrom reprofig.stats.engine import calculate_specification\nfrom reprofig.stats.engine import VERIFIER_IMPLEMENTATION\n\nCOLORS = {\"blue\": \"#4878A8\", \"orange\": \"#d98a17\", \"dark\": \"#303030\"}\n\n\ndef apply() -> None:\n    \"\"\"Apply the complete local style so the embedded producer is standalone.\"\"\"\n\n    plt.rcParams.update(\n        {\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 16,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 2,\n            \"axes.labelsize\": 22,\n            \"axes.titlesize\": 20,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.major.width\": 2,\n            \"ytick.major.width\": 2,\n            \"xtick.major.size\": 11,\n            \"ytick.major.size\": 11,\n            \"xtick.labelsize\": 20,\n            \"ytick.labelsize\": 20,\n            \"figure.titlesize\": 22,\n            \"figure.titleweight\": \"bold\",\n            \"figure.dpi\": 110,\n            \"legend.frameon\": False,\n            \"savefig.bbox\": \"tight\",\n            \"savefig.pad_inches\": 0.1,\n        }\n    )\n\n\ndef finish(*axes) -> None:\n    for axis in axes:\n        axis.spines[\"top\"].set_visible(False)\n        axis.spines[\"right\"].set_visible(False)\n        axis.tick_params(width=2)\n\n\nCLAIM = \"In a small synthetic dataset, treatment observations are higher than control observations.\"\nGRAMMAR = \"dot/interval plot\"\nSTATISTIC_ID = \"welch-treatment-vs-control\"\nLAYER_LABELS = {\n    \"00-traceable-carrier\": (0, \"Traceable carrier\"),\n    \"01-internally-consistent\": (1, \"Internally consistent\"),\n    \"02-statistics-reproduced\": (2, \"Statistics reproduced\"),\n    \"03-statistics-independently-verified\": (3, \"Statistics independently verified\"),\n    \"04-figure-reproduced\": (4, \"Figure reproduced\"),\n    \"05-display-verified\": (5, \"Display verified\"),\n    \"06-source-linked\": (6, \"Source linked\"),\n    \"07-signature-valid\": (7, \"Signature valid\"),\n    \"08-signer-trusted\": (8, \"Signer trusted\"),\n    \"09-attested\": (9, \"Attested full stack\"),\n}\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_table(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(\n            handle,\n            fieldnames=[\"observation_id\", \"group\", \"response\"],\n            lineterminator=\"\\n\",\n        )\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef _beta_continued_fraction(a: float, b: float, x: float) -> float:\n    \"\"\"Evaluate the incomplete-beta continued fraction without SciPy.\"\"\"\n\n    maximum_iterations = 300\n    epsilon = 3e-14\n    minimum = 1e-300\n    qab = a + b\n    qap = a + 1.0\n    qam = a - 1.0\n    c = 1.0\n    d = 1.0 - qab * x / qap\n    d = minimum if abs(d) < minimum else d\n    d = 1.0 / d\n    result = d\n    for iteration in range(1, maximum_iterations + 1):\n        twice = 2 * iteration\n        coefficient = iteration * (b - iteration) * x / (\n            (qam + twice) * (a + twice)\n        )\n        d = 1.0 + coefficient * d\n        d = minimum if abs(d) < minimum else d\n        c = 1.0 + coefficient / c\n        c = minimum if abs(c) < minimum else c\n        d = 1.0 / d\n        result *= d * c\n        coefficient = -(\n            (a + iteration)\n            * (qab + iteration)\n            * x\n            / ((a + twice) * (qap + twice))\n        )\n        d = 1.0 + coefficient * d\n        d = minimum if abs(d) < minimum else d\n        c = 1.0 + coefficient / c\n        c = minimum if abs(c) < minimum else c\n        d = 1.0 / d\n        change = d * c\n        result *= change\n        if abs(change - 1.0) < epsilon:\n            return result\n    raise ArithmeticError(\"incomplete-beta continued fraction did not converge\")\n\n\ndef _regularized_beta(x: float, a: float, b: float) -> float:\n    if x <= 0.0:\n        return 0.0\n    if x >= 1.0:\n        return 1.0\n    front = math.exp(\n        math.lgamma(a + b)\n        - math.lgamma(a)\n        - math.lgamma(b)\n        + a * math.log(x)\n        + b * math.log1p(-x)\n    )\n    if x < (a + 1.0) / (a + b + 2.0):\n        return front * _beta_continued_fraction(a, b, x) / a\n    return 1.0 - front * _beta_continued_fraction(b, a, 1.0 - x) / b\n\n\ndef _student_t_cdf(value: float, degrees_of_freedom: float) -> float:\n    beta = _regularized_beta(\n        degrees_of_freedom / (degrees_of_freedom + value * value),\n        degrees_of_freedom / 2.0,\n        0.5,\n    )\n    return 1.0 - beta / 2.0 if value >= 0.0 else beta / 2.0\n\n\ndef _student_t_quantile(probability: float, degrees_of_freedom: float) -> float:\n    lower, upper = -50.0, 50.0\n    for _ in range(180):\n        midpoint = (lower + upper) / 2.0\n        if _student_t_cdf(midpoint, degrees_of_freedom) < probability:\n            lower = midpoint\n        else:\n            upper = midpoint\n    return (lower + upper) / 2.0\n\n\ndef _standalone_welch(values_a: list[float], values_b: list[float]) -> dict[str, object]:\n    \"\"\"A dependency-free producer calculation, separate from ReproFig's route.\"\"\"\n\n    n_a, n_b = len(values_a), len(values_b)\n    mean_a = math.fsum(values_a) / n_a\n    mean_b = math.fsum(values_b) / n_b\n    variance_a = math.fsum((value - mean_a) ** 2 for value in values_a) / (n_a - 1)\n    variance_b = math.fsum((value - mean_b) ** 2 for value in values_b) / (n_b - 1)\n    component_a = variance_a / n_a\n    component_b = variance_b / n_b\n    standard_error = math.sqrt(component_a + component_b)\n    degrees_of_freedom = (component_a + component_b) ** 2 / (\n        component_a**2 / (n_a - 1) + component_b**2 / (n_b - 1)\n    )\n    difference = mean_a - mean_b\n    statistic = difference / standard_error\n    p_value = 2.0 * min(\n        _student_t_cdf(statistic, degrees_of_freedom),\n        1.0 - _student_t_cdf(statistic, degrees_of_freedom),\n    )\n    critical = _student_t_quantile(0.975, degrees_of_freedom)\n    return {\n        \"n_a\": n_a,\n        \"n_b\": n_b,\n        \"mean_a\": mean_a,\n        \"mean_b\": mean_b,\n        \"variance_a\": variance_a,\n        \"variance_b\": variance_b,\n        \"mean_difference\": difference,\n        \"standard_error\": standard_error,\n        \"pooled_variance\": None,\n        \"statistic\": statistic,\n        \"df\": degrees_of_freedom,\n        \"p_value\": p_value,\n        \"alternative\": \"two_sided\",\n        \"confidence_level\": 0.95,\n        \"ci_low\": difference - critical * standard_error,\n        \"ci_high\": difference + critical * standard_error,\n    }\n\n\ndef _statistics(\n    rows: list[dict[str, str]], *, verification_route: str | None\n) -> tuple[dict[str, object], StatisticalSpecification]:\n    values = {\n        group: [float(row[\"response\"]) for row in rows if row[\"group\"] == group]\n        for group in (\"Control\", \"Treatment\")\n    }\n    parameters = {\n        \"alternative\": \"two_sided\",\n        \"missing_policy\": \"omit\",\n        \"confidence_level\": 0.95,\n    }\n    producer_implementation = (\n        VERIFIER_IMPLEMENTATION\n        if verification_route == \"reproduced\"\n        else \"python-stdlib-welch/1\"\n    )\n    draft = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"welch-t/v1\",\n        inputs={\"values_a\": values[\"Control\"], \"values_b\": values[\"Treatment\"]},\n        parameters={**parameters, \"producer_implementation\": producer_implementation},\n        expected={},\n    )\n    expected = (\n        calculate_specification(draft)\n        if verification_route == \"reproduced\"\n        else _standalone_welch(values[\"Control\"], values[\"Treatment\"])\n    )\n    if expected[\"p_value\"] < 0.001:\n        display_format = \"p_threshold_0.001/v1\"\n        display_text = \"p < 0.001\"\n    else:\n        display_format = \"p_equals_4dp/v1\"\n        display_text = f\"p = {expected['p_value']:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"welch-t/v1\",\n        inputs=draft.inputs,\n        parameters=draft.parameters,\n        expected=expected,\n        display={\n            \"field\": \"p_value\",\n            \"format\": display_format,\n            \"text\": display_text,\n        },\n        tolerances={\"*\": {\"absolute\": 1e-12, \"relative\": 1e-10}},\n    )\n    record = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"Welch independent-samples t-test\",\n        \"group_a\": \"Control\",\n        \"group_b\": \"Treatment\",\n        \"n_a\": expected[\"n_a\"],\n        \"n_b\": expected[\"n_b\"],\n        \"mean_a\": expected[\"mean_a\"],\n        \"mean_b\": expected[\"mean_b\"],\n        \"estimate\": expected[\"mean_difference\"],\n        \"confidence_interval_low\": expected[\"ci_low\"],\n        \"confidence_interval_high\": expected[\"ci_high\"],\n        \"statistic\": expected[\"statistic\"],\n        \"degrees_of_freedom\": expected[\"df\"],\n        \"p_value\": expected[\"p_value\"],\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    return record, specification\n\n\ndef _write_statistics(path: Path, record: dict[str, object]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(record), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(record)\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    level = bundle.name\n    if level not in LAYER_LABELS:\n        raise ValueError(f\"unrecognized verification layer: {level}\")\n    layer_number, layer_label = LAYER_LABELS[level]\n    proof = level != \"00-traceable-carrier\"\n    verification_route = None\n    if level == \"02-statistics-reproduced\":\n        verification_route = \"reproduced\"\n    elif level in {\"03-statistics-independently-verified\", \"09-attested\"}:\n        verification_route = \"independent\"\n    source = bundle / \"data\" / \"src\" / \"raw-observations.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    if {row[\"group\"] for row in rows} != {\"Control\", \"Treatment\"}:\n        raise ValueError(\"raw input must contain Control and Treatment groups\")\n\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_table(figure_data, rows)\n    statistic, specification = _statistics(\n        rows, verification_route=verification_route\n    )\n    _write_statistics(bundle / \"data\" / \"der\" / \"statistics.csv\", statistic)\n    plotted_table = table_from_data(\n        figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\"\n    )\n    table_id = f\"table:{plotted_table.sha256}\"\n\n    apply()\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-general-verification-demo\"\n    fig, ax = plt.subplots(figsize=(5.6, 5.2))\n    groups = (\"Control\", \"Treatment\")\n    colors = (COLORS[\"blue\"], COLORS[\"orange\"])\n    for position, (group, color) in enumerate(zip(groups, colors)):\n        members = [row for row in rows if row[\"group\"] == group]\n        offsets = [-0.16, -0.10, -0.04, 0.04, 0.10, 0.16]\n        points = ax.scatter(\n            [position + offset for offset in offsets],\n            [float(row[\"response\"]) for row in members],\n            s=62,\n            color=color,\n            edgecolor=\"black\",\n            linewidth=0.8,\n            zorder=3,\n        )\n        bind_artist(\n            points,\n            semantic_id=f\"{group.lower()}-observations\",\n            table_id=table_id,\n            row_ids=[row[\"observation_id\"] for row in members],\n            columns=[\"group\", \"response\"],\n            role=\"raw observations\",\n        )\n        mean = sum(float(row[\"response\"]) for row in members) / len(members)\n        mean_line = ax.plot(\n            [position - 0.22, position + 0.22],\n            [mean, mean],\n            color=\"black\",\n            linewidth=3,\n            solid_capstyle=\"round\",\n            zorder=4,\n        )[0]\n        bind_artist(\n            mean_line,\n            semantic_id=f\"{group.lower()}-mean\",\n            table_id=table_id,\n            row_ids=[row[\"observation_id\"] for row in members],\n            columns=[\"response\"],\n            role=\"arithmetic mean\",\n        )\n\n    bracket = ax.plot([0, 0, 1, 1], [6.72, 6.82, 6.82, 6.72], color=\"black\", linewidth=1.8)[0]\n    bind_artist(\n        bracket,\n        semantic_id=\"group-comparison-bracket\",\n        statistic_id=STATISTIC_ID,\n        connected_mark_ids=[\"control-observations\", \"treatment-observations\"],\n        role=\"comparison\",\n    )\n    label = ax.text(\n        0.5,\n        6.87,\n        specification.display[\"text\"],\n        ha=\"center\",\n        va=\"bottom\",\n        fontsize=11,\n    )\n    bind_artist(\n        label,\n        semantic_id=\"welch-p-value\",\n        statistic_id=STATISTIC_ID,\n        connected_mark_ids=[\"group-comparison-bracket\"],\n        formatter_id=specification.display[\"format\"],\n        role=\"statistical annotation\",\n    )\n    ax.set_xticks([0, 1], groups)\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_title(\"Raw user input carried with the figure\", pad=14)\n    ax.set_xlim(-0.45, 1.45)\n    ax.set_ylim(4.5, 7.08)\n    ax.text(\n        0.02,\n        0.02,\n        \"Dots: entered values   Black lines: means\",\n        transform=ax.transAxes,\n        fontsize=9,\n        color=COLORS[\"dark\"],\n    )\n    finish(ax)\n    fig.suptitle(\n        f\"Layer {layer_number} of 9 · {layer_label}\",\n        y=0.995,\n        fontsize=14,\n        fontweight=\"bold\",\n    )\n    fig.tight_layout(rect=(0, 0, 1, 0.95))\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"raw-user-input-comparison\",\n        producer={\n            \"package\": \"matplotlib\",\n            \"package_version\": importlib.metadata.version(\"matplotlib\"),\n            \"function\": \"code/plot.py\",\n        },\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[\n            source_reference(\n                source,\n                role=\"raw_user_input\",\n                project_root=bundle,\n                source_id=\"raw-observations\",\n            )\n        ],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"working_directory\": \".\",\n            \"input\": \"data/src/raw-observations.csv\",\n            \"bundle_layout\": \"plot-that/2\",\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"py\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n    )\n    if proof:\n        record.extensions[\"proof\"] = {\n            \"statistical_specifications\": [specification.to_dict()]\n        }\n    record = attach_evidence_graph(record)\n    record = save_figure(\n        fig,\n        bundle / \"fig\" / \"raw-user-input-comparison.svg\",\n        record=record,\n        proof=proof,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        fig,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        proof=proof,\n        dpi=200,\n        savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+              "source_index": "data/sources.csv",
+              "source_index_sha256": "06057d4250a085b539aa225709964324c78bc62dac782a98d1f176d89e070a46",
+              "working_directory": "."
+            },
+            "sources": [
+              {
+                "modified_at": "2026-08-26T15:59:55+01:00",
+                "relative_path": "data/src/raw-observations.csv",
+                "role": "raw_user_input",
+                "sha256": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+                "size_bytes": 234,
+                "source_id": "raw-observations"
+              }
+            ]
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "provenance:record",
+          "sha256": "4c780c549cef70b6b48950a6b251837a28d223c944c32eac02e05a925dd54832"
+        },
+        {
+          "dependencies": [
+            "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+          ],
+          "encrypted": false,
+          "kind": "statistical_specification",
+          "metadata": {},
+          "payload": {
+            "algorithm_id": "welch-t/v1",
+            "display": {
+              "field": "p_value",
+              "format": "p_threshold_0.001/v1",
+              "text": "p < 0.001"
+            },
+            "expected": {
+              "alternative": "two_sided",
+              "ci_high": -0.8283459410473892,
+              "ci_low": -1.404987392285945,
+              "confidence_level": 0.95,
+              "df": 9.951560818083962,
+              "mean_a": 5.066666666666666,
+              "mean_b": 6.183333333333334,
+              "mean_difference": -1.1166666666666671,
+              "n_a": 6,
+              "n_b": 6,
+              "p_value": 6.190586384950773e-06,
+              "pooled_variance": null,
+              "standard_error": 0.1293144316084722,
+              "statistic": -8.635282642293324,
+              "variance_a": 0.04666666666666672,
+              "variance_b": 0.053666666666666675
+            },
+            "inputs": {
+              "values_a": [
+                4.8,
+                5.1,
+                5.4,
+                5.0,
+                5.2,
+                4.9
+              ],
+              "values_b": [
+                6.0,
+                6.4,
+                5.9,
+                6.2,
+                6.5,
+                6.1
+              ]
+            },
+            "parameters": {
+              "alternative": "two_sided",
+              "confidence_level": 0.95,
+              "missing_policy": "omit",
+              "producer_implementation": "python-stdlib-welch/1"
+            },
+            "schema": "reprofig-statistical-specification/1",
+            "statistic_id": "welch-treatment-vs-control",
+            "tolerances": {
+              "*": {
+                "absolute": 1e-12,
+                "relative": 1e-10
+              }
+            }
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "statistical-specification:welch-treatment-vs-control",
+          "sha256": "c6883cbd8e1c871559193a1897a63b5ef32736065ee4427af7d27734201024df"
+        },
+        {
+          "dependencies": [
+            "statistics:reported",
+            "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+          ],
+          "encrypted": false,
+          "kind": "render_manifest",
+          "metadata": {},
+          "payload": {
+            "annotations": [
+              {
+                "annotation_id": "welch-p-value",
+                "axes_id": "axes-0",
+                "connected_mark_ids": [
+                  "group-comparison-bracket"
+                ],
+                "coordinate_system": "data",
+                "formatter_id": "p_threshold_0.001/v1",
+                "position": [
+                  0.5,
+                  6.87
+                ],
+                "role": "statistical annotation",
+                "statistic_id": "welch-treatment-vs-control",
+                "text": "p < 0.001"
+              },
+              {
+                "annotation_id": "axes-0-text-1",
+                "axes_id": "axes-0",
+                "coordinate_system": "display",
+                "position": [
+                  0.02,
+                  0.02
+                ],
+                "role": "text",
+                "text": "Dots: entered values   Black lines: means"
+              }
+            ],
+            "axes": [
+              {
+                "axes_id": "axes-0",
+                "bbox_inches": [
+                  0.20810899170274172,
+                  0.13558177933177928,
+                  0.7490338654401154,
+                  0.6112907925407924
+                ],
+                "labels": {
+                  "title": "Raw user input carried with the figure",
+                  "x": "",
+                  "y": "Response (arbitrary units)"
+                },
+                "x_limits": [
+                  -0.45,
+                  1.45
+                ],
+                "x_scale": "linear",
+                "y_limits": [
+                  4.5,
+                  7.08
+                ],
+                "y_scale": "linear"
+              }
+            ],
+            "environment": {
+              "backend": "matplotlib.backends.backend_qtagg",
+              "dpi": 110.0,
+              "figure_inches": [
+                5.6,
+                5.2
+              ]
+            },
+            "marks": [
+              {
+                "axes_id": "axes-0",
+                "columns": [
+                  "response"
+                ],
+                "coordinate_system": "data",
+                "geometry": {
+                  "x": [
+                    -0.22,
+                    0.22
+                  ],
+                  "y": [
+                    5.066666666666666,
+                    5.066666666666666
+                  ]
+                },
+                "kind": "line",
+                "mark_id": "control-mean",
+                "role": "arithmetic mean",
+                "row_ids": [
+                  "C01",
+                  "C02",
+                  "C03",
+                  "C04",
+                  "C05",
+                  "C06"
+                ],
+                "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+              },
+              {
+                "axes_id": "axes-0",
+                "columns": [
+                  "response"
+                ],
+                "coordinate_system": "data",
+                "geometry": {
+                  "x": [
+                    0.78,
+                    1.22
+                  ],
+                  "y": [
+                    6.183333333333334,
+                    6.183333333333334
+                  ]
+                },
+                "kind": "line",
+                "mark_id": "treatment-mean",
+                "role": "arithmetic mean",
+                "row_ids": [
+                  "T01",
+                  "T02",
+                  "T03",
+                  "T04",
+                  "T05",
+                  "T06"
+                ],
+                "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+              },
+              {
+                "axes_id": "axes-0",
+                "coordinate_system": "data",
+                "geometry": {
+                  "x": [
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0
+                  ],
+                  "y": [
+                    6.72,
+                    6.82,
+                    6.82,
+                    6.72
+                  ]
+                },
+                "kind": "line",
+                "mark_id": "group-comparison-bracket",
+                "role": "comparison"
+              },
+              {
+                "axes_id": "axes-0",
+                "columns": [
+                  "group",
+                  "response"
+                ],
+                "coordinate_system": "data",
+                "geometry": {
+                  "points": [
+                    [
+                      -0.16,
+                      4.8
+                    ],
+                    [
+                      -0.1,
+                      5.1
+                    ],
+                    [
+                      -0.04,
+                      5.4
+                    ],
+                    [
+                      0.04,
+                      5.0
+                    ],
+                    [
+                      0.1,
+                      5.2
+                    ],
+                    [
+                      0.16,
+                      4.9
+                    ]
+                  ]
+                },
+                "kind": "points",
+                "mark_id": "control-observations",
+                "role": "raw observations",
+                "row_ids": [
+                  "C01",
+                  "C02",
+                  "C03",
+                  "C04",
+                  "C05",
+                  "C06"
+                ],
+                "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+              },
+              {
+                "axes_id": "axes-0",
+                "columns": [
+                  "group",
+                  "response"
+                ],
+                "coordinate_system": "data",
+                "geometry": {
+                  "points": [
+                    [
+                      0.84,
+                      6.0
+                    ],
+                    [
+                      0.9,
+                      6.4
+                    ],
+                    [
+                      0.96,
+                      5.9
+                    ],
+                    [
+                      1.04,
+                      6.2
+                    ],
+                    [
+                      1.1,
+                      6.5
+                    ],
+                    [
+                      1.16,
+                      6.1
+                    ]
+                  ]
+                },
+                "kind": "points",
+                "mark_id": "treatment-observations",
+                "role": "raw observations",
+                "row_ids": [
+                  "T01",
+                  "T02",
+                  "T03",
+                  "T04",
+                  "T05",
+                  "T06"
+                ],
+                "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+              }
+            ],
+            "schema": "reprofig-render-manifest/1",
+            "unsupported": []
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "render:manifest",
+          "sha256": "7dc4d01ad0897d4a24af4650d1c0d9239221c5218a40d037eca7c760be445a8a"
+        }
+      ],
+      "signatures": [],
+      "statistical_specifications": [
+        {
+          "algorithm_id": "welch-t/v1",
+          "display": {
+            "field": "p_value",
+            "format": "p_threshold_0.001/v1",
+            "text": "p < 0.001"
+          },
+          "expected": {
+            "alternative": "two_sided",
+            "ci_high": -0.8283459410473892,
+            "ci_low": -1.404987392285945,
+            "confidence_level": 0.95,
+            "df": 9.951560818083962,
+            "mean_a": 5.066666666666666,
+            "mean_b": 6.183333333333334,
+            "mean_difference": -1.1166666666666671,
+            "n_a": 6,
+            "n_b": 6,
+            "p_value": 6.190586384950773e-06,
+            "pooled_variance": null,
+            "standard_error": 0.1293144316084722,
+            "statistic": -8.635282642293324,
+            "variance_a": 0.04666666666666672,
+            "variance_b": 0.053666666666666675
+          },
+          "inputs": {
+            "values_a": [
+              4.8,
+              5.1,
+              5.4,
+              5.0,
+              5.2,
+              4.9
+            ],
+            "values_b": [
+              6.0,
+              6.4,
+              5.9,
+              6.2,
+              6.5,
+              6.1
+            ]
+          },
+          "parameters": {
+            "alternative": "two_sided",
+            "confidence_level": 0.95,
+            "missing_policy": "omit",
+            "producer_implementation": "python-stdlib-welch/1"
+          },
+          "schema": "reprofig-statistical-specification/1",
+          "statistic_id": "welch-treatment-vs-control",
+          "tolerances": {
+            "*": {
+              "absolute": 1e-12,
+              "relative": 1e-10
+            }
+          }
+        }
+      ]
+    },
+    "render_manifest": {
+      "annotations": [
+        {
+          "annotation_id": "welch-p-value",
+          "axes_id": "axes-0",
+          "connected_mark_ids": [
+            "group-comparison-bracket"
+          ],
+          "coordinate_system": "data",
+          "formatter_id": "p_threshold_0.001/v1",
+          "position": [
+            0.5,
+            6.87
+          ],
+          "role": "statistical annotation",
+          "statistic_id": "welch-treatment-vs-control",
+          "text": "p < 0.001"
+        },
+        {
+          "annotation_id": "axes-0-text-1",
+          "axes_id": "axes-0",
+          "coordinate_system": "display",
+          "position": [
+            0.02,
+            0.02
+          ],
+          "role": "text",
+          "text": "Dots: entered values   Black lines: means"
+        }
+      ],
+      "axes": [
+        {
+          "axes_id": "axes-0",
+          "bbox_inches": [
+            0.20810899170274172,
+            0.13558177933177928,
+            0.7490338654401154,
+            0.6112907925407924
+          ],
+          "labels": {
+            "title": "Raw user input carried with the figure",
+            "x": "",
+            "y": "Response (arbitrary units)"
+          },
+          "x_limits": [
+            -0.45,
+            1.45
+          ],
+          "x_scale": "linear",
+          "y_limits": [
+            4.5,
+            7.08
+          ],
+          "y_scale": "linear"
+        }
+      ],
+      "environment": {
+        "backend": "matplotlib.backends.backend_qtagg",
+        "dpi": 110.0,
+        "figure_inches": [
+          5.6,
+          5.2
+        ]
+      },
+      "marks": [
+        {
+          "axes_id": "axes-0",
+          "columns": [
+            "response"
+          ],
+          "coordinate_system": "data",
+          "geometry": {
+            "x": [
+              -0.22,
+              0.22
+            ],
+            "y": [
+              5.066666666666666,
+              5.066666666666666
+            ]
+          },
+          "kind": "line",
+          "mark_id": "control-mean",
+          "role": "arithmetic mean",
+          "row_ids": [
+            "C01",
+            "C02",
+            "C03",
+            "C04",
+            "C05",
+            "C06"
+          ],
+          "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+        },
+        {
+          "axes_id": "axes-0",
+          "columns": [
+            "response"
+          ],
+          "coordinate_system": "data",
+          "geometry": {
+            "x": [
+              0.78,
+              1.22
+            ],
+            "y": [
+              6.183333333333334,
+              6.183333333333334
+            ]
+          },
+          "kind": "line",
+          "mark_id": "treatment-mean",
+          "role": "arithmetic mean",
+          "row_ids": [
+            "T01",
+            "T02",
+            "T03",
+            "T04",
+            "T05",
+            "T06"
+          ],
+          "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+        },
+        {
+          "axes_id": "axes-0",
+          "coordinate_system": "data",
+          "geometry": {
+            "x": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "y": [
+              6.72,
+              6.82,
+              6.82,
+              6.72
+            ]
+          },
+          "kind": "line",
+          "mark_id": "group-comparison-bracket",
+          "role": "comparison"
+        },
+        {
+          "axes_id": "axes-0",
+          "columns": [
+            "group",
+            "response"
+          ],
+          "coordinate_system": "data",
+          "geometry": {
+            "points": [
+              [
+                -0.16,
+                4.8
+              ],
+              [
+                -0.1,
+                5.1
+              ],
+              [
+                -0.04,
+                5.4
+              ],
+              [
+                0.04,
+                5.0
+              ],
+              [
+                0.1,
+                5.2
+              ],
+              [
+                0.16,
+                4.9
+              ]
+            ]
+          },
+          "kind": "points",
+          "mark_id": "control-observations",
+          "role": "raw observations",
+          "row_ids": [
+            "C01",
+            "C02",
+            "C03",
+            "C04",
+            "C05",
+            "C06"
+          ],
+          "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+        },
+        {
+          "axes_id": "axes-0",
+          "columns": [
+            "group",
+            "response"
+          ],
+          "coordinate_system": "data",
+          "geometry": {
+            "points": [
+              [
+                0.84,
+                6.0
+              ],
+              [
+                0.9,
+                6.4
+              ],
+              [
+                0.96,
+                5.9
+              ],
+              [
+                1.04,
+                6.2
+              ],
+              [
+                1.1,
+                6.5
+              ],
+              [
+                1.16,
+                6.1
+              ]
+            ]
+          },
+          "kind": "points",
+          "mark_id": "treatment-observations",
+          "role": "raw observations",
+          "row_ids": [
+            "T01",
+            "T02",
+            "T03",
+            "T04",
+            "T05",
+            "T06"
+          ],
+          "table_id": "table:1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0"
+        }
+      ],
+      "schema": "reprofig-render-manifest/1",
+      "unsupported": []
+    },
+    "visual_reference": {
+      "format": "svg",
+      "schema": "reprofig-visual-reference/1",
+      "vector_elements": {
+        "axes-0-text-1": "7f24e3ed190de62f0ceabe11d1a6cd4a96eec0decb93e2d09b6feef4bcffc7aa",
+        "control-mean": "fbbb7e7c91f0da10c3b223b089e5d655f922bf5b9b770622e0d58714c0870443",
+        "control-observations": "c1b9e993e822b92fa26e72a65a2c51253c8e9cd1287824877040fa1dd8ef7e98",
+        "group-comparison-bracket": "27b05788a0fcc4d44ab06f4e155cbb2231907d655645c92f26c8fdbfb4573762",
+        "treatment-mean": "e8fc421d2094aa54bebb3a95eaabf10f9baae29ee22e4260c4081a01f33a93b2",
+        "treatment-observations": "6b4e2df848eeae22ec61f103d3f205b5fa299a1b5ea64c70bbb79209558a33ac",
+        "welch-p-value": "7b6ce764ac0707edb6613cb662b22aef458d40a8e7cb04c1752cbf5aceecef4e"
+      }
+    }
+  },
+  "figure_id": "rf-3487cf4eca72451dba7c8be7f26ce822",
+  "original_stem": "raw-user-input-comparison",
+  "producer": {
+    "function": "code/plot.py",
+    "package": "matplotlib",
+    "package_version": "3.9.2"
+  },
+  "reproduction": {
+    "bundle_layout": "plot-that/2",
+    "command": "python code/plot.py",
+    "exact_table": "data/der/figure_data.csv",
+    "exact_table_sha256": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+    "input": "data/src/raw-observations.csv",
+    "producer": "code/plot.py",
+    "producer_language": "py",
+    "producer_sha256": "b3e3d06ea5e33f97b9ca5af9d6e02929e7b85efd7529e945d87dd7e31c0c84e5",
+    "readme": "README.md",
+    "readme_sha256": "e7c864393d2fc0743e358e1fbc296002fa3bdabcd30c6bbed753b26e735f699c",
+    "script": "\"\"\"Plot raw user observations and hand them directly to ReproFig.\n\nRun this file from any verification-layer folder. It performs no prerequisite\nanalysis and uses no analysis dependency beyond ReproFig itself. For the\nindependent layer, a small Python-standard-library Welch calculation supplies\nthe declared result and ReproFig checks it through its reference route.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nimport math\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\nfrom reprofig.stats.engine import calculate_specification\nfrom reprofig.stats.engine import VERIFIER_IMPLEMENTATION\n\nCOLORS = {\"blue\": \"#4878A8\", \"orange\": \"#d98a17\", \"dark\": \"#303030\"}\n\n\ndef apply() -> None:\n    \"\"\"Apply the complete local style so the embedded producer is standalone.\"\"\"\n\n    plt.rcParams.update(\n        {\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 16,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 2,\n            \"axes.labelsize\": 22,\n            \"axes.titlesize\": 20,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.major.width\": 2,\n            \"ytick.major.width\": 2,\n            \"xtick.major.size\": 11,\n            \"ytick.major.size\": 11,\n            \"xtick.labelsize\": 20,\n            \"ytick.labelsize\": 20,\n            \"figure.titlesize\": 22,\n            \"figure.titleweight\": \"bold\",\n            \"figure.dpi\": 110,\n            \"legend.frameon\": False,\n            \"savefig.bbox\": \"tight\",\n            \"savefig.pad_inches\": 0.1,\n        }\n    )\n\n\ndef finish(*axes) -> None:\n    for axis in axes:\n        axis.spines[\"top\"].set_visible(False)\n        axis.spines[\"right\"].set_visible(False)\n        axis.tick_params(width=2)\n\n\nCLAIM = \"In a small synthetic dataset, treatment observations are higher than control observations.\"\nGRAMMAR = \"dot/interval plot\"\nSTATISTIC_ID = \"welch-treatment-vs-control\"\nLAYER_LABELS = {\n    \"00-traceable-carrier\": (0, \"Traceable carrier\"),\n    \"01-internally-consistent\": (1, \"Internally consistent\"),\n    \"02-statistics-reproduced\": (2, \"Statistics reproduced\"),\n    \"03-statistics-independently-verified\": (3, \"Statistics independently verified\"),\n    \"04-figure-reproduced\": (4, \"Figure reproduced\"),\n    \"05-display-verified\": (5, \"Display verified\"),\n    \"06-source-linked\": (6, \"Source linked\"),\n    \"07-signature-valid\": (7, \"Signature valid\"),\n    \"08-signer-trusted\": (8, \"Signer trusted\"),\n    \"09-attested\": (9, \"Attested full stack\"),\n}\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_table(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(\n            handle,\n            fieldnames=[\"observation_id\", \"group\", \"response\"],\n            lineterminator=\"\\n\",\n        )\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef _beta_continued_fraction(a: float, b: float, x: float) -> float:\n    \"\"\"Evaluate the incomplete-beta continued fraction without SciPy.\"\"\"\n\n    maximum_iterations = 300\n    epsilon = 3e-14\n    minimum = 1e-300\n    qab = a + b\n    qap = a + 1.0\n    qam = a - 1.0\n    c = 1.0\n    d = 1.0 - qab * x / qap\n    d = minimum if abs(d) < minimum else d\n    d = 1.0 / d\n    result = d\n    for iteration in range(1, maximum_iterations + 1):\n        twice = 2 * iteration\n        coefficient = iteration * (b - iteration) * x / (\n            (qam + twice) * (a + twice)\n        )\n        d = 1.0 + coefficient * d\n        d = minimum if abs(d) < minimum else d\n        c = 1.0 + coefficient / c\n        c = minimum if abs(c) < minimum else c\n        d = 1.0 / d\n        result *= d * c\n        coefficient = -(\n            (a + iteration)\n            * (qab + iteration)\n            * x\n            / ((a + twice) * (qap + twice))\n        )\n        d = 1.0 + coefficient * d\n        d = minimum if abs(d) < minimum else d\n        c = 1.0 + coefficient / c\n        c = minimum if abs(c) < minimum else c\n        d = 1.0 / d\n        change = d * c\n        result *= change\n        if abs(change - 1.0) < epsilon:\n            return result\n    raise ArithmeticError(\"incomplete-beta continued fraction did not converge\")\n\n\ndef _regularized_beta(x: float, a: float, b: float) -> float:\n    if x <= 0.0:\n        return 0.0\n    if x >= 1.0:\n        return 1.0\n    front = math.exp(\n        math.lgamma(a + b)\n        - math.lgamma(a)\n        - math.lgamma(b)\n        + a * math.log(x)\n        + b * math.log1p(-x)\n    )\n    if x < (a + 1.0) / (a + b + 2.0):\n        return front * _beta_continued_fraction(a, b, x) / a\n    return 1.0 - front * _beta_continued_fraction(b, a, 1.0 - x) / b\n\n\ndef _student_t_cdf(value: float, degrees_of_freedom: float) -> float:\n    beta = _regularized_beta(\n        degrees_of_freedom / (degrees_of_freedom + value * value),\n        degrees_of_freedom / 2.0,\n        0.5,\n    )\n    return 1.0 - beta / 2.0 if value >= 0.0 else beta / 2.0\n\n\ndef _student_t_quantile(probability: float, degrees_of_freedom: float) -> float:\n    lower, upper = -50.0, 50.0\n    for _ in range(180):\n        midpoint = (lower + upper) / 2.0\n        if _student_t_cdf(midpoint, degrees_of_freedom) < probability:\n            lower = midpoint\n        else:\n            upper = midpoint\n    return (lower + upper) / 2.0\n\n\ndef _standalone_welch(values_a: list[float], values_b: list[float]) -> dict[str, object]:\n    \"\"\"A dependency-free producer calculation, separate from ReproFig's route.\"\"\"\n\n    n_a, n_b = len(values_a), len(values_b)\n    mean_a = math.fsum(values_a) / n_a\n    mean_b = math.fsum(values_b) / n_b\n    variance_a = math.fsum((value - mean_a) ** 2 for value in values_a) / (n_a - 1)\n    variance_b = math.fsum((value - mean_b) ** 2 for value in values_b) / (n_b - 1)\n    component_a = variance_a / n_a\n    component_b = variance_b / n_b\n    standard_error = math.sqrt(component_a + component_b)\n    degrees_of_freedom = (component_a + component_b) ** 2 / (\n        component_a**2 / (n_a - 1) + component_b**2 / (n_b - 1)\n    )\n    difference = mean_a - mean_b\n    statistic = difference / standard_error\n    p_value = 2.0 * min(\n        _student_t_cdf(statistic, degrees_of_freedom),\n        1.0 - _student_t_cdf(statistic, degrees_of_freedom),\n    )\n    critical = _student_t_quantile(0.975, degrees_of_freedom)\n    return {\n        \"n_a\": n_a,\n        \"n_b\": n_b,\n        \"mean_a\": mean_a,\n        \"mean_b\": mean_b,\n        \"variance_a\": variance_a,\n        \"variance_b\": variance_b,\n        \"mean_difference\": difference,\n        \"standard_error\": standard_error,\n        \"pooled_variance\": None,\n        \"statistic\": statistic,\n        \"df\": degrees_of_freedom,\n        \"p_value\": p_value,\n        \"alternative\": \"two_sided\",\n        \"confidence_level\": 0.95,\n        \"ci_low\": difference - critical * standard_error,\n        \"ci_high\": difference + critical * standard_error,\n    }\n\n\ndef _statistics(\n    rows: list[dict[str, str]], *, verification_route: str | None\n) -> tuple[dict[str, object], StatisticalSpecification]:\n    values = {\n        group: [float(row[\"response\"]) for row in rows if row[\"group\"] == group]\n        for group in (\"Control\", \"Treatment\")\n    }\n    parameters = {\n        \"alternative\": \"two_sided\",\n        \"missing_policy\": \"omit\",\n        \"confidence_level\": 0.95,\n    }\n    producer_implementation = (\n        VERIFIER_IMPLEMENTATION\n        if verification_route == \"reproduced\"\n        else \"python-stdlib-welch/1\"\n    )\n    draft = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"welch-t/v1\",\n        inputs={\"values_a\": values[\"Control\"], \"values_b\": values[\"Treatment\"]},\n        parameters={**parameters, \"producer_implementation\": producer_implementation},\n        expected={},\n    )\n    expected = (\n        calculate_specification(draft)\n        if verification_route == \"reproduced\"\n        else _standalone_welch(values[\"Control\"], values[\"Treatment\"])\n    )\n    if expected[\"p_value\"] < 0.001:\n        display_format = \"p_threshold_0.001/v1\"\n        display_text = \"p < 0.001\"\n    else:\n        display_format = \"p_equals_4dp/v1\"\n        display_text = f\"p = {expected['p_value']:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"welch-t/v1\",\n        inputs=draft.inputs,\n        parameters=draft.parameters,\n        expected=expected,\n        display={\n            \"field\": \"p_value\",\n            \"format\": display_format,\n            \"text\": display_text,\n        },\n        tolerances={\"*\": {\"absolute\": 1e-12, \"relative\": 1e-10}},\n    )\n    record = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"Welch independent-samples t-test\",\n        \"group_a\": \"Control\",\n        \"group_b\": \"Treatment\",\n        \"n_a\": expected[\"n_a\"],\n        \"n_b\": expected[\"n_b\"],\n        \"mean_a\": expected[\"mean_a\"],\n        \"mean_b\": expected[\"mean_b\"],\n        \"estimate\": expected[\"mean_difference\"],\n        \"confidence_interval_low\": expected[\"ci_low\"],\n        \"confidence_interval_high\": expected[\"ci_high\"],\n        \"statistic\": expected[\"statistic\"],\n        \"degrees_of_freedom\": expected[\"df\"],\n        \"p_value\": expected[\"p_value\"],\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    return record, specification\n\n\ndef _write_statistics(path: Path, record: dict[str, object]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(record), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(record)\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    level = bundle.name\n    if level not in LAYER_LABELS:\n        raise ValueError(f\"unrecognized verification layer: {level}\")\n    layer_number, layer_label = LAYER_LABELS[level]\n    proof = level != \"00-traceable-carrier\"\n    verification_route = None\n    if level == \"02-statistics-reproduced\":\n        verification_route = \"reproduced\"\n    elif level in {\"03-statistics-independently-verified\", \"09-attested\"}:\n        verification_route = \"independent\"\n    source = bundle / \"data\" / \"src\" / \"raw-observations.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    if {row[\"group\"] for row in rows} != {\"Control\", \"Treatment\"}:\n        raise ValueError(\"raw input must contain Control and Treatment groups\")\n\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_table(figure_data, rows)\n    statistic, specification = _statistics(\n        rows, verification_route=verification_route\n    )\n    _write_statistics(bundle / \"data\" / \"der\" / \"statistics.csv\", statistic)\n    plotted_table = table_from_data(\n        figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\"\n    )\n    table_id = f\"table:{plotted_table.sha256}\"\n\n    apply()\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-general-verification-demo\"\n    fig, ax = plt.subplots(figsize=(5.6, 5.2))\n    groups = (\"Control\", \"Treatment\")\n    colors = (COLORS[\"blue\"], COLORS[\"orange\"])\n    for position, (group, color) in enumerate(zip(groups, colors)):\n        members = [row for row in rows if row[\"group\"] == group]\n        offsets = [-0.16, -0.10, -0.04, 0.04, 0.10, 0.16]\n        points = ax.scatter(\n            [position + offset for offset in offsets],\n            [float(row[\"response\"]) for row in members],\n            s=62,\n            color=color,\n            edgecolor=\"black\",\n            linewidth=0.8,\n            zorder=3,\n        )\n        bind_artist(\n            points,\n            semantic_id=f\"{group.lower()}-observations\",\n            table_id=table_id,\n            row_ids=[row[\"observation_id\"] for row in members],\n            columns=[\"group\", \"response\"],\n            role=\"raw observations\",\n        )\n        mean = sum(float(row[\"response\"]) for row in members) / len(members)\n        mean_line = ax.plot(\n            [position - 0.22, position + 0.22],\n            [mean, mean],\n            color=\"black\",\n            linewidth=3,\n            solid_capstyle=\"round\",\n            zorder=4,\n        )[0]\n        bind_artist(\n            mean_line,\n            semantic_id=f\"{group.lower()}-mean\",\n            table_id=table_id,\n            row_ids=[row[\"observation_id\"] for row in members],\n            columns=[\"response\"],\n            role=\"arithmetic mean\",\n        )\n\n    bracket = ax.plot([0, 0, 1, 1], [6.72, 6.82, 6.82, 6.72], color=\"black\", linewidth=1.8)[0]\n    bind_artist(\n        bracket,\n        semantic_id=\"group-comparison-bracket\",\n        statistic_id=STATISTIC_ID,\n        connected_mark_ids=[\"control-observations\", \"treatment-observations\"],\n        role=\"comparison\",\n    )\n    label = ax.text(\n        0.5,\n        6.87,\n        specification.display[\"text\"],\n        ha=\"center\",\n        va=\"bottom\",\n        fontsize=11,\n    )\n    bind_artist(\n        label,\n        semantic_id=\"welch-p-value\",\n        statistic_id=STATISTIC_ID,\n        connected_mark_ids=[\"group-comparison-bracket\"],\n        formatter_id=specification.display[\"format\"],\n        role=\"statistical annotation\",\n    )\n    ax.set_xticks([0, 1], groups)\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_title(\"Raw user input carried with the figure\", pad=14)\n    ax.set_xlim(-0.45, 1.45)\n    ax.set_ylim(4.5, 7.08)\n    ax.text(\n        0.02,\n        0.02,\n        \"Dots: entered values   Black lines: means\",\n        transform=ax.transAxes,\n        fontsize=9,\n        color=COLORS[\"dark\"],\n    )\n    finish(ax)\n    fig.suptitle(\n        f\"Layer {layer_number} of 9 · {layer_label}\",\n        y=0.995,\n        fontsize=14,\n        fontweight=\"bold\",\n    )\n    fig.tight_layout(rect=(0, 0, 1, 0.95))\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"raw-user-input-comparison\",\n        producer={\n            \"package\": \"matplotlib\",\n            \"package_version\": importlib.metadata.version(\"matplotlib\"),\n            \"function\": \"code/plot.py\",\n        },\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[\n            source_reference(\n                source,\n                role=\"raw_user_input\",\n                project_root=bundle,\n                source_id=\"raw-observations\",\n            )\n        ],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"working_directory\": \".\",\n            \"input\": \"data/src/raw-observations.csv\",\n            \"bundle_layout\": \"plot-that/2\",\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"py\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n    )\n    if proof:\n        record.extensions[\"proof\"] = {\n            \"statistical_specifications\": [specification.to_dict()]\n        }\n    record = attach_evidence_graph(record)\n    record = save_figure(\n        fig,\n        bundle / \"fig\" / \"raw-user-input-comparison.svg\",\n        record=record,\n        proof=proof,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        fig,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        proof=proof,\n        dpi=200,\n        savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "source_index": "data/sources.csv",
+    "source_index_sha256": "06057d4250a085b539aa225709964324c78bc62dac782a98d1f176d89e070a46",
+    "working_directory": "."
+  },
+  "schema": "reprofig/1",
+  "sources": [
+    {
+      "modified_at": "2026-08-26T15:59:55+01:00",
+      "relative_path": "data/src/raw-observations.csv",
+      "role": "raw_user_input",
+      "sha256": "1cb721a73d32d469bf7c8c7eb3b26bff8c6821dc3abd03227aa7d4f0e04915d0",
+      "size_bytes": 234,
+      "source_id": "raw-observations"
+    }
+  ],
+  "statistics": [
+    {
+      "algorithm_id": "welch-t/v1",
+      "alpha": 0.05,
+      "confidence_interval_high": -0.8283459410473892,
+      "confidence_interval_low": -1.404987392285945,
+      "correction_method": "none",
+      "degrees_of_freedom": 9.951560818083962,
+      "display_json": "{\"field\":\"p_value\",\"format\":\"p_threshold_0.001/v1\",\"text\":\"p < 0.001\"}",
+      "estimate": -1.1166666666666671,
+      "expected_json": "{\"alternative\":\"two_sided\",\"ci_high\":-0.8283459410473892,\"ci_low\":-1.404987392285945,\"confidence_level\":0.95,\"df\":9.951560818083962,\"mean_a\":5.066666666666666,\"mean_b\":6.183333333333334,\"mean_difference\":-1.1166666666666671,\"n_a\":6,\"n_b\":6,\"p_value\":6.190586384950773e-06,\"pooled_variance\":null,\"standard_error\":0.1293144316084722,\"statistic\":-8.635282642293324,\"variance_a\":0.04666666666666672,\"variance_b\":0.053666666666666675}",
+      "group_a": "Control",
+      "group_b": "Treatment",
+      "inputs_json": "{\"values_a\":[4.8,5.1,5.4,5.0,5.2,4.9],\"values_b\":[6.0,6.4,5.9,6.2,6.5,6.1]}",
+      "mean_a": 5.066666666666666,
+      "mean_b": 6.183333333333334,
+      "n_a": 6,
+      "n_b": 6,
+      "p_value": 6.190586384950773e-06,
+      "parameters_json": "{\"alternative\":\"two_sided\",\"confidence_level\":0.95,\"missing_policy\":\"omit\",\"producer_implementation\":\"python-stdlib-welch/1\"}",
+      "statistic": -8.635282642293324,
+      "statistic_id": "welch-treatment-vs-control",
+      "tailedness": "two-sided",
+      "test_name": "Welch independent-samples t-test",
+      "tolerances_json": "{\"*\":{\"absolute\":1e-12,\"relative\":1e-10}}"
+    }
+  ],
+  "statistics_csv_sha256": "9b9c02dc87db084a3152dc2104ae48ef2bf1e3a880915f5b319ba2f5b30e6d5f",
+  "statistics_status": "complete",
+  "title": "In a small synthetic dataset, treatment observations are higher than control observations."
+}

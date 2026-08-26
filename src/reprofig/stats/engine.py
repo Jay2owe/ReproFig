@@ -126,33 +126,33 @@ def verify_record_statistics(record: FigureRecord) -> list[ProofCheck]:
     try:
         specifications = specifications_from_record(record)
     except Exception as exc:
-        return [ProofCheck("statistics-specifications", "independently_verified", "fail", record.figure_id, str(exc))]
+        return [ProofCheck("statistics-specifications", "statistics_independently_verified", "fail", record.figure_id, str(exc))]
     if not specifications:
-        return [ProofCheck("statistics-specifications", "independently_verified", "unavailable", record.figure_id, "No typed statistical specifications are present.")]
+        return [ProofCheck("statistics-specifications", "statistics_independently_verified", "unavailable", record.figure_id, "No typed statistical specifications are present.")]
     checks: list[ProofCheck] = []
     for specification in specifications:
         algorithm = get_algorithm(specification.algorithm_id)
         if algorithm is None:
-            checks.append(ProofCheck(f"stat:{specification.statistic_id}", "independently_verified", "unsupported", specification.statistic_id, f"Unsupported algorithm {specification.algorithm_id}."))
+            checks.append(ProofCheck(f"stat:{specification.statistic_id}", "statistics_independently_verified", "unsupported", specification.statistic_id, f"Unsupported algorithm {specification.algorithm_id}."))
             continue
         try:
             actual = calculate_specification(specification, record=record)
         except PermissionError as exc:
             checks.append(ProofCheck(
                 f"stat:{specification.statistic_id}",
-                "independently_verified",
+                "statistics_independently_verified",
                 "inaccessible",
                 specification.statistic_id,
                 str(exc),
             ))
             continue
         except Exception as exc:
-            checks.append(ProofCheck(f"stat:{specification.statistic_id}", "independently_verified", "fail", specification.statistic_id, str(exc)))
+            checks.append(ProofCheck(f"stat:{specification.statistic_id}", "statistics_independently_verified", "fail", specification.statistic_id, str(exc)))
             continue
         expected = _flatten(specification.expected)
         calculated = _flatten(actual)
         if not expected:
-            checks.append(ProofCheck(f"stat:{specification.statistic_id}", "reproduced", "unavailable", specification.statistic_id, "Specification has no expected result to compare."))
+            checks.append(ProofCheck(f"stat:{specification.statistic_id}", "statistics_reproduced", "unavailable", specification.statistic_id, "Specification has no expected result to compare."))
             continue
         mismatches = []
         for name, expected_value in expected.items():
@@ -163,7 +163,11 @@ def verify_record_statistics(record: FigureRecord) -> list[ProofCheck]:
             if not _matches(expected_value, calculated[name], tolerance if isinstance(tolerance, Mapping) else {}):
                 mismatches.append(f"{name}: expected {expected_value!r}, got {calculated[name]!r}")
         producer = str(specification.parameters.get("producer_implementation", ""))
-        meaning = "reproduced" if producer == VERIFIER_IMPLEMENTATION else "independently_verified"
+        meaning = (
+            "statistics_reproduced"
+            if producer == VERIFIER_IMPLEMENTATION
+            else "statistics_independently_verified"
+        )
         status = "fail" if mismatches else "pass"
         checks.append(ProofCheck(
             f"stat:{specification.statistic_id}", meaning, status, specification.statistic_id,

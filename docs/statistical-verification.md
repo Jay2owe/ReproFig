@@ -60,10 +60,12 @@ authorized decryption key is supplied.
 
 ## Meanings
 
-`independently_verified` means the reference implementation matched all
-declared expected fields within visible tolerances. `reproduced` is used when
-the producer declares the same ReproFig reference implementation, so numerical
-agreement is not presented as an independent route. A missing typed
+`statistics_independently_verified` means the reference implementation matched
+all declared expected fields within visible tolerances.
+`statistics_reproduced` is used when the producer declares the same ReproFig
+reference implementation, so numerical agreement is not presented as an
+independent route. These meanings concern numbers, not whether a second figure
+was saved; that separate operation is `figure_reproduced`. A missing typed
 specification is `unavailable`; an unknown algorithm is `unsupported`.
 
 Rank results expose tie groups, zero handling and rank sums. Analysis of

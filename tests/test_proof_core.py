@@ -17,6 +17,11 @@ from reprofig.crypto.keys import generate_signing_key
 from reprofig.crypto.signatures import sign_record, verify_record_signatures
 from reprofig.evidence import graph_from_record
 from reprofig.stats.engine import verify_record_statistics
+from reprofig.verification import (
+    ProofCheck,
+    ProofVerificationReport,
+    VERIFICATION_MEANINGS,
+)
 
 
 def test_evidence_root_detects_current_record_tampering():
@@ -32,6 +37,25 @@ def test_evidence_root_detects_current_record_tampering():
         assert "current record evidence" in str(exc) or "disagrees with current record" in str(exc)
     else:
         raise AssertionError("tampered current record was accepted")
+
+
+def test_evidence_graph_deduplicates_identical_content_addressed_tables():
+    record = build_record(
+        data_tables={
+            "plotted_data": [{"group": "A", "value": 1}],
+            "analysis_data": [{"group": "A", "value": 1}],
+        }
+    )
+    assert len(record.data_tables) == 2
+    assert record.data_tables[0].sha256 == record.data_tables[1].sha256
+
+    proof = attach_evidence_graph(record)
+    table_sections = [
+        section
+        for section in graph_from_record(proof).sections
+        if section.kind == "table"
+    ]
+    assert len(table_sections) == 1
 
 
 def test_independent_welch_t_specification():
@@ -52,7 +76,26 @@ def test_independent_welch_t_specification():
     record = attach_evidence_graph(record)
     checks = verify_record_statistics(record)
     assert checks[0].status == "pass"
-    assert checks[0].meaning == "independently_verified"
+    assert checks[0].meaning == "statistics_independently_verified"
+
+
+def test_legacy_statistical_meanings_normalize_to_canonical_names():
+    reproduced = ProofCheck("legacy-reproduced", "reproduced", "pass")
+    independent = ProofCheck("legacy-independent", "independently_verified", "pass")
+    report = ProofVerificationReport(
+        checks=[reproduced, independent],
+        required=["reproduced", "independently_verified"],
+    )
+
+    assert reproduced.meaning == "statistics_reproduced"
+    assert independent.meaning == "statistics_independently_verified"
+    assert report.valid
+    assert report.required == [
+        "statistics_reproduced",
+        "statistics_independently_verified",
+    ]
+    assert set(report.meanings) == set(VERIFICATION_MEANINGS)
+    assert "reproduced" not in report.meanings
 
 
 def test_signature_and_selective_encryption(tmp_path):

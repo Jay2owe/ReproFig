@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "fingerprint": "sha256:814aa400519cfa215f0ebc5588dbf2b9b7fba2c815b6dd61c2c472d1cd761730",
+      "label": "ReproFig synthetic-example signer",
+      "metadata": {
+        "purpose": "local demonstration only"
+      },
+      "scopes": [
+        "figure"
+      ]
+    }
+  ],
+  "policy": {
+    "minimum_trusted_signatures": 1,
+    "required_fingerprints": [
+      "sha256:814aa400519cfa215f0ebc5588dbf2b9b7fba2c815b6dd61c2c472d1cd761730"
+    ],
+    "required_scopes": [
+      "figure"
+    ]
+  },
+  "schema": "reprofig-trust-store/1"
+}

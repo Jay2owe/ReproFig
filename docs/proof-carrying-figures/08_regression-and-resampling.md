@@ -28,9 +28,9 @@ Regression, bootstrap intervals and permutation tests appear frequently in figur
 - Prefer embedded resample/permutation index plans for cross-runtime independence.
 - When only a random seed is stored, record the exact random-number generator and version and downgrade portability honestly.
 - Enforce limits on rows, columns, iterations and embedded index-plan size.
-- Define unsupported/reproduced-only reporting for mixed models, generalized models and optimizer-dependent fits not implemented by the reference engine.
+- Define unsupported/statistics-reproduced-only reporting for mixed models, generalized models and optimizer-dependent fits not implemented by the reference engine.
 - Preserve complete intermediate outputs needed to locate disagreement.
-- Attach supported, reproduced-only or unsupported outcomes to existing publication test identifiers without changing workbook creation requirements.
+- Attach supported, statistics-reproduced-only or unsupported outcomes to existing publication test identifiers without changing workbook creation requirements.
 
 ## Out of scope
 
@@ -46,7 +46,7 @@ Regression, bootstrap intervals and permutation tests appear frequently in figur
 | `src/reprofig/stats/resampling.py` | NEW | Deterministic bootstrap and permutation plans. |
 | `src/reprofig/stats/registry.py` | MODIFY | Register bounded regression and resampling specifications. |
 | `src/reprofig/stats/engine.py` | MODIFY | Dispatch and independence-grade logic. |
-| `src/reprofig/verification.py` | MODIFY | Report supported, reproduced-only and unsupported analyses. |
+| `src/reprofig/verification.py` | MODIFY | Report supported, statistics-reproduced-only and unsupported analyses. |
 | `tests/test_statistics_models.py` | NEW | Cover design matrices, contrasts, resample plans and limits. |
 | `docs/statistical-verification.md` | MODIFY | Publish supported boundaries and required evidence. |
 
@@ -99,7 +99,7 @@ Do not wildcard-match an unknown version into a supported calculation; the notat
 3. Bootstrap and permutation results reproduce exactly when an index plan is embedded.
 4. Seed-only reproduction records its generator dependency and never overstates portability.
 5. Size and iteration limits fail before excessive allocation or execution.
-6. A mixed-model record remains extractable and can be labelled reproduced, but cannot receive independent verification from this engine.
+6. A mixed-model record remains extractable and can be labelled statistics-reproduced, but cannot receive independent verification from this engine.
 7. `pytest tests/test_statistics_models.py tests/test_statistics_common.py -q` passes.
 
 ## Known risks

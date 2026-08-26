@@ -55,7 +55,7 @@ def test_every_registered_statistical_family_recalculates(
     record = attach_evidence_graph(record)
     checks = verify_record_statistics(record)
     assert checks[0].status == "pass", [check.to_dict() for check in checks]
-    assert checks[0].meaning == "independently_verified"
+    assert checks[0].meaning == "statistics_independently_verified"
 
 
 def test_registry_lists_all_implemented_algorithms_and_answer_changing_choices():

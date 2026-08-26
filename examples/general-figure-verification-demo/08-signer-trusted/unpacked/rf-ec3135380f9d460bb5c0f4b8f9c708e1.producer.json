@@ -1,0 +1,5 @@
+{
+  "function": "code/plot.py",
+  "package": "matplotlib",
+  "package_version": "3.9.2"
+}

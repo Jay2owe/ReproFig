@@ -131,8 +131,17 @@ def default_evidence_sections(record: FigureRecord) -> list[EvidenceSection]:
     sections: list[EvidenceSection] = []
     table_ids: list[str] = []
     for index, table in enumerate(record.data_tables):
+        table_id = f"table:{table.sha256}"
+        # Evidence table identities are content-addressed. Two named record
+        # tables can legitimately contain the same canonical CSV (for example,
+        # a producer's plotted-data attachment and its captured analysis
+        # table). One content digest is one evidence node; retaining both would
+        # create two nodes with the same identity and make an otherwise valid
+        # proof graph impossible to construct.
+        if table_id in table_ids:
+            continue
         section = EvidenceSection(
-            section_id=f"table:{table.sha256}",
+            section_id=table_id,
             kind="table",
             payload={"index": index, "table": table.to_dict()},
         )

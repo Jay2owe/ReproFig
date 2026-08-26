@@ -43,7 +43,7 @@ For this stage, use the local **PyFLASH repository root** and the local **shared
 
 - Do not change statistical methods, plot aesthetics or existing result values.
 - Do not independently implement PyFLASH statistics inside PyFLASH; use ReproFig’s reference registry.
-- Unsupported PyFLASH models remain reproduced or internally consistent, not independently verified.
+- Unsupported PyFLASH models remain statistics-reproduced or internally consistent, not independently verified.
 - PyMicroglia and general plotting skill changes belong to Stages 22 and 23.
 
 ## Files touched
@@ -81,7 +81,7 @@ Runner request extension:
   "figure_output": {
     "formats": ["svg", "pdf", "png"],
     "profile": "master",
-    "required_grades": ["internally_consistent", "independently_verified", "display_verified"],
+    "required_grades": ["internally_consistent", "statistics_independently_verified", "display_verified"],
     "signing_key_path": "approved-key-reference",
     "trust_policy_path": "approved-trust-policy.json",
     "encrypt_sections": ["source_data", "participant_table"],

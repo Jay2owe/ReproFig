@@ -1,0 +1,40 @@
+{
+  "checks": [
+    {
+      "actual": "c1124c0a67361a899b6a28f68cfca1108d63e3021d6419a9f06bfd808afdc8d5",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-4dea10a129cf41bd887018460818a1a5"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "not_requested",
+    "figure_reproduced": "not_requested",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "not_requested",
+    "statistics_independently_verified": "not_requested",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [],
+  "valid": true
+}

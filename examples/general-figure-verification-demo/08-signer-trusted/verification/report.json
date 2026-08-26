@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "actual": "5b219bf0647a9548bc037d9d3898805d572bfacc955cca7e9fb962b2c542757c",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-ec3135380f9d460bb5c0f4b8f9c708e1"
+    },
+    {
+      "check_id": "signature:sha256:814aa400519cfa215f0ebc5588dbf2b9b7fba2c815b6dd61c2c472d1cd761730",
+      "meaning": "signature_valid",
+      "message": "Ed25519 signature is mathematically valid.",
+      "status": "pass",
+      "subject_id": "sha256:814aa400519cfa215f0ebc5588dbf2b9b7fba2c815b6dd61c2c472d1cd761730"
+    },
+    {
+      "check_id": "trust:policy",
+      "meaning": "signer_trusted",
+      "message": "Trust policy signer requirements are satisfied.",
+      "status": "pass",
+      "subject_id": "rf-ec3135380f9d460bb5c0f4b8f9c708e1"
+    },
+    {
+      "check_id": "trust:sha256:814aa400519cfa215f0ebc5588dbf2b9b7fba2c815b6dd61c2c472d1cd761730",
+      "meaning": "signer_trusted",
+      "message": "Signer is trusted as 'ReproFig synthetic-example signer' for scopes ['figure'].",
+      "status": "pass",
+      "subject_id": "sha256:814aa400519cfa215f0ebc5588dbf2b9b7fba2c815b6dd61c2c472d1cd761730"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "not_requested",
+    "figure_reproduced": "not_requested",
+    "internally_consistent": "pass",
+    "signature_valid": "pass",
+    "signer_trusted": "pass",
+    "source_linked": "not_requested",
+    "statistics_independently_verified": "not_requested",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [
+    "internally_consistent",
+    "signature_valid",
+    "signer_trusted"
+  ],
+  "valid": true
+}

@@ -443,6 +443,12 @@ from .verification import (  # noqa: E402
     ProofVerificationReport,
     verify_artifact as verify_proof,
 )
+from .reproduction import (  # noqa: E402
+    FigureReproductionReport,
+    ReproductionPolicy,
+    reproduce_figure,
+    verify_figure_reproduction,
+)
 from .render import bind_artist, capture_matplotlib  # noqa: E402
 from .render.reference import refresh_visual_reference  # noqa: E402
 from .crypto.encryption import decrypt_record, decrypt_sections, encrypt_sections  # noqa: E402

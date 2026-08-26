@@ -1,0 +1,28 @@
+{
+  "candidate": "code/plot.py",
+  "grammar": "dot/interval plot",
+  "language": "python",
+  "required_columns": ["observation_id", "group", "response"],
+  "parameters": [],
+  "evidence_bundles": [
+    "00-traceable-carrier",
+    "03-independently-verified"
+  ],
+  "test": "code/recipe_compatibility.py",
+  "proof": {
+    "required_meanings": [],
+    "independent_statistics_required": false,
+    "signing_key_path": null,
+    "signing_password_env": null,
+    "trust_policy_path": null,
+    "encrypt_sections": [],
+    "encryption_password_env": null,
+    "recipient_file": null,
+    "broker_policy_path": null
+  },
+  "publication_workbook": {
+    "enabled": false,
+    "profile": "master",
+    "output": "publication-data.xlsx"
+  }
+}

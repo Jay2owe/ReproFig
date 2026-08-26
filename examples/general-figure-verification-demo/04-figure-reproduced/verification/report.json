@@ -1,0 +1,59 @@
+{
+  "checks": [
+    {
+      "actual": "5b5a7cb327d58f3b1b543e667def64a329875994f40bcca293f000239f1b1cdf",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-3f4fa033d0f14e0abdd1d38ff971e681"
+    },
+    {
+      "actual": {
+        "comparisons": {
+          "data_tables": "pass",
+          "display": "pass",
+          "statistics": "pass"
+        },
+        "reproduced_sha256": "0a731f56899960642343e6fc54cf700aa1549a675b37447a9e9ef09f92ce540c"
+      },
+      "check_id": "figure-reproduction",
+      "expected": "5b5a7cb327d58f3b1b543e667def64a329875994f40bcca293f000239f1b1cdf",
+      "meaning": "figure_reproduced",
+      "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
+      "status": "pass",
+      "subject_id": "rf-3f4fa033d0f14e0abdd1d38ff971e681"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "not_requested",
+    "figure_reproduced": "pass",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "not_requested",
+    "statistics_independently_verified": "not_requested",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [
+    "figure_reproduced",
+    "internally_consistent"
+  ],
+  "valid": true
+}

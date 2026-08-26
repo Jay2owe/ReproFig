@@ -57,8 +57,9 @@ ReproFig must report separate achievements rather than one ambiguous “verified
 
 - **display verified** — the visible label and graphical object match the embedded result;
 - **internally consistent** — carrier, tables, statistics and render manifest agree;
-- **reproduced** — the recorded producer code reruns and matches;
-- **independently verified** — a separate reference implementation obtains the same result;
+- **statistics reproduced** — the declared statistical implementation obtains the recorded result;
+- **statistics independently verified** — a separate reference implementation obtains the same result;
+- **figure reproduced** — an explicitly trusted producer rerun saves a separate matching carrier;
 - **source-linked** — the evidence matches identified source content;
 - **signature valid** — the signed bytes have not changed;
 - **signer trusted** — the signing key is independently trusted under the active policy;
@@ -104,7 +105,7 @@ Stages 05 and 09 may begin in parallel after the core report model exists. Stage
 - Keep carrier handling format-neutral: scientific meaning belongs in the evidence schema, not in Portable Document Format-, image- or Office-specific records.
 - Keep the base install and beginner path unchanged. Statistical, visual and cryptographic implementations belong behind separate optional extras and capability discovery; no ordinary save or extraction call gains a new required argument.
 - Never execute embedded producer scripts during inspection, extraction or ordinary validation.
-- Independent verification must use declarative specifications and a separate reference implementation; rerunning the producer alone is labelled `reproduced`.
+- Independent verification must use declarative specifications and a separate reference implementation; the same statistical route is `statistics_reproduced`, while a saved producer rerun is `figure_reproduced`.
 - Every statistical algorithm is versioned and records missing-data, pairing, tail, tie, correction, convergence, tolerance and randomization choices that affect its answer.
 - Every displayed statistical annotation links to one result identity; optical character recognition alone is never accepted as strong display verification.
 - Verification fails closed when required evidence is unavailable, unsupported or encrypted without a key. It reports `inaccessible` or `unsupported`, never an inferred pass.

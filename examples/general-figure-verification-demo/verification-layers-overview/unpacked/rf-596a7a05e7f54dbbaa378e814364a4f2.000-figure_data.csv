@@ -1,0 +1,11 @@
+layer,label,check,limit
+0,Traceable carrier,"Exact data, statistics, source hash and producer can be recovered","No formal verification claim"
+1,Internally consistent,"Carrier, record, evidence sections and root hash agree","Not source truth or analytical suitability"
+2,Statistics reproduced,"Numbers match the recorded statistical calculation route","Not an independent implementation"
+3,Statistics independently verified,"A separate reference calculation matches declared outputs","Not proof that the chosen test was appropriate"
+4,Figure reproduced,"A trusted producer rerun saves a separate matching figure","Requires explicit permission to execute producer code"
+5,Display verified,"Bound marks and annotations match their evidence","Unbound decoration is outside the check"
+6,Source linked,"Declared transformations reconstruct the plotted table","Not proof that observations were honestly collected"
+7,Signature valid,"The signature matches the evidence root and visible binding","Not proof that the signer is trusted"
+8,Signer trusted,"The valid signer satisfies an explicit local trust policy","Not a universal identity claim"
+9,Attested,"A trusted signer approves a deterministic verification report","Not proof that the report was independently rerun now"

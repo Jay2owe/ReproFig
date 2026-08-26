@@ -1,0 +1,10 @@
+meaning,status
+attested,not_requested
+display_verified,not_requested
+figure_reproduced,not_requested
+internally_consistent,pass
+signature_valid,not_requested
+signer_trusted,not_requested
+source_linked,not_requested
+statistics_independently_verified,not_requested
+statistics_reproduced,pass

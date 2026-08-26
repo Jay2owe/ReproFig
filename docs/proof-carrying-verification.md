@@ -12,8 +12,9 @@ unchanged until `proof=True` or a proof policy is supplied.
 |---|---|---|
 | `internally_consistent` | Carrier, record, sections and evidence root agree. | Source truth or scientific suitability. |
 | `source_linked` | Declared closed transformations reconstruct the exact target CSV. | That the supplied source was honestly collected. |
-| `reproduced` | Expected numbers match the declared producer-equivalent route. | Independent implementation. |
-| `independently_verified` | A supported reference algorithm matches declared outputs and display text. | Correct choice of test. |
+| `statistics_reproduced` | Expected numbers match the declared producer-equivalent route. | Independent implementation or a second figure. |
+| `statistics_independently_verified` | A supported reference algorithm matches declared outputs and display text. | Correct choice of test. |
+| `figure_reproduced` | An explicitly trusted producer rerun saved a separate figure whose data, statistics, and display match. | Source truth or producer safety. |
 | `display_verified` | Bound scientific marks/annotations match the carrier reference. | Meaning of unbound decoration. |
 | `signature_valid` | An Ed25519 signature is mathematically valid for this evidence and visual binding. | Trust in its key owner. |
 | `signer_trusted` | A valid signer satisfies the supplied offline trust policy. | Universal or external identity. |
@@ -26,7 +27,7 @@ explicitly required meaning is `pass`.
 ```console
 reprofig verify Figure.svg \
   --require internally_consistent \
-  --require independently_verified \
+  --require statistics_independently_verified \
   --require display_verified
 ```
 
@@ -35,7 +36,7 @@ Protected evidence can be verified without creating a plaintext artifact:
 ```console
 reprofig verify Figure.protected.svg \
   --password-env REPROFIG_DATA_PASSWORD \
-  --require independently_verified
+  --require statistics_independently_verified
 ```
 
 For a transformation whose source CSV is external, add `--source-table
@@ -74,7 +75,7 @@ report = verify_proof(
     required=[
         "internally_consistent",
         "source_linked",
-        "independently_verified",
+        "statistics_independently_verified",
         "display_verified",
     ],
     source_tables={"source:raw": source_table},

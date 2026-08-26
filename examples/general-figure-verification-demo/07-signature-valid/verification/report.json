@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "actual": "2311342c36e2b3cfd4a0c2d9858b500f4137f299fc476f16824147d9a5211e84",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-59cfd0336ad8475eac27a67d3929cc54"
+    },
+    {
+      "check_id": "signature:sha256:71f151c670533b1592fd9a5e102c0e58fc0683d8f11f3ab8f5b46af50fe060f1",
+      "meaning": "signature_valid",
+      "message": "Ed25519 signature is mathematically valid.",
+      "status": "pass",
+      "subject_id": "sha256:71f151c670533b1592fd9a5e102c0e58fc0683d8f11f3ab8f5b46af50fe060f1"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/raw-user-input-comparison.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "not_requested",
+    "figure_reproduced": "not_requested",
+    "internally_consistent": "pass",
+    "signature_valid": "pass",
+    "signer_trusted": "not_requested",
+    "source_linked": "not_requested",
+    "statistics_independently_verified": "not_requested",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/raw-user-input-comparison.svg",
+  "required": [
+    "internally_consistent",
+    "signature_valid"
+  ],
+  "valid": true
+}
