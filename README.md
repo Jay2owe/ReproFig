@@ -31,15 +31,18 @@ from reprofig import save_figure
 save_figure(
     figure,
     "Figure 1.pdf",
-    plotted_data=dataframe,
+    data=dataframe,
+    sources="analysis/source.csv",
     statistics=records,
-    producer={"package": "my-analysis", "version": "1.4.0"},
-    figure_profile="master",
+    reproduction=True,
 )
 ```
 
-This ordinary workflow is unchanged and does not activate proof checks,
-cryptography, interception, or extra dependencies.
+ReproFig infers the plotting package and version, captures the calling script,
+serializes the metadata, and computes all source, script, and table hashes. The
+user does not import JSON or write checksum code. Omit `sources`, `statistics`,
+or `reproduction` when they do not apply. This ordinary workflow does not
+activate proof checks, cryptography, interception, or extra dependencies.
 
 A `master` embeds the exact CSV bytes used for the plot. This is the auditable
 source of truth and may contain private data or local paths, so do not upload it
@@ -204,8 +207,9 @@ contains three standalone workflows rather than variations of one plot:
 - Plotly box plots with raw observations and a one-way analysis of variance.
 
 Each example has one master figure, one statistical result, a separately saved
-reproduction, unpacked evidence, and a browser-ready page rendering the clean
-figure and its exact syntax-highlighted producer code.
+reproduction, unpacked evidence, and a browser-ready page placing the clean
+figure beside a PNG of its exact syntax-highlighted producer code. The code
+image also has an editable SVG and its own registered `plot-that` bundle.
 
 Signatures answer “has this evidence changed since this key signed it?” Trust
 stores separately answer “do I accept that key for this purpose?” Individual

@@ -12,14 +12,11 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-
-from pygments import highlight
-from pygments.formatters import HtmlFormatter, SvgFormatter
-from pygments.lexers import PythonLexer
 
 from reprofig import (
     TransformationSpec,
@@ -28,6 +25,7 @@ from reprofig import (
     extract_artifact,
     extract_record,
     reproduce_figure,
+    statistics_csv_bytes,
     table_from_data,
     verify_proof,
 )
@@ -57,6 +55,7 @@ class Example:
     producer_name: str
     figure_name: str
     figure_id: str
+    code_figure_id: str
     columns: tuple[str, ...]
 
     @property
@@ -76,6 +75,7 @@ EXAMPLES = (
         producer_name="matplotlib_paired.py",
         figure_name="paired-change.svg",
         figure_id="rf-8e6d99733d1044799d5d6f925b427db1",
+        code_figure_id="rf-e68703100be94378affc542e7c7eb32b",
         columns=("participant", "before", "after"),
     ),
     Example(
@@ -89,6 +89,7 @@ EXAMPLES = (
         producer_name="seaborn_regression.py",
         figure_name="exposure-response.svg",
         figure_id="rf-d13001a42c854d189991e887131b67a4",
+        code_figure_id="rf-c841205641e6497ea9f3a16c23e72961",
         columns=("sample", "exposure", "response"),
     ),
     Example(
@@ -102,6 +103,7 @@ EXAMPLES = (
         producer_name="plotly_multigroup.py",
         figure_name="condition-response.png",
         figure_id="rf-594c5332dd8b44f28c8afe3eb1d5fb9f",
+        code_figure_id="rf-16450315b13940c6be000aaf0c94b9d0",
         columns=("sample", "condition", "response"),
     ),
 )
@@ -117,7 +119,9 @@ def _sha256(path: Path) -> str:
 
 def _write_json(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
 
 
 def _remove_generated(path: Path) -> None:
@@ -143,7 +147,15 @@ def _write_sources(
     with source_index.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle,
-            fieldnames=["original_path", "copied_path", "file_name", "modification_time", "byte_size", "sha256", "public_uri"],
+            fieldnames=[
+                "original_path",
+                "copied_path",
+                "file_name",
+                "modification_time",
+                "byte_size",
+                "sha256",
+                "public_uri",
+            ],
             lineterminator="\n",
         )
         writer.writeheader()
@@ -152,7 +164,9 @@ def _write_sources(
                 "original_path": f"input/{original.name}",
                 "copied_path": f"data/src/{copied.name}",
                 "file_name": copied.name,
-                "modification_time": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(timespec="seconds"),
+                "modification_time": datetime.fromtimestamp(
+                    stat.st_mtime, tz=timezone.utc
+                ).isoformat(timespec="seconds"),
                 "byte_size": stat.st_size,
                 "sha256": _sha256(copied),
                 "public_uri": "",
@@ -182,33 +196,166 @@ def _readme(example: Example) -> str:
     )
 
 
-def _render_code(source: Path, presentation: Path, *, export_stem: str) -> None:
-    code = source.read_text(encoding="utf-8")
-    presentation.mkdir(parents=True, exist_ok=True)
-    rendered = highlight(
-        code,
-        PythonLexer(),
-        HtmlFormatter(full=True, linenos="table", style="friendly", title="Exact producer code"),
+def _plot_that_scripts() -> Path:
+    configured = os.environ.get("PLOT_THAT_SCRIPTS")
+    if configured:
+        return Path(configured)
+    return Path.home() / ".claude" / "skills" / "plot-that" / "scripts"
+
+
+def _code_figure_claim(example: Example) -> str:
+    return (
+        f"This is the complete {example.library} producer used to create the "
+        f"neighboring {example.title.lower()} example plot."
     )
-    (presentation / f"{export_stem}-code.html").write_text(
-        rendered,
+
+
+def _code_figure_producer(example: Example) -> str:
+    return textwrap.dedent(f'''\
+        """Render the example's exact plotting script as a traceable code figure."""
+
+        from __future__ import annotations
+
+        import csv
+        import sys
+        from pathlib import Path
+
+        from reprofig import build_record, embed_file
+
+        BUNDLE = Path(__file__).resolve().parent.parent
+        sys.path.insert(0, str(BUNDLE / "data" / "src"))
+        from code_figure import Panel, line_table, save  # noqa: E402
+
+        SOURCE = BUNDLE / "data" / "src" / "example-plot.py"
+        PANELS = [
+            Panel(
+                label={f"EXACT {example.library.upper()} PRODUCER"!r},
+                code=SOURCE.read_text(encoding="utf-8"),
+                accent="blue",
+            )
+        ]
+
+
+        def main() -> None:
+            result = save(
+                PANELS,
+                BUNDLE / "fig" / {f"{example.export_stem}-code.svg"!r},
+                png=str(BUNDLE / "fig" / {f"{example.export_stem}-code.png"!r}),
+                png_scale=2.0,
+            )
+            rows = line_table(PANELS)
+            table = BUNDLE / "data" / "der" / "figure_data.csv"
+            with table.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+                writer.writeheader()
+                writer.writerows(rows)
+            record = build_record(
+                title={f"{example.title} producer code"!r},
+                original_stem={f"{example.export_stem}-code"!r},
+                producer={{"package": "plot-that", "grammar": "code-panel"}},
+                plotted_data=table.read_bytes(),
+                data_status="incomplete",
+                statistics_status="complete",
+                reproduction={{
+                    "script": Path(__file__).read_text(encoding="utf-8"),
+                    "command": "python code/plot.py",
+                }},
+            )
+            record.figure_id = {example.code_figure_id!r}
+            for target in (
+                BUNDLE / "fig" / {f"{example.export_stem}-code.svg"!r},
+                BUNDLE / "fig" / {f"{example.export_stem}-code.png"!r},
+            ):
+                embed_file(target, record, output_path=target)
+            print(
+                f"{{result['width']:g}} x {{result['height']:g}}, "
+                f"{{result['lines']}} source lines; {{result['rasteriser']}}"
+            )
+
+
+        if __name__ == "__main__":
+            main()
+        ''')
+
+
+def _prepare_code_figure(bundle: Path, example: Example) -> Path:
+    code_bundle = bundle / "code-figure"
+    for relative in ("code", "data/der", "data/src", "fig"):
+        (code_bundle / relative).mkdir(parents=True, exist_ok=True)
+
+    source = bundle / "code" / "plot.py"
+    copied_source = code_bundle / "data" / "src" / "example-plot.py"
+    helper = _plot_that_scripts() / "code_figure.py"
+    copied_helper = code_bundle / "data" / "src" / "code_figure.py"
+    if not helper.is_file():
+        raise FileNotFoundError(helper)
+    shutil.copy2(source, copied_source)
+    shutil.copy2(helper, copied_helper)
+    (code_bundle / "code" / "plot.py").write_text(
+        _code_figure_producer(example),
         encoding="utf-8",
     )
-    vector = highlight(
-        code,
-        PythonLexer(),
-        SvgFormatter(font_size=12, linenos=True, style="friendly"),
-    )
-    (presentation / f"{export_stem}-code.svg").write_text(
-        vector,
+
+    source_rows = []
+    for copied, original_path in (
+        (copied_source, "../code/plot.py"),
+        (copied_helper, "plot-that/scripts/code_figure.py"),
+    ):
+        stat = copied.stat()
+        source_rows.append(
+            {
+                "original_path": original_path,
+                "copied_path": f"data/src/{copied.name}",
+                "file_name": copied.name,
+                "modification_time": datetime.fromtimestamp(
+                    stat.st_mtime, tz=timezone.utc
+                ).isoformat(timespec="seconds"),
+                "byte_size": stat.st_size,
+                "sha256": _sha256(copied),
+                "public_uri": "",
+            }
+        )
+    with (code_bundle / "data" / "sources.csv").open(
+        "w", newline="", encoding="utf-8"
+    ) as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=list(source_rows[0]),
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(source_rows)
+    (code_bundle / "data" / "sources.md").write_text(
+        "# Source index\n\n"
+        "`data/src/example-plot.py` is the complete script shown in the figure. "
+        "`data/src/code_figure.py` is the copied renderer needed to reproduce it. "
+        "Their SHA-256 digests are recorded in `sources.csv`.\n",
         encoding="utf-8",
     )
+    (code_bundle / "README.md").write_text(
+        f"# {example.title} producer code\n\n"
+        f"Claim: {_code_figure_claim(example)}\n\n"
+        "The editable SVG and 2x PNG are two carriers of one ReproFig figure "
+        "identity. The plotted data are a per-line table of the exact source "
+        "text, token classes, and rendered coordinates. No inferential "
+        "statistics apply to this code figure.\n",
+        encoding="utf-8",
+    )
+    return code_bundle
 
 
 def _prepare(example: Example) -> Path:
     bundle = ROOT / example.folder
     _remove_generated(bundle)
-    for relative in ("code", "data/der", "data/src", "fig", "presentation", "unpacked", "verification/reproduced"):
+    for relative in (
+        "code",
+        "data/der",
+        "data/src",
+        "fig",
+        "presentation",
+        "unpacked",
+        "verification/reproduced",
+    ):
         (bundle / relative).mkdir(parents=True, exist_ok=True)
     original = INPUT / example.input_name
     copied = bundle / "data" / "src" / example.input_name
@@ -227,17 +374,15 @@ def _prepare(example: Example) -> Path:
             ]
         },
     )
-    _render_code(
-        producer,
-        bundle / "presentation",
-        export_stem=example.export_stem,
-    )
+    _prepare_code_figure(bundle, example)
     return bundle
 
 
 def _run_producer(bundle: Path) -> None:
     environment = os.environ.copy()
-    environment.update({"MPLBACKEND": "Agg", "PYTHONDONTWRITEBYTECODE": "1", "PYTHONHASHSEED": "0"})
+    environment.update(
+        {"MPLBACKEND": "Agg", "PYTHONDONTWRITEBYTECODE": "1", "PYTHONHASHSEED": "0"}
+    )
     for attempt in range(12):
         result = subprocess.run(
             [sys.executable, "code/plot.py"],
@@ -255,6 +400,21 @@ def _run_producer(bundle: Path) -> None:
     raise AssertionError("producer retry loop exhausted")
 
 
+def _materialize_embedded_tables(bundle: Path, example: Example) -> None:
+    """Keep presentation CSVs outside the user-facing producer code."""
+
+    record = extract_record(bundle / "fig" / example.figure_name)
+    table = record.data_tables[0]
+    (bundle / "data" / "der" / "figure_data.csv").write_text(
+        table.contents or "",
+        encoding="utf-8",
+        newline="",
+    )
+    (bundle / "data" / "der" / "statistics.csv").write_bytes(
+        statistics_csv_bytes(record.statistics)
+    )
+
+
 def _source_table(bundle: Path, example: Example):
     return table_from_data(
         (bundle / "data" / "src" / example.input_name).read_bytes(),
@@ -267,7 +427,7 @@ def _attach_source_link(bundle: Path, example: Example) -> None:
     master = bundle / "fig" / example.figure_name
     record = extract_record(master)
     record.figure_id = example.figure_id
-    target = next(table for table in record.data_tables if table.name == "figure_data")
+    target = record.data_tables[0]
     transformation = TransformationSpec(
         operation="select",
         input_table_ids=[SOURCE_ID],
@@ -307,10 +467,7 @@ def _register_script() -> Path:
     explicit = os.environ.get("PLOT_THAT_REGISTER")
     if explicit:
         return Path(explicit)
-    scripts = os.environ.get("PLOT_THAT_SCRIPTS")
-    if scripts:
-        return Path(scripts) / "register.py"
-    return Path.home() / ".claude" / "skills" / "plot-that" / "scripts" / "register.py"
+    return _plot_that_scripts() / "register.py"
 
 
 def _register(bundle: Path, example: Example) -> None:
@@ -339,10 +496,58 @@ def _register(bundle: Path, example: Example) -> None:
         if result.returncode == 0:
             print(output, end="")
             return
-        if not any(marker in output for marker in ("PermissionError", "Access is denied")) or attempt == 11:
+        if (
+            not any(
+                marker in output for marker in ("PermissionError", "Access is denied")
+            )
+            or attempt == 11
+        ):
             raise RuntimeError(f"{bundle.name} registration failed:\n{output}")
         time.sleep(0.75)
     raise AssertionError("registration retry loop exhausted")
+
+
+def _register_code_figure(bundle: Path, example: Example) -> None:
+    code_bundle = bundle / "code-figure"
+    command = [
+        sys.executable,
+        str(_register_script()),
+        "add",
+        str(code_bundle),
+        "--claim",
+        _code_figure_claim(example),
+        "--grammar",
+        "code-panel",
+        "--producer",
+        "code/plot.py",
+        "--statistics-status",
+        "not_applicable",
+        "--figure",
+        f"fig/{example.export_stem}-code.svg",
+    ]
+    for attempt in range(12):
+        result = subprocess.run(command, text=True, capture_output=True)
+        output = f"{result.stdout}{result.stderr}"
+        if result.returncode == 0:
+            print(output, end="")
+            return
+        if (
+            not any(
+                marker in output for marker in ("PermissionError", "Access is denied")
+            )
+            or attempt == 11
+        ):
+            raise RuntimeError(f"{code_bundle.name} registration failed:\n{output}")
+        time.sleep(0.75)
+    raise AssertionError("code-figure registration retry loop exhausted")
+
+
+def _copy_code_figures(bundle: Path, example: Example) -> None:
+    presentation = bundle / "presentation"
+    presentation.mkdir(parents=True, exist_ok=True)
+    for suffix in ("svg", "png"):
+        name = f"{example.export_stem}-code.{suffix}"
+        shutil.copy2(bundle / "code-figure" / "fig" / name, presentation / name)
 
 
 def _portable(report, example: Example):
@@ -364,15 +569,11 @@ def _verify(bundle: Path, example: Example):
     if not report.valid:
         raise RuntimeError(report.to_json(indent=2))
     _write_json(
-        bundle
-        / "verification"
-        / f"{example.export_stem}-verification-report.json",
+        bundle / "verification" / f"{example.export_stem}-verification-report.json",
         report.to_dict(),
     )
     with (
-        bundle
-        / "verification"
-        / f"{example.export_stem}-verification-summary.csv"
+        bundle / "verification" / f"{example.export_stem}-verification-summary.csv"
     ).open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["meaning", "status"])
@@ -383,7 +584,9 @@ def _verify(bundle: Path, example: Example):
 def _unpack(bundle: Path, example: Example) -> None:
     destination = bundle / "unpacked"
     with tempfile.TemporaryDirectory(prefix="reprofig-diverse-example-") as temporary:
-        outputs = extract_artifact(bundle / "fig" / example.figure_name, temporary, overwrite=True)
+        outputs = extract_artifact(
+            bundle / "fig" / example.figure_name, temporary, overwrite=True
+        )
         for source in outputs:
             for attempt in range(12):
                 try:
@@ -397,7 +600,10 @@ def _unpack(bundle: Path, example: Example) -> None:
 
 def _presentation(bundle: Path, example: Example, report) -> None:
     presentation = bundle / "presentation"
-    passed = "".join(f"<li><strong>{html.escape(meaning.replace('_', ' '))}</strong>: pass</li>" for meaning in REQUIRED)
+    passed = "".join(
+        f"<li><strong>{html.escape(meaning.replace('_', ' '))}</strong>: pass</li>"
+        for meaning in REQUIRED
+    )
     page = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -405,16 +611,15 @@ def _presentation(bundle: Path, example: Example, report) -> None:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(example.title)} verification example</title>
 <style>
-body{{font-family:Arial,Helvetica,sans-serif;color:#303030;margin:0;background:#f4f6f8}}main{{max-width:1180px;margin:0 auto;padding:34px}}h1{{font-size:30px;margin:0 0 6px}}.lede{{font-size:18px;margin:0 0 26px;color:#555}}.card{{background:white;border:1px solid #dfe4ea;border-radius:12px;padding:24px;margin-bottom:22px}}.figure{{display:block;max-width:720px;width:100%;margin:0 auto}}.workflow{{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}}.step{{border:2px solid #4878A8;border-radius:8px;padding:10px 14px;background:#f7fbff;font-weight:700}}.arrow{{font-size:24px;color:#777}}.grid{{display:grid;grid-template-columns:1fr 1fr;gap:22px}}ul{{line-height:1.7}}iframe{{width:100%;height:680px;border:1px solid #dfe4ea;background:white}}code{{background:#eef1f4;padding:2px 5px;border-radius:4px}}@media(max-width:800px){{.grid{{grid-template-columns:1fr}}main{{padding:18px}}}}
+body{{font-family:Arial,Helvetica,sans-serif;color:#303030;margin:0;background:#f4f6f8}}main{{max-width:1320px;margin:0 auto;padding:34px}}h1{{font-size:30px;margin:0 0 6px}}.lede{{font-size:18px;margin:0 0 26px;color:#555}}.card{{background:white;border:1px solid #dfe4ea;border-radius:12px;padding:24px;margin-bottom:22px}}.figure,.code-figure{{display:block;width:100%;height:auto;margin:0 auto}}.figure{{max-width:720px}}.code-figure{{border:1px solid #dfe4ea}}.showcase{{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}}.workflow{{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}}.step{{border:2px solid #4878A8;border-radius:8px;padding:10px 14px;background:#f7fbff;font-weight:700}}.arrow{{font-size:24px;color:#777}}.grid{{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}}ul{{line-height:1.7}}code{{background:#eef1f4;padding:2px 5px;border-radius:4px}}@media(max-width:900px){{.grid,.showcase{{grid-template-columns:1fr}}main{{padding:18px}}}}
 </style>
 </head>
 <body><main>
 <h1>{html.escape(example.title)}</h1>
 <p class="lede">One {html.escape(example.library)} figure, one {html.escape(example.test)}, one verification workflow.</p>
-<section class="card"><img class="figure" src="../fig/preview.png" alt="{html.escape(example.title)} figure"></section>
+<section class="showcase"><div class="card"><h2>Result</h2><img class="figure" src="../fig/preview.png" alt="{html.escape(example.title)} figure"></div><div class="card"><h2>Exact producer code</h2><p>The PNG is generated from <code>../code/plot.py</code> by the audited code-panel workflow. ReproFig creates the hashes and JSON internally. Open the <a href="{example.export_stem}-code.svg">editable SVG</a> for selectable text.</p><img class="code-figure" src="{example.export_stem}-code.png" alt="Exact syntax-highlighted producer code"></div></section>
 <section class="card"><div class="workflow"><span class="step">Raw CSV</span><span class="arrow">→</span><span class="step">Exact producer</span><span class="arrow">→</span><span class="step">ReproFig master</span><span class="arrow">→</span><span class="step">Independent checks</span><span class="arrow">→</span><span class="step">Saved reproduction</span></div></section>
 <section class="grid"><div class="card"><h2>Claim</h2><p>{html.escape(example.claim)}</p><h2>Analysis</h2><p>{html.escape(example.test)}</p></div><div class="card"><h2>Verification</h2><ul>{passed}</ul><p>Complete machine report: <code>../verification/{example.export_stem}-verification-report.json</code></p></div></section>
-<section class="card"><h2>Exact producer code</h2><p>This is a rendered copy of <code>../code/plot.py</code>, not a shortened illustration.</p><iframe src="{example.export_stem}-code.html" title="Exact syntax-highlighted producer code"></iframe></section>
 </main></body></html>"""
     (presentation / "index.html").write_text(page, encoding="utf-8")
 
@@ -429,14 +634,20 @@ def _check_files(bundle: Path, example: Example) -> None:
         bundle / "fig" / example.figure_name,
         bundle / "fig" / "preview.png",
         bundle / "presentation" / "index.html",
-        bundle / "presentation" / f"{example.export_stem}-code.html",
         bundle / "presentation" / f"{example.export_stem}-code.svg",
+        bundle / "presentation" / f"{example.export_stem}-code.png",
+        bundle / "code-figure" / "README.md",
+        bundle / "code-figure" / "code" / "plot.py",
+        bundle / "code-figure" / "data" / "sources.csv",
+        bundle / "code-figure" / "data" / "der" / "figure_data.csv",
+        bundle / "code-figure" / "fig" / f"{example.export_stem}-code.svg",
+        bundle / "code-figure" / "fig" / f"{example.export_stem}-code.png",
         bundle / "verification" / "reproduction-report.json",
-        bundle
-        / "verification"
-        / f"{example.export_stem}-verification-report.json",
+        bundle / "verification" / f"{example.export_stem}-verification-report.json",
     )
-    missing = [path.relative_to(bundle).as_posix() for path in required if not path.is_file()]
+    missing = [
+        path.relative_to(bundle).as_posix() for path in required if not path.is_file()
+    ]
     if missing:
         raise FileNotFoundError(f"{bundle.name} is incomplete: {missing}")
 
@@ -449,12 +660,16 @@ def build(*, register: bool) -> None:
     for example in EXAMPLES:
         bundle = _prepare(example)
         _run_producer(bundle)
+        _materialize_embedded_tables(bundle, example)
+        _run_producer(bundle / "code-figure")
         _attach_source_link(bundle, example)
         _reproduce(bundle, example)
         if register:
             _register(bundle, example)
+            _register_code_figure(bundle, example)
         report = _verify(bundle, example)
         _unpack(bundle, example)
+        _copy_code_figures(bundle, example)
         _presentation(bundle, example, report)
         _check_files(bundle, example)
         record = extract_record(bundle / "fig" / example.figure_name)
@@ -466,13 +681,20 @@ def build(*, register: bool) -> None:
             "statistical_test": example.test,
             "valid": report.valid,
             "required_meanings": list(REQUIRED),
+            "code_figure": f"{example.folder}/presentation/{example.export_stem}-code.png",
+            "code_figure_bundle": f"{example.folder}/code-figure",
+            "code_figure_id": example.code_figure_id,
         }
     _write_json(ROOT / "build-summary.json", summary)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--register", action="store_true", help="register the finished bundles with plot-that")
+    parser.add_argument(
+        "--register",
+        action="store_true",
+        help="register the finished bundles with plot-that",
+    )
     args = parser.parse_args()
     build(register=args.register)
 

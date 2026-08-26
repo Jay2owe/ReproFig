@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "actual": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
+      "actual": "bf5ad4ddf798cfbc448464be9fa2d86e1b6288200b83b477ad33f9c3359337f5",
       "check_id": "evidence-root",
       "meaning": "internally_consistent",
       "message": "Canonical evidence graph and root agree.",
@@ -15,10 +15,10 @@
           "display": "pass",
           "statistics": "pass"
         },
-        "reproduced_sha256": "4f9982ebdbdfdf60a56811ad96c62dbc9771b0f6813eb60df715160afefb14e1"
+        "reproduced_sha256": "a7a0481f3745e3299e40d7f51e29dbc49850cfec2e3641b478f457410fe5c4df"
       },
       "check_id": "figure-reproduction",
-      "expected": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
+      "expected": "bf5ad4ddf798cfbc448464be9fa2d86e1b6288200b83b477ad33f9c3359337f5",
       "meaning": "figure_reproduced",
       "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
       "status": "pass",
@@ -27,13 +27,13 @@
     {
       "actual": {
         "max": 0,
-        "pixel_sha256": "4da26aaf3733d09437dc843de47158baadd44a4af7418c7d7aabfecbd5581426",
+        "pixel_sha256": "09ad388c24d0684b5f6be1b4827b171c4729a193ec6aa7bccdc11e672af1229a",
         "rms": 0.0
       },
       "check_id": "raster-pixels",
       "expected": {
         "max_limit": 0,
-        "pixel_sha256": "4da26aaf3733d09437dc843de47158baadd44a4af7418c7d7aabfecbd5581426",
+        "pixel_sha256": "09ad388c24d0684b5f6be1b4827b171c4729a193ec6aa7bccdc11e672af1229a",
         "rms_limit": 0.0
       },
       "meaning": "display_verified",

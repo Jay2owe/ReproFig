@@ -53,7 +53,8 @@ reproduce_figure(
 | plotted table | `paired-change-figure-data.csv` |
 | statistics | `paired-change-statistics.csv` |
 | producer script | `paired-change-plot.py` |
-| rendered producer | `paired-change-code.html` |
+| rendered producer image | `paired-change-code.png` |
+| editable producer image | `paired-change-code.svg` |
 | verification report | `paired-change-verification-report.json` |
 
 Batch exports that would otherwise collide append the first eight characters

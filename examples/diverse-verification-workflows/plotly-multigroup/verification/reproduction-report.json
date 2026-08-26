@@ -8,11 +8,11 @@
     "display": "pass",
     "statistics": "pass"
   },
-  "duration_seconds": 7.281,
+  "duration_seconds": 12.203,
   "execution_status": "pass",
-  "master_evidence_root": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
+  "master_evidence_root": "bf5ad4ddf798cfbc448464be9fa2d86e1b6288200b83b477ad33f9c3359337f5",
   "master_name": "condition-response.png",
-  "master_sha256": "55cc3559927b09f7dcff4c7ccd55d2e265c25909d5cf4b14f51d8c2ba4f7db38",
+  "master_sha256": "14f30a6a634d754d1f999947c43e314b1ed5e1e8af9afcd90f74c6acd0995bfc",
   "messages": {
     "data_tables": "Embedded table identities match.",
     "display": "Semantic marks and carrier-specific visual bindings match.",
@@ -20,7 +20,7 @@
     "statistics": "Normalized statistical records match."
   },
   "reproduced_path": "reproduced/condition-response-reproduced.png",
-  "reproduced_sha256": "4f9982ebdbdfdf60a56811ad96c62dbc9771b0f6813eb60df715160afefb14e1",
+  "reproduced_sha256": "a7a0481f3745e3299e40d7f51e29dbc49850cfec2e3641b478f457410fe5c4df",
   "return_code": 0,
   "runtime": {
     "executable": "python.exe",

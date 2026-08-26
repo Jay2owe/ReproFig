@@ -1,0 +1,170 @@
+panel,panel_label,accent,line,x,y,characters,n_spans,classes,text
+1,EXACT SEABORN PRODUCER,#2C6597,1,26.0,43.0,61,1,literal,"""""""Draw one proof-carrying regression figure with Seaborn."""""""
+1,EXACT SEABORN PRODUCER,#2C6597,3,26.0,76.0,34,7,keyword|punctuation|plain,from __future__ import annotations
+1,EXACT SEABORN PRODUCER,#2C6597,5,26.0,109.0,10,3,keyword|punctuation|plain,import csv
+1,EXACT SEABORN PRODUCER,#2C6597,6,26.0,125.5,24,7,keyword|punctuation|plain,from pathlib import Path
+1,EXACT SEABORN PRODUCER,#2C6597,8,26.0,158.5,31,9,keyword|punctuation|plain,import matplotlib.pyplot as plt
+1,EXACT SEABORN PRODUCER,#2C6597,9,26.0,175.0,21,7,keyword|punctuation|plain,import seaborn as sns
+1,EXACT SEABORN PRODUCER,#2C6597,10,26.0,191.5,37,11,keyword|punctuation|plain,"from scipy.stats import linregress, t"
+1,EXACT SEABORN PRODUCER,#2C6597,12,26.0,224.5,71,11,keyword|punctuation|plain,"from reprofig import StatisticalSpecification, bind_artist, save_figure"
+1,EXACT SEABORN PRODUCER,#2C6597,14,26.0,257.5,69,3,plain|punctuation|literal,"CLAIM = ""Response increases with exposure in this synthetic dataset."""
+1,EXACT SEABORN PRODUCER,#2C6597,15,26.0,274.0,48,3,plain|punctuation|literal,"STATISTIC_ID = ""exposure-ordinary-least-squares"""
+1,EXACT SEABORN PRODUCER,#2C6597,16,26.0,290.5,32,7,plain|punctuation|literal,"BLUE, INK = ""#4878A8"", ""#303030"""
+1,EXACT SEABORN PRODUCER,#2C6597,19,26.0,340.0,19,6,keyword|punctuation|plain,def main() -> None:
+1,EXACT SEABORN PRODUCER,#2C6597,20,26.0,356.5,48,13,punctuation|plain|literal,    bundle = Path(__file__).resolve().parents[1]
+1,EXACT SEABORN PRODUCER,#2C6597,21,26.0,373.0,55,10,punctuation|plain|literal,"    source = bundle / ""data"" / ""src"" / ""regression.csv"""
+1,EXACT SEABORN PRODUCER,#2C6597,22,26.0,389.5,61,19,punctuation|keyword|plain|literal,"    with source.open(newline="""", encoding=""utf-8"") as handle:"
+1,EXACT SEABORN PRODUCER,#2C6597,23,26.0,406.0,43,11,punctuation|plain|keyword,        rows = list(csv.DictReader(handle))
+1,EXACT SEABORN PRODUCER,#2C6597,24,26.0,422.5,55,17,punctuation|plain|keyword|literal,"    exposure = [float(row[""exposure""]) for row in rows]"
+1,EXACT SEABORN PRODUCER,#2C6597,25,26.0,439.0,55,17,punctuation|plain|keyword|literal,"    response = [float(row[""response""]) for row in rows]"
+1,EXACT SEABORN PRODUCER,#2C6597,26,26.0,455.5,43,9,punctuation|plain,"    fitted = linregress(exposure, response)"
+1,EXACT SEABORN PRODUCER,#2C6597,27,26.0,472.0,38,8,punctuation|plain|keyword|literal,    degrees_of_freedom = len(rows) - 2
+1,EXACT SEABORN PRODUCER,#2C6597,28,26.0,488.5,54,13,punctuation|plain|keyword|literal,"    critical = float(t.ppf(0.975, degrees_of_freedom))"
+1,EXACT SEABORN PRODUCER,#2C6597,29,26.0,505.0,67,13,punctuation|plain|keyword,    intercept_t = float(fitted.intercept / fitted.intercept_stderr)
+1,EXACT SEABORN PRODUCER,#2C6597,30,26.0,521.5,71,17,punctuation|plain|keyword|literal,"    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))"
+1,EXACT SEABORN PRODUCER,#2C6597,31,26.0,538.0,16,3,punctuation|plain,    expected = {
+1,EXACT SEABORN PRODUCER,#2C6597,32,26.0,554.5,23,7,punctuation|literal|keyword|plain,"        ""n"": len(rows),"
+1,EXACT SEABORN PRODUCER,#2C6597,33,26.0,571.0,42,5,punctuation|literal|plain,"        ""df_residual"": degrees_of_freedom,"
+1,EXACT SEABORN PRODUCER,#2C6597,34,26.0,587.5,25,3,punctuation|literal,"        ""coefficients"": {"
+1,EXACT SEABORN PRODUCER,#2C6597,35,26.0,604.0,26,3,punctuation|literal,"            ""intercept"": {"
+1,EXACT SEABORN PRODUCER,#2C6597,36,26.0,620.5,52,9,punctuation|literal|keyword|plain,"                ""estimate"": float(fitted.intercept),"
+1,EXACT SEABORN PRODUCER,#2C6597,37,26.0,637.0,65,9,punctuation|literal|keyword|plain,"                ""standard_error"": float(fitted.intercept_stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,38,26.0,653.5,41,5,punctuation|literal|plain,"                ""statistic"": intercept_t,"
+1,EXACT SEABORN PRODUCER,#2C6597,39,26.0,670.0,39,5,punctuation|literal|plain,"                ""p_value"": intercept_p,"
+1,EXACT SEABORN PRODUCER,#2C6597,40,26.0,686.5,87,15,punctuation|literal|keyword|plain,"                ""ci_low"": float(fitted.intercept - critical * fitted.intercept_stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,41,26.0,703.0,88,15,punctuation|literal|keyword|plain,"                ""ci_high"": float(fitted.intercept + critical * fitted.intercept_stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,42,26.0,719.5,14,1,punctuation,"            },"
+1,EXACT SEABORN PRODUCER,#2C6597,43,26.0,736.0,22,3,punctuation|literal,"            ""slope"": {"
+1,EXACT SEABORN PRODUCER,#2C6597,44,26.0,752.5,48,9,punctuation|literal|keyword|plain,"                ""estimate"": float(fitted.slope),"
+1,EXACT SEABORN PRODUCER,#2C6597,45,26.0,769.0,55,9,punctuation|literal|keyword|plain,"                ""standard_error"": float(fitted.stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,46,26.0,785.5,65,13,punctuation|literal|keyword|plain,"                ""statistic"": float(fitted.slope / fitted.stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,47,26.0,802.0,48,9,punctuation|literal|keyword|plain,"                ""p_value"": float(fitted.pvalue),"
+1,EXACT SEABORN PRODUCER,#2C6597,48,26.0,818.5,73,15,punctuation|literal|keyword|plain,"                ""ci_low"": float(fitted.slope - critical * fitted.stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,49,26.0,835.0,74,15,punctuation|literal|keyword|plain,"                ""ci_high"": float(fitted.slope + critical * fitted.stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,50,26.0,851.5,14,1,punctuation,"            },"
+1,EXACT SEABORN PRODUCER,#2C6597,51,26.0,868.0,10,1,punctuation,"        },"
+1,EXACT SEABORN PRODUCER,#2C6597,52,26.0,884.5,5,1,punctuation,    }
+1,EXACT SEABORN PRODUCER,#2C6597,53,26.0,901.0,22,3,punctuation|plain,    display_format = (
+1,EXACT SEABORN PRODUCER,#2C6597,54,26.0,917.5,78,14,punctuation|literal|keyword|plain,"        ""p_threshold_0.001/v1"" if fitted.pvalue < 0.001 else ""p_equals_4dp/v1"""
+1,EXACT SEABORN PRODUCER,#2C6597,55,26.0,934.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,56,26.0,950.5,87,24,punctuation|plain|literal|keyword,"    display_text = ""p < 0.001"" if fitted.pvalue < 0.001 else f""p = {fitted.pvalue:.4f}"""
+1,EXACT SEABORN PRODUCER,#2C6597,57,26.0,967.0,45,5,punctuation|plain,    specification = StatisticalSpecification(
+1,EXACT SEABORN PRODUCER,#2C6597,58,26.0,983.5,34,5,punctuation|plain,"        statistic_id=STATISTIC_ID,"
+1,EXACT SEABORN PRODUCER,#2C6597,59,26.0,1000.0,30,5,punctuation|plain|literal,"        algorithm_id=""ols/v1"","
+1,EXACT SEABORN PRODUCER,#2C6597,60,26.0,1016.5,16,3,punctuation|plain,        inputs={
+1,EXACT SEABORN PRODUCER,#2C6597,61,26.0,1033.0,66,15,punctuation|literal|plain|keyword,"            ""design_matrix"": [[1.0, value] for value in exposure],"
+1,EXACT SEABORN PRODUCER,#2C6597,62,26.0,1049.5,32,5,punctuation|literal|plain,"            ""outcome"": response,"
+1,EXACT SEABORN PRODUCER,#2C6597,63,26.0,1066.0,10,1,punctuation,"        },"
+1,EXACT SEABORN PRODUCER,#2C6597,64,26.0,1082.5,20,3,punctuation|plain,        parameters={
+1,EXACT SEABORN PRODUCER,#2C6597,65,26.0,1099.0,56,7,punctuation|literal,"            ""coefficient_names"": [""intercept"", ""slope""],"
+1,EXACT SEABORN PRODUCER,#2C6597,66,26.0,1115.5,37,5,punctuation|literal,"            ""confidence_level"": 0.95,"
+1,EXACT SEABORN PRODUCER,#2C6597,67,26.0,1132.0,38,5,punctuation|literal,"            ""covariance"": ""classical"","
+1,EXACT SEABORN PRODUCER,#2C6597,68,26.0,1148.5,46,5,punctuation|literal,"            ""missing_policy"": ""complete_rows"","
+1,EXACT SEABORN PRODUCER,#2C6597,69,26.0,1165.0,36,5,punctuation|literal,"            ""rank_tolerance"": 1e-12,"
+1,EXACT SEABORN PRODUCER,#2C6597,70,26.0,1181.5,10,1,punctuation,"        },"
+1,EXACT SEABORN PRODUCER,#2C6597,71,26.0,1198.0,26,5,punctuation|plain,"        expected=expected,"
+1,EXACT SEABORN PRODUCER,#2C6597,72,26.0,1214.5,64,13,punctuation|plain|literal,"        tolerances={""*"": {""absolute"": 1e-10, ""relative"": 1e-9}},"
+1,EXACT SEABORN PRODUCER,#2C6597,73,26.0,1231.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,74,26.0,1247.5,17,3,punctuation|plain,    statistic = {
+1,EXACT SEABORN PRODUCER,#2C6597,75,26.0,1264.0,37,5,punctuation|literal|plain,"        ""statistic_id"": STATISTIC_ID,"
+1,EXACT SEABORN PRODUCER,#2C6597,76,26.0,1280.5,57,5,punctuation|literal,"        ""test_name"": ""ordinary least-squares regression"","
+1,EXACT SEABORN PRODUCER,#2C6597,77,26.0,1297.0,40,5,punctuation|literal,"        ""coefficient"": ""exposure slope"","
+1,EXACT SEABORN PRODUCER,#2C6597,78,26.0,1313.5,23,7,punctuation|literal|keyword|plain,"        ""n"": len(rows),"
+1,EXACT SEABORN PRODUCER,#2C6597,79,26.0,1330.0,40,9,punctuation|literal|keyword|plain,"        ""estimate"": float(fitted.slope),"
+1,EXACT SEABORN PRODUCER,#2C6597,80,26.0,1346.5,47,9,punctuation|literal|keyword|plain,"        ""standard_error"": float(fitted.stderr),"
+1,EXACT SEABORN PRODUCER,#2C6597,81,26.0,1363.0,79,11,punctuation|literal|plain,"        ""confidence_interval_low"": expected[""coefficients""][""slope""][""ci_low""],"
+1,EXACT SEABORN PRODUCER,#2C6597,82,26.0,1379.5,81,11,punctuation|literal|plain,"        ""confidence_interval_high"": expected[""coefficients""][""slope""][""ci_high""],"
+1,EXACT SEABORN PRODUCER,#2C6597,83,26.0,1396.0,68,11,punctuation|literal|plain,"        ""statistic"": expected[""coefficients""][""slope""][""statistic""],"
+1,EXACT SEABORN PRODUCER,#2C6597,84,26.0,1412.5,49,5,punctuation|literal|plain,"        ""degrees_of_freedom"": degrees_of_freedom,"
+1,EXACT SEABORN PRODUCER,#2C6597,85,26.0,1429.0,40,9,punctuation|literal|keyword|plain,"        ""p_value"": float(fitted.pvalue),"
+1,EXACT SEABORN PRODUCER,#2C6597,86,26.0,1445.5,34,5,punctuation|literal,"        ""tailedness"": ""two-sided"","
+1,EXACT SEABORN PRODUCER,#2C6597,87,26.0,1462.0,36,5,punctuation|literal,"        ""correction_method"": ""none"","
+1,EXACT SEABORN PRODUCER,#2C6597,88,26.0,1478.5,22,5,punctuation|literal,"        ""alpha"": 0.05,"
+1,EXACT SEABORN PRODUCER,#2C6597,89,26.0,1495.0,51,7,punctuation|literal|plain,"        ""algorithm_id"": specification.algorithm_id,"
+1,EXACT SEABORN PRODUCER,#2C6597,90,26.0,1511.5,5,1,punctuation,    }
+1,EXACT SEABORN PRODUCER,#2C6597,92,26.0,1544.5,69,17,punctuation|plain|literal,"    sns.set_theme(context=""notebook"", style=""ticks"", font_scale=1.15)"
+1,EXACT SEABORN PRODUCER,#2C6597,93,26.0,1561.0,24,7,punctuation|plain,    plt.rcParams.update(
+1,EXACT SEABORN PRODUCER,#2C6597,94,26.0,1577.5,9,1,punctuation,        {
+1,EXACT SEABORN PRODUCER,#2C6597,95,26.0,1594.0,35,5,punctuation|literal,"            ""svg.fonttype"": ""none"","
+1,EXACT SEABORN PRODUCER,#2C6597,96,26.0,1610.5,66,5,punctuation|literal,"            ""svg.hashsalt"": ""reprofig-seaborn-regression-example"","
+1,EXACT SEABORN PRODUCER,#2C6597,97,26.0,1627.0,34,5,punctuation|literal,"            ""axes.linewidth"": 1.8,"
+1,EXACT SEABORN PRODUCER,#2C6597,98,26.0,1643.5,33,5,punctuation|literal,"            ""axes.titlesize"": 17,"
+1,EXACT SEABORN PRODUCER,#2C6597,99,26.0,1660.0,39,5,punctuation|literal,"            ""axes.titleweight"": ""bold"","
+1,EXACT SEABORN PRODUCER,#2C6597,100,26.0,1676.5,9,1,punctuation,        }
+1,EXACT SEABORN PRODUCER,#2C6597,101,26.0,1693.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,102,26.0,1709.5,51,15,punctuation|plain|literal,"    figure, axes = plt.subplots(figsize=(5.6, 4.8))"
+1,EXACT SEABORN PRODUCER,#2C6597,103,26.0,1726.0,16,5,punctuation|plain,    sns.regplot(
+1,EXACT SEABORN PRODUCER,#2C6597,104,26.0,1742.5,19,5,punctuation|plain,"        x=exposure,"
+1,EXACT SEABORN PRODUCER,#2C6597,105,26.0,1759.0,19,5,punctuation|plain,"        y=response,"
+1,EXACT SEABORN PRODUCER,#2C6597,106,26.0,1775.5,16,5,punctuation|plain|keyword,"        ci=None,"
+1,EXACT SEABORN PRODUCER,#2C6597,107,26.0,1792.0,19,5,punctuation|plain,"        color=BLUE,"
+1,EXACT SEABORN PRODUCER,#2C6597,108,26.0,1808.5,67,15,punctuation|plain|literal,"        scatter_kws={""s"": 58, ""alpha"": 0.85, ""edgecolor"": ""white""},"
+1,EXACT SEABORN PRODUCER,#2C6597,109,26.0,1825.0,36,7,punctuation|plain|literal,"        line_kws={""linewidth"": 2.8},"
+1,EXACT SEABORN PRODUCER,#2C6597,110,26.0,1841.5,16,5,punctuation|plain,"        ax=axes,"
+1,EXACT SEABORN PRODUCER,#2C6597,111,26.0,1858.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,112,26.0,1874.5,16,3,punctuation|plain,    bind_artist(
+1,EXACT SEABORN PRODUCER,#2C6597,113,26.0,1891.0,28,7,punctuation|plain|literal,"        axes.collections[0],"
+1,EXACT SEABORN PRODUCER,#2C6597,114,26.0,1907.5,35,5,punctuation|plain|literal,"        semantic_id=""observations"","
+1,EXACT SEABORN PRODUCER,#2C6597,115,26.0,1924.0,48,15,punctuation|plain|literal|keyword,"        row_ids=[row[""sample""] for row in rows],"
+1,EXACT SEABORN PRODUCER,#2C6597,116,26.0,1940.5,41,7,punctuation|plain|literal,"        columns=[""exposure"", ""response""],"
+1,EXACT SEABORN PRODUCER,#2C6597,117,26.0,1957.0,32,5,punctuation|plain|literal,"        role=""raw observations"","
+1,EXACT SEABORN PRODUCER,#2C6597,118,26.0,1973.5,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,119,26.0,1990.0,16,3,punctuation|plain,    bind_artist(
+1,EXACT SEABORN PRODUCER,#2C6597,120,26.0,2006.5,22,7,punctuation|plain|literal,"        axes.lines[0],"
+1,EXACT SEABORN PRODUCER,#2C6597,121,26.0,2023.0,49,5,punctuation|plain|literal,"        semantic_id=""ordinary-least-squares-fit"","
+1,EXACT SEABORN PRODUCER,#2C6597,122,26.0,2039.5,41,7,punctuation|plain|literal,"        columns=[""exposure"", ""response""],"
+1,EXACT SEABORN PRODUCER,#2C6597,123,26.0,2056.0,34,5,punctuation|plain,"        statistic_id=STATISTIC_ID,"
+1,EXACT SEABORN PRODUCER,#2C6597,124,26.0,2072.5,33,5,punctuation|plain|literal,"        role=""fitted regression"","
+1,EXACT SEABORN PRODUCER,#2C6597,125,26.0,2089.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,126,26.0,2105.5,22,7,punctuation|plain,    label = axes.text(
+1,EXACT SEABORN PRODUCER,#2C6597,127,26.0,2122.0,13,3,punctuation|literal,"        1.25,"
+1,EXACT SEABORN PRODUCER,#2C6597,128,26.0,2138.5,13,3,punctuation|literal,"        10.2,"
+1,EXACT SEABORN PRODUCER,#2C6597,129,26.0,2155.0,54,15,punctuation|literal|plain,"        f""Slope = {fitted.slope:.2f}\n{display_text}"","
+1,EXACT SEABORN PRODUCER,#2C6597,130,26.0,2171.5,17,5,punctuation|plain|literal,"        va=""top"","
+1,EXACT SEABORN PRODUCER,#2C6597,131,26.0,2188.0,20,5,punctuation|plain|literal,"        fontsize=11,"
+1,EXACT SEABORN PRODUCER,#2C6597,132,26.0,2204.5,18,5,punctuation|plain,"        color=INK,"
+1,EXACT SEABORN PRODUCER,#2C6597,133,26.0,2221.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,134,26.0,2237.5,16,3,punctuation|plain,    bind_artist(
+1,EXACT SEABORN PRODUCER,#2C6597,135,26.0,2254.0,14,3,punctuation|plain,"        label,"
+1,EXACT SEABORN PRODUCER,#2C6597,136,26.0,2270.5,52,5,punctuation|plain|literal,"        semantic_id=""ordinary-least-squares-result"","
+1,EXACT SEABORN PRODUCER,#2C6597,137,26.0,2287.0,34,5,punctuation|plain,"        statistic_id=STATISTIC_ID,"
+1,EXACT SEABORN PRODUCER,#2C6597,138,26.0,2303.5,36,5,punctuation|plain,"        formatter_id=display_format,"
+1,EXACT SEABORN PRODUCER,#2C6597,139,26.0,2320.0,58,5,punctuation|plain|literal,"        connected_mark_ids=[""ordinary-least-squares-fit""],"
+1,EXACT SEABORN PRODUCER,#2C6597,140,26.0,2336.5,38,5,punctuation|plain|literal,"        role=""statistical annotation"","
+1,EXACT SEABORN PRODUCER,#2C6597,141,26.0,2353.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,142,26.0,2369.5,13,5,punctuation|plain|keyword,    axes.set(
+1,EXACT SEABORN PRODUCER,#2C6597,143,26.0,2386.0,43,5,punctuation|plain|literal,"        title=""Exposure predicts response"","
+1,EXACT SEABORN PRODUCER,#2C6597,144,26.0,2402.5,44,5,punctuation|plain|literal,"        xlabel=""Exposure (arbitrary units)"","
+1,EXACT SEABORN PRODUCER,#2C6597,145,26.0,2419.0,44,5,punctuation|plain|literal,"        ylabel=""Response (arbitrary units)"","
+1,EXACT SEABORN PRODUCER,#2C6597,146,26.0,2435.5,24,7,punctuation|plain|literal,"        xlim=(0.6, 8.4),"
+1,EXACT SEABORN PRODUCER,#2C6597,147,26.0,2452.0,25,7,punctuation|plain|literal,"        ylim=(1.6, 11.0),"
+1,EXACT SEABORN PRODUCER,#2C6597,148,26.0,2468.5,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,149,26.0,2485.0,24,9,punctuation|plain,    sns.despine(ax=axes)
+1,EXACT SEABORN PRODUCER,#2C6597,150,26.0,2501.5,25,5,punctuation|plain,    figure.tight_layout()
+1,EXACT SEABORN PRODUCER,#2C6597,152,26.0,2534.5,25,5,punctuation|plain,    record = save_figure(
+1,EXACT SEABORN PRODUCER,#2C6597,153,26.0,2551.0,15,3,punctuation|plain,"        figure,"
+1,EXACT SEABORN PRODUCER,#2C6597,154,26.0,2567.5,49,7,punctuation|plain|literal,"        bundle / ""fig"" / ""exposure-response.svg"","
+1,EXACT SEABORN PRODUCER,#2C6597,155,26.0,2584.0,18,5,punctuation|plain,"        data=rows,"
+1,EXACT SEABORN PRODUCER,#2C6597,156,26.0,2600.5,23,5,punctuation|plain,"        sources=source,"
+1,EXACT SEABORN PRODUCER,#2C6597,157,26.0,2617.0,31,5,punctuation|plain,"        statistics=[statistic],"
+1,EXACT SEABORN PRODUCER,#2C6597,158,26.0,2633.5,51,5,punctuation|plain,"        statistical_specifications=[specification],"
+1,EXACT SEABORN PRODUCER,#2C6597,159,26.0,2650.0,20,5,punctuation|plain,"        title=CLAIM,"
+1,EXACT SEABORN PRODUCER,#2C6597,160,26.0,2666.5,20,5,punctuation|plain,"        claim=CLAIM,"
+1,EXACT SEABORN PRODUCER,#2C6597,161,26.0,2683.0,42,5,punctuation|plain|literal,"        grammar=""scatter regression plot"","
+1,EXACT SEABORN PRODUCER,#2C6597,162,26.0,2699.5,27,5,punctuation|plain|literal,"        producer=""seaborn"","
+1,EXACT SEABORN PRODUCER,#2C6597,163,26.0,2716.0,45,7,punctuation|plain|literal,"        analysis={""input_kind"": ""plain CSV""},"
+1,EXACT SEABORN PRODUCER,#2C6597,164,26.0,2732.5,26,5,punctuation|plain|keyword,"        reproduction=True,"
+1,EXACT SEABORN PRODUCER,#2C6597,165,26.0,2749.0,19,5,punctuation|plain|keyword,"        proof=True,"
+1,EXACT SEABORN PRODUCER,#2C6597,166,26.0,2765.5,69,11,punctuation|plain|literal|keyword,"        savefig_kwargs={""transparent"": True, ""bbox_inches"": ""tight""},"
+1,EXACT SEABORN PRODUCER,#2C6597,167,26.0,2782.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,168,26.0,2798.5,16,3,punctuation|plain,    save_figure(
+1,EXACT SEABORN PRODUCER,#2C6597,169,26.0,2815.0,15,3,punctuation|plain,"        figure,"
+1,EXACT SEABORN PRODUCER,#2C6597,170,26.0,2831.5,39,7,punctuation|plain|literal,"        bundle / ""fig"" / ""preview.png"","
+1,EXACT SEABORN PRODUCER,#2C6597,171,26.0,2848.0,22,5,punctuation|plain,"        record=record,"
+1,EXACT SEABORN PRODUCER,#2C6597,172,26.0,2864.5,19,5,punctuation|plain|keyword,"        proof=True,"
+1,EXACT SEABORN PRODUCER,#2C6597,173,26.0,2881.0,16,5,punctuation|plain|literal,"        dpi=200,"
+1,EXACT SEABORN PRODUCER,#2C6597,174,26.0,2897.5,70,11,punctuation|plain|literal,"        savefig_kwargs={""facecolor"": ""white"", ""bbox_inches"": ""tight""},"
+1,EXACT SEABORN PRODUCER,#2C6597,175,26.0,2914.0,5,1,punctuation,    )
+1,EXACT SEABORN PRODUCER,#2C6597,176,26.0,2930.5,21,7,punctuation|plain,    plt.close(figure)
+1,EXACT SEABORN PRODUCER,#2C6597,179,26.0,2980.0,26,6,keyword|punctuation|literal,"if __name__ == ""__main__"":"
+1,EXACT SEABORN PRODUCER,#2C6597,180,26.0,2996.5,10,3,punctuation|plain,    main()

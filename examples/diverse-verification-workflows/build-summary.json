@@ -2,6 +2,9 @@
   "examples": {
     "matplotlib-paired-change": {
       "claim": "Paired responses are higher after the intervention in this synthetic dataset.",
+      "code_figure": "matplotlib-paired-change/presentation/paired-change-code.png",
+      "code_figure_bundle": "matplotlib-paired-change/code-figure",
+      "code_figure_id": "rf-e68703100be94378affc542e7c7eb32b",
       "figure": "matplotlib-paired-change/fig/paired-change.svg",
       "figure_id": "rf-8e6d99733d1044799d5d6f925b427db1",
       "library": "Matplotlib",
@@ -17,6 +20,9 @@
     },
     "plotly-multigroup": {
       "claim": "Mean response differs across the three conditions in this synthetic dataset.",
+      "code_figure": "plotly-multigroup/presentation/condition-response-code.png",
+      "code_figure_bundle": "plotly-multigroup/code-figure",
+      "code_figure_id": "rf-16450315b13940c6be000aaf0c94b9d0",
       "figure": "plotly-multigroup/fig/condition-response.png",
       "figure_id": "rf-594c5332dd8b44f28c8afe3eb1d5fb9f",
       "library": "Plotly",
@@ -32,6 +38,9 @@
     },
     "seaborn-regression": {
       "claim": "Response increases with exposure in this synthetic dataset.",
+      "code_figure": "seaborn-regression/presentation/exposure-response-code.png",
+      "code_figure_bundle": "seaborn-regression/code-figure",
+      "code_figure_id": "rf-c841205641e6497ea9f3a16c23e72961",
       "figure": "seaborn-regression/fig/exposure-response.svg",
       "figure_id": "rf-d13001a42c854d189991e887131b67a4",
       "library": "Seaborn",

@@ -1,0 +1,40 @@
+{
+  "candidate": "../matplotlib-paired-change/code-figure/data/src/code_figure.py",
+  "grammar": "code-panel",
+  "language": "python",
+  "required_columns": [
+    "panel",
+    "panel_label",
+    "accent",
+    "line",
+    "x",
+    "y",
+    "characters",
+    "n_spans",
+    "classes",
+    "text"
+  ],
+  "parameters": ["panels", "geometry", "png", "png_scale"],
+  "evidence_bundles": [
+    "../matplotlib-paired-change/code-figure",
+    "../seaborn-regression/code-figure",
+    "../plotly-multigroup/code-figure"
+  ],
+  "test": "code-panel-recipe-test.py",
+  "proof": {
+    "required_meanings": [],
+    "independent_statistics_required": false,
+    "signing_key_path": null,
+    "signing_password_env": null,
+    "trust_policy_path": null,
+    "encrypt_sections": [],
+    "encryption_password_env": null,
+    "recipient_file": null,
+    "broker_policy_path": null
+  },
+  "publication_workbook": {
+    "enabled": false,
+    "profile": "master",
+    "output": "publication-data.xlsx"
+  }
+}

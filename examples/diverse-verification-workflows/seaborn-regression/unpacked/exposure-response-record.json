@@ -4,7 +4,7 @@
     "grammar": "scatter regression plot",
     "input_kind": "plain CSV"
   },
-  "created_at": "2026-08-26T20:39:49+01:00",
+  "created_at": "2026-08-26T22:59:34+01:00",
   "data_status": "complete",
   "data_tables": [
     {
@@ -31,7 +31,7 @@
       "format": "text/csv; charset=utf-8",
       "name": "figure_data",
       "newline": "LF",
-      "purpose": "plot_and_statistics",
+      "purpose": "analysis",
       "row_count": 20,
       "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
     }
@@ -40,7 +40,7 @@
   "extensions": {
     "proof": {
       "claims": [],
-      "root_sha256": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
+      "root_sha256": "c55ed0d916a1f558c43c3b0410f3ba3f7db7c3eb1a6bdd7ee6575b949673caf4",
       "schema": "reprofig-evidence-graph/1",
       "sections": [
         {
@@ -74,14 +74,14 @@
               "format": "text/csv; charset=utf-8",
               "name": "figure_data",
               "newline": "LF",
-              "purpose": "plot_and_statistics",
+              "purpose": "analysis",
               "row_count": 20,
               "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
             }
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
-          "sha256": "45ea0bf72f322d59d73bdf2cb5ed48a2a072ab4cf64d5311315f0772d1ba3cca"
+          "sha256": "443cbde0056b3a014d076cbc8759744df5b0a10d6e4d8138daaa46a1163d6aa0"
         },
         {
           "dependencies": [
@@ -106,10 +106,10 @@
                 "inputs_json": "{\"design_matrix\":[[1.0,1.0],[1.0,1.4],[1.0,1.8],[1.0,2.1],[1.0,2.5],[1.0,2.9],[1.0,3.2],[1.0,3.6],[1.0,4.0],[1.0,4.3],[1.0,4.7],[1.0,5.1],[1.0,5.4],[1.0,5.8],[1.0,6.2],[1.0,6.5],[1.0,6.9],[1.0,7.3],[1.0,7.6],[1.0,8.0]],\"outcome\":[2.3,3.0,2.8,3.9,4.1,4.5,5.2,4.9,6.1,6.4,6.2,7.4,7.1,8.0,8.5,8.2,9.4,9.1,10.0,10.6]}",
                 "n": 20,
                 "p_value": 7.490133966488533e-18,
-                "parameters_json": "{\"coefficient_names\":[\"intercept\",\"slope\"],\"confidence_level\":0.95,\"covariance\":\"classical\",\"missing_policy\":\"complete_rows\",\"producer_implementation\":\"scipy.stats.linregress/1\",\"rank_tolerance\":1e-12}",
+                "parameters_json": "{\"coefficient_names\":[\"intercept\",\"slope\"],\"confidence_level\":0.95,\"covariance\":\"classical\",\"missing_policy\":\"complete_rows\",\"rank_tolerance\":1e-12}",
                 "standard_error": 0.03334822361250716,
                 "statistic": 34.29804499376627,
-                "statistic_id": "exposure-response-ols",
+                "statistic_id": "exposure-ordinary-least-squares",
                 "tailedness": "two-sided",
                 "test_name": "ordinary least-squares regression",
                 "tolerances_json": "{\"*\":{\"absolute\":1e-10,\"relative\":1e-09}}"
@@ -119,7 +119,7 @@
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "statistics:reported",
-          "sha256": "3e64c3b15e1918c286efcd618edffb967f3f30fb405108373360d3064033c999"
+          "sha256": "3f44194a9471898c8e2dc5c4f08d4f1556d2af45199389ad087e5e6765e193ab"
         },
         {
           "dependencies": [],
@@ -145,10 +145,10 @@
               "output": "fig/exposure-response.svg",
               "producer": "code/plot.py",
               "producer_language": "python",
-              "producer_sha256": "140c73f24a0dae8a1a8dfea87f1e3ac0e5301a27960adf4db92552e576165868",
+              "producer_sha256": "3e1e184d0a4d4c4aae376c5cad543734ca00f3f88e00afb675210f839c68e0c3",
               "readme": "README.md",
               "readme_sha256": "3ace023a37f67ffd19cd002eaa67271a1f6e944b96d1e9505cb24df3263ce2f9",
-              "script": "\"\"\"Draw and package one regression example with Seaborn.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy.stats import linregress, t\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\n\nCLAIM = \"Response increases with exposure in this synthetic dataset.\"\nGRAMMAR = \"scatter regression plot\"\nSTATISTIC_ID = \"exposure-response-ols\"\nFIGURE_NAME = \"exposure-response.svg\"\nBLUE = \"#4878A8\"\nINK = \"#303030\"\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_csv(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=[\"sample\", \"exposure\", \"response\"], lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"regression.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    exposure = [float(row[\"exposure\"]) for row in rows]\n    response = [float(row[\"response\"]) for row in rows]\n    fitted = linregress(exposure, response)\n    degrees_of_freedom = len(rows) - 2\n    critical = float(t.ppf(0.975, degrees_of_freedom))\n    intercept_t = float(fitted.intercept / fitted.intercept_stderr)\n    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))\n    expected = {\n        \"n\": len(rows),\n        \"df_residual\": degrees_of_freedom,\n        \"coefficients\": {\n            \"intercept\": {\n                \"estimate\": float(fitted.intercept),\n                \"standard_error\": float(fitted.intercept_stderr),\n                \"statistic\": intercept_t,\n                \"p_value\": intercept_p,\n                \"ci_low\": float(fitted.intercept - critical * fitted.intercept_stderr),\n                \"ci_high\": float(fitted.intercept + critical * fitted.intercept_stderr),\n            },\n            \"slope\": {\n                \"estimate\": float(fitted.slope),\n                \"standard_error\": float(fitted.stderr),\n                \"statistic\": float(fitted.slope / fitted.stderr),\n                \"p_value\": float(fitted.pvalue),\n                \"ci_low\": float(fitted.slope - critical * fitted.stderr),\n                \"ci_high\": float(fitted.slope + critical * fitted.stderr),\n            },\n        },\n    }\n    display_format = \"p_threshold_0.001/v1\" if fitted.pvalue < 0.001 else \"p_equals_4dp/v1\"\n    display_text = \"p < 0.001\" if fitted.pvalue < 0.001 else f\"p = {fitted.pvalue:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"ols/v1\",\n        inputs={\"design_matrix\": [[1.0, value] for value in exposure], \"outcome\": response},\n        parameters={\n            \"coefficient_names\": [\"intercept\", \"slope\"],\n            \"confidence_level\": 0.95,\n            \"covariance\": \"classical\",\n            \"missing_policy\": \"complete_rows\",\n            \"rank_tolerance\": 1e-12,\n            \"producer_implementation\": \"scipy.stats.linregress/1\",\n        },\n        expected=expected,\n        display={},\n        tolerances={\"*\": {\"absolute\": 1e-10, \"relative\": 1e-9}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"ordinary least-squares regression\",\n        \"coefficient\": \"exposure slope\",\n        \"n\": len(rows),\n        \"estimate\": float(fitted.slope),\n        \"standard_error\": float(fitted.stderr),\n        \"confidence_interval_low\": expected[\"coefficients\"][\"slope\"][\"ci_low\"],\n        \"confidence_interval_high\": expected[\"coefficients\"][\"slope\"][\"ci_high\"],\n        \"statistic\": expected[\"coefficients\"][\"slope\"][\"statistic\"],\n        \"degrees_of_freedom\": degrees_of_freedom,\n        \"p_value\": float(fitted.pvalue),\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_csv(figure_data, rows)\n    with (bundle / \"data\" / \"der\" / \"statistics.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(statistic), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(statistic)\n\n    plotted_table = table_from_data(figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\")\n    table_id = f\"table:{plotted_table.sha256}\"\n    sns.set_theme(\n        context=\"notebook\",\n        style=\"ticks\",\n        rc={\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.labelsize\": 12,\n            \"ytick.labelsize\": 12,\n        },\n    )\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-seaborn-regression-example\"\n    fig, ax = plt.subplots(figsize=(5.6, 4.8))\n    sns.regplot(\n        x=exposure,\n        y=response,\n        ci=None,\n        color=BLUE,\n        scatter_kws={\"s\": 58, \"alpha\": 0.85, \"edgecolor\": \"white\"},\n        line_kws={\"linewidth\": 2.8},\n        ax=ax,\n    )\n    points = ax.collections[0]\n    line = ax.lines[0]\n    bind_artist(points, semantic_id=\"observations\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], role=\"raw observations\")\n    bind_artist(line, semantic_id=\"ols-fit\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], statistic_id=STATISTIC_ID, role=\"fitted regression\")\n    label = ax.text(1.25, 10.2, f\"Slope = {fitted.slope:.2f}\\n{display_text}\", ha=\"left\", va=\"top\", fontsize=11, color=INK)\n    bind_artist(label, semantic_id=\"ols-result\", statistic_id=STATISTIC_ID, formatter_id=display_format, connected_mark_ids=[\"ols-fit\"], role=\"statistical annotation\")\n    ax.set_title(\"Exposure predicts response\", pad=12)\n    ax.set_xlabel(\"Exposure (arbitrary units)\")\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_xlim(0.6, 8.4)\n    ax.set_ylim(1.6, 11.0)\n    sns.despine(ax=ax)\n    ax.tick_params(width=1.8)\n    fig.tight_layout()\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"exposure-response\",\n        producer={\"package\": \"seaborn\", \"package_version\": importlib.metadata.version(\"seaborn\"), \"function\": \"code/plot.py\"},\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[source_reference(source, role=\"raw_user_input\", project_root=bundle, source_id=\"regression-source\")],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"python\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"working_directory\": \".\",\n            \"output\": f\"fig/{FIGURE_NAME}\",\n            \"input\": \"data/src/regression.csv\",\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n        extensions={\"proof\": {\"statistical_specifications\": [specification.to_dict()]}},\n    )\n    record = attach_evidence_graph(record)\n    record = save_figure(fig, bundle / \"fig\" / FIGURE_NAME, record=record, proof=True, savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"})\n    save_figure(fig, bundle / \"fig\" / \"preview.png\", record=record, proof=True, dpi=200, savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"})\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+              "script": "\"\"\"Draw one proof-carrying regression figure with Seaborn.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy.stats import linregress, t\n\nfrom reprofig import StatisticalSpecification, bind_artist, save_figure\n\nCLAIM = \"Response increases with exposure in this synthetic dataset.\"\nSTATISTIC_ID = \"exposure-ordinary-least-squares\"\nBLUE, INK = \"#4878A8\", \"#303030\"\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"regression.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    exposure = [float(row[\"exposure\"]) for row in rows]\n    response = [float(row[\"response\"]) for row in rows]\n    fitted = linregress(exposure, response)\n    degrees_of_freedom = len(rows) - 2\n    critical = float(t.ppf(0.975, degrees_of_freedom))\n    intercept_t = float(fitted.intercept / fitted.intercept_stderr)\n    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))\n    expected = {\n        \"n\": len(rows),\n        \"df_residual\": degrees_of_freedom,\n        \"coefficients\": {\n            \"intercept\": {\n                \"estimate\": float(fitted.intercept),\n                \"standard_error\": float(fitted.intercept_stderr),\n                \"statistic\": intercept_t,\n                \"p_value\": intercept_p,\n                \"ci_low\": float(fitted.intercept - critical * fitted.intercept_stderr),\n                \"ci_high\": float(fitted.intercept + critical * fitted.intercept_stderr),\n            },\n            \"slope\": {\n                \"estimate\": float(fitted.slope),\n                \"standard_error\": float(fitted.stderr),\n                \"statistic\": float(fitted.slope / fitted.stderr),\n                \"p_value\": float(fitted.pvalue),\n                \"ci_low\": float(fitted.slope - critical * fitted.stderr),\n                \"ci_high\": float(fitted.slope + critical * fitted.stderr),\n            },\n        },\n    }\n    display_format = (\n        \"p_threshold_0.001/v1\" if fitted.pvalue < 0.001 else \"p_equals_4dp/v1\"\n    )\n    display_text = \"p < 0.001\" if fitted.pvalue < 0.001 else f\"p = {fitted.pvalue:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"ols/v1\",\n        inputs={\n            \"design_matrix\": [[1.0, value] for value in exposure],\n            \"outcome\": response,\n        },\n        parameters={\n            \"coefficient_names\": [\"intercept\", \"slope\"],\n            \"confidence_level\": 0.95,\n            \"covariance\": \"classical\",\n            \"missing_policy\": \"complete_rows\",\n            \"rank_tolerance\": 1e-12,\n        },\n        expected=expected,\n        tolerances={\"*\": {\"absolute\": 1e-10, \"relative\": 1e-9}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"ordinary least-squares regression\",\n        \"coefficient\": \"exposure slope\",\n        \"n\": len(rows),\n        \"estimate\": float(fitted.slope),\n        \"standard_error\": float(fitted.stderr),\n        \"confidence_interval_low\": expected[\"coefficients\"][\"slope\"][\"ci_low\"],\n        \"confidence_interval_high\": expected[\"coefficients\"][\"slope\"][\"ci_high\"],\n        \"statistic\": expected[\"coefficients\"][\"slope\"][\"statistic\"],\n        \"degrees_of_freedom\": degrees_of_freedom,\n        \"p_value\": float(fitted.pvalue),\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n    }\n\n    sns.set_theme(context=\"notebook\", style=\"ticks\", font_scale=1.15)\n    plt.rcParams.update(\n        {\n            \"svg.fonttype\": \"none\",\n            \"svg.hashsalt\": \"reprofig-seaborn-regression-example\",\n            \"axes.linewidth\": 1.8,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n        }\n    )\n    figure, axes = plt.subplots(figsize=(5.6, 4.8))\n    sns.regplot(\n        x=exposure,\n        y=response,\n        ci=None,\n        color=BLUE,\n        scatter_kws={\"s\": 58, \"alpha\": 0.85, \"edgecolor\": \"white\"},\n        line_kws={\"linewidth\": 2.8},\n        ax=axes,\n    )\n    bind_artist(\n        axes.collections[0],\n        semantic_id=\"observations\",\n        row_ids=[row[\"sample\"] for row in rows],\n        columns=[\"exposure\", \"response\"],\n        role=\"raw observations\",\n    )\n    bind_artist(\n        axes.lines[0],\n        semantic_id=\"ordinary-least-squares-fit\",\n        columns=[\"exposure\", \"response\"],\n        statistic_id=STATISTIC_ID,\n        role=\"fitted regression\",\n    )\n    label = axes.text(\n        1.25,\n        10.2,\n        f\"Slope = {fitted.slope:.2f}\\n{display_text}\",\n        va=\"top\",\n        fontsize=11,\n        color=INK,\n    )\n    bind_artist(\n        label,\n        semantic_id=\"ordinary-least-squares-result\",\n        statistic_id=STATISTIC_ID,\n        formatter_id=display_format,\n        connected_mark_ids=[\"ordinary-least-squares-fit\"],\n        role=\"statistical annotation\",\n    )\n    axes.set(\n        title=\"Exposure predicts response\",\n        xlabel=\"Exposure (arbitrary units)\",\n        ylabel=\"Response (arbitrary units)\",\n        xlim=(0.6, 8.4),\n        ylim=(1.6, 11.0),\n    )\n    sns.despine(ax=axes)\n    figure.tight_layout()\n\n    record = save_figure(\n        figure,\n        bundle / \"fig\" / \"exposure-response.svg\",\n        data=rows,\n        sources=source,\n        statistics=[statistic],\n        statistical_specifications=[specification],\n        title=CLAIM,\n        claim=CLAIM,\n        grammar=\"scatter regression plot\",\n        producer=\"seaborn\",\n        analysis={\"input_kind\": \"plain CSV\"},\n        reproduction=True,\n        proof=True,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        figure,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        proof=True,\n        dpi=200,\n        savefig_kwargs={\"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(figure)\n\n\nif __name__ == \"__main__\":\n    main()\n",
               "source_index": "data/sources.csv",
               "source_index_sha256": "91ddcef12c57686c469606757f0e0cef5b2b76007fc19a4c2e24873c253b64ea",
               "working_directory": "."
@@ -159,14 +159,13 @@
                 "relative_path": "data/src/regression.csv",
                 "role": "raw_user_input",
                 "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
-                "size_bytes": 267,
-                "source_id": "regression-source"
+                "size_bytes": 267
               }
             ]
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "provenance:record",
-          "sha256": "21eebfba1b7be045dab10338439159a40a9e9e1bcac1a458dd523e6205aaaa29"
+          "sha256": "720f01be07d0e28ff1353022370351d549df0d176c908783e78ac12aeb90652a"
         },
         {
           "dependencies": [
@@ -179,10 +178,10 @@
           "payload": {
             "annotations": [
               {
-                "annotation_id": "ols-result",
+                "annotation_id": "ordinary-least-squares-result",
                 "axes_id": "axes-0",
                 "connected_mark_ids": [
-                  "ols-fit"
+                  "ordinary-least-squares-fit"
                 ],
                 "coordinate_system": "data",
                 "formatter_id": "p_threshold_0.001/v1",
@@ -191,7 +190,7 @@
                   10.2
                 ],
                 "role": "statistical annotation",
-                "statistic_id": "exposure-response-ols",
+                "statistic_id": "exposure-ordinary-least-squares",
                 "text": "Slope = 1.14\np < 0.001"
               }
             ],
@@ -199,10 +198,10 @@
               {
                 "axes_id": "axes-0",
                 "bbox_inches": [
-                  0.13526785714285716,
-                  0.15052083333333333,
-                  0.8299107142857143,
-                  0.7366319444444446
+                  0.1374107142857143,
+                  0.15718749999999992,
+                  0.825625,
+                  0.7448263888888891
                 ],
                 "labels": {
                   "title": "Exposure predicts response",
@@ -444,31 +443,8 @@
                   ]
                 },
                 "kind": "line",
-                "mark_id": "ols-fit",
-                "role": "fitted regression",
-                "row_ids": [
-                  "S01",
-                  "S02",
-                  "S03",
-                  "S04",
-                  "S05",
-                  "S06",
-                  "S07",
-                  "S08",
-                  "S09",
-                  "S10",
-                  "S11",
-                  "S12",
-                  "S13",
-                  "S14",
-                  "S15",
-                  "S16",
-                  "S17",
-                  "S18",
-                  "S19",
-                  "S20"
-                ],
-                "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+                "mark_id": "ordinary-least-squares-fit",
+                "role": "fitted regression"
               },
               {
                 "axes_id": "axes-0",
@@ -585,8 +561,7 @@
                   "S18",
                   "S19",
                   "S20"
-                ],
-                "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+                ]
               }
             ],
             "schema": "reprofig-render-manifest/1",
@@ -594,7 +569,7 @@
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "render:manifest",
-          "sha256": "21aa03c151a50e7bc15e90f9817e7d22ea561435f8c43483c3f061378ec6ad12"
+          "sha256": "b5c1f52901f662ce0ee31d09567f7875b9008e7425c4a4d10bb641387d1fc709"
         },
         {
           "dependencies": [
@@ -742,11 +717,10 @@
               "confidence_level": 0.95,
               "covariance": "classical",
               "missing_policy": "complete_rows",
-              "producer_implementation": "scipy.stats.linregress/1",
               "rank_tolerance": 1e-12
             },
             "schema": "reprofig-statistical-specification/1",
-            "statistic_id": "exposure-response-ols",
+            "statistic_id": "exposure-ordinary-least-squares",
             "tolerances": {
               "*": {
                 "absolute": 1e-10,
@@ -755,8 +729,8 @@
             }
           },
           "schema": "reprofig-evidence-section/1",
-          "section_id": "statistical-specification:exposure-response-ols",
-          "sha256": "19b48b2fd82d615c3d1f0cff6e4bebd6c12bd590814fddec16b3665eba807555"
+          "section_id": "statistical-specification:exposure-ordinary-least-squares",
+          "sha256": "546a7da1ca7fb3c869f7bea5e16c29cf23574a861871c0c3eb0f8bee5ad38a8a"
         },
         {
           "dependencies": [],
@@ -926,11 +900,10 @@
             "confidence_level": 0.95,
             "covariance": "classical",
             "missing_policy": "complete_rows",
-            "producer_implementation": "scipy.stats.linregress/1",
             "rank_tolerance": 1e-12
           },
           "schema": "reprofig-statistical-specification/1",
-          "statistic_id": "exposure-response-ols",
+          "statistic_id": "exposure-ordinary-least-squares",
           "tolerances": {
             "*": {
               "absolute": 1e-10,
@@ -962,10 +935,10 @@
     "render_manifest": {
       "annotations": [
         {
-          "annotation_id": "ols-result",
+          "annotation_id": "ordinary-least-squares-result",
           "axes_id": "axes-0",
           "connected_mark_ids": [
-            "ols-fit"
+            "ordinary-least-squares-fit"
           ],
           "coordinate_system": "data",
           "formatter_id": "p_threshold_0.001/v1",
@@ -974,7 +947,7 @@
             10.2
           ],
           "role": "statistical annotation",
-          "statistic_id": "exposure-response-ols",
+          "statistic_id": "exposure-ordinary-least-squares",
           "text": "Slope = 1.14\np < 0.001"
         }
       ],
@@ -982,10 +955,10 @@
         {
           "axes_id": "axes-0",
           "bbox_inches": [
-            0.13526785714285716,
-            0.15052083333333333,
-            0.8299107142857143,
-            0.7366319444444446
+            0.1374107142857143,
+            0.15718749999999992,
+            0.825625,
+            0.7448263888888891
           ],
           "labels": {
             "title": "Exposure predicts response",
@@ -1227,31 +1200,8 @@
             ]
           },
           "kind": "line",
-          "mark_id": "ols-fit",
-          "role": "fitted regression",
-          "row_ids": [
-            "S01",
-            "S02",
-            "S03",
-            "S04",
-            "S05",
-            "S06",
-            "S07",
-            "S08",
-            "S09",
-            "S10",
-            "S11",
-            "S12",
-            "S13",
-            "S14",
-            "S15",
-            "S16",
-            "S17",
-            "S18",
-            "S19",
-            "S20"
-          ],
-          "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+          "mark_id": "ordinary-least-squares-fit",
+          "role": "fitted regression"
         },
         {
           "axes_id": "axes-0",
@@ -1368,8 +1318,7 @@
             "S18",
             "S19",
             "S20"
-          ],
-          "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+          ]
         }
       ],
       "schema": "reprofig-render-manifest/1",
@@ -1379,9 +1328,9 @@
       "format": "svg",
       "schema": "reprofig-visual-reference/1",
       "vector_elements": {
-        "observations": "b42e30d12d06dffcab67d56e6136c0345172e6dbf406227cc431c8f99a58d678",
-        "ols-fit": "df32b130d7be231f9b2c8bd4006716fa84e1360702a4fd5c75d2e14bf74ba0d7",
-        "ols-result": "07d67eb60591becc109d90154cd7f35094c13c5024f89f1f64043c9da06179e0"
+        "observations": "e722afc85970e5282ce54882c5a97fb46292da3425c5c6cd0a6765d4195828b7",
+        "ordinary-least-squares-fit": "acb2909b57ae931cd7653fec76cf210e5109a0123af184419e4cbcbd91c16d3c",
+        "ordinary-least-squares-result": "87c4343297723ede5a55d27af1cddba4db271c8dd6ffd2735abaabcb04ca6b7b"
       }
     }
   },
@@ -1400,10 +1349,10 @@
     "output": "fig/exposure-response.svg",
     "producer": "code/plot.py",
     "producer_language": "python",
-    "producer_sha256": "140c73f24a0dae8a1a8dfea87f1e3ac0e5301a27960adf4db92552e576165868",
+    "producer_sha256": "3e1e184d0a4d4c4aae376c5cad543734ca00f3f88e00afb675210f839c68e0c3",
     "readme": "README.md",
     "readme_sha256": "3ace023a37f67ffd19cd002eaa67271a1f6e944b96d1e9505cb24df3263ce2f9",
-    "script": "\"\"\"Draw and package one regression example with Seaborn.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy.stats import linregress, t\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\n\nCLAIM = \"Response increases with exposure in this synthetic dataset.\"\nGRAMMAR = \"scatter regression plot\"\nSTATISTIC_ID = \"exposure-response-ols\"\nFIGURE_NAME = \"exposure-response.svg\"\nBLUE = \"#4878A8\"\nINK = \"#303030\"\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_csv(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=[\"sample\", \"exposure\", \"response\"], lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"regression.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    exposure = [float(row[\"exposure\"]) for row in rows]\n    response = [float(row[\"response\"]) for row in rows]\n    fitted = linregress(exposure, response)\n    degrees_of_freedom = len(rows) - 2\n    critical = float(t.ppf(0.975, degrees_of_freedom))\n    intercept_t = float(fitted.intercept / fitted.intercept_stderr)\n    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))\n    expected = {\n        \"n\": len(rows),\n        \"df_residual\": degrees_of_freedom,\n        \"coefficients\": {\n            \"intercept\": {\n                \"estimate\": float(fitted.intercept),\n                \"standard_error\": float(fitted.intercept_stderr),\n                \"statistic\": intercept_t,\n                \"p_value\": intercept_p,\n                \"ci_low\": float(fitted.intercept - critical * fitted.intercept_stderr),\n                \"ci_high\": float(fitted.intercept + critical * fitted.intercept_stderr),\n            },\n            \"slope\": {\n                \"estimate\": float(fitted.slope),\n                \"standard_error\": float(fitted.stderr),\n                \"statistic\": float(fitted.slope / fitted.stderr),\n                \"p_value\": float(fitted.pvalue),\n                \"ci_low\": float(fitted.slope - critical * fitted.stderr),\n                \"ci_high\": float(fitted.slope + critical * fitted.stderr),\n            },\n        },\n    }\n    display_format = \"p_threshold_0.001/v1\" if fitted.pvalue < 0.001 else \"p_equals_4dp/v1\"\n    display_text = \"p < 0.001\" if fitted.pvalue < 0.001 else f\"p = {fitted.pvalue:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"ols/v1\",\n        inputs={\"design_matrix\": [[1.0, value] for value in exposure], \"outcome\": response},\n        parameters={\n            \"coefficient_names\": [\"intercept\", \"slope\"],\n            \"confidence_level\": 0.95,\n            \"covariance\": \"classical\",\n            \"missing_policy\": \"complete_rows\",\n            \"rank_tolerance\": 1e-12,\n            \"producer_implementation\": \"scipy.stats.linregress/1\",\n        },\n        expected=expected,\n        display={},\n        tolerances={\"*\": {\"absolute\": 1e-10, \"relative\": 1e-9}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"ordinary least-squares regression\",\n        \"coefficient\": \"exposure slope\",\n        \"n\": len(rows),\n        \"estimate\": float(fitted.slope),\n        \"standard_error\": float(fitted.stderr),\n        \"confidence_interval_low\": expected[\"coefficients\"][\"slope\"][\"ci_low\"],\n        \"confidence_interval_high\": expected[\"coefficients\"][\"slope\"][\"ci_high\"],\n        \"statistic\": expected[\"coefficients\"][\"slope\"][\"statistic\"],\n        \"degrees_of_freedom\": degrees_of_freedom,\n        \"p_value\": float(fitted.pvalue),\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_csv(figure_data, rows)\n    with (bundle / \"data\" / \"der\" / \"statistics.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(statistic), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(statistic)\n\n    plotted_table = table_from_data(figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\")\n    table_id = f\"table:{plotted_table.sha256}\"\n    sns.set_theme(\n        context=\"notebook\",\n        style=\"ticks\",\n        rc={\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.labelsize\": 12,\n            \"ytick.labelsize\": 12,\n        },\n    )\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-seaborn-regression-example\"\n    fig, ax = plt.subplots(figsize=(5.6, 4.8))\n    sns.regplot(\n        x=exposure,\n        y=response,\n        ci=None,\n        color=BLUE,\n        scatter_kws={\"s\": 58, \"alpha\": 0.85, \"edgecolor\": \"white\"},\n        line_kws={\"linewidth\": 2.8},\n        ax=ax,\n    )\n    points = ax.collections[0]\n    line = ax.lines[0]\n    bind_artist(points, semantic_id=\"observations\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], role=\"raw observations\")\n    bind_artist(line, semantic_id=\"ols-fit\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], statistic_id=STATISTIC_ID, role=\"fitted regression\")\n    label = ax.text(1.25, 10.2, f\"Slope = {fitted.slope:.2f}\\n{display_text}\", ha=\"left\", va=\"top\", fontsize=11, color=INK)\n    bind_artist(label, semantic_id=\"ols-result\", statistic_id=STATISTIC_ID, formatter_id=display_format, connected_mark_ids=[\"ols-fit\"], role=\"statistical annotation\")\n    ax.set_title(\"Exposure predicts response\", pad=12)\n    ax.set_xlabel(\"Exposure (arbitrary units)\")\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_xlim(0.6, 8.4)\n    ax.set_ylim(1.6, 11.0)\n    sns.despine(ax=ax)\n    ax.tick_params(width=1.8)\n    fig.tight_layout()\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"exposure-response\",\n        producer={\"package\": \"seaborn\", \"package_version\": importlib.metadata.version(\"seaborn\"), \"function\": \"code/plot.py\"},\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[source_reference(source, role=\"raw_user_input\", project_root=bundle, source_id=\"regression-source\")],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"python\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"working_directory\": \".\",\n            \"output\": f\"fig/{FIGURE_NAME}\",\n            \"input\": \"data/src/regression.csv\",\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n        extensions={\"proof\": {\"statistical_specifications\": [specification.to_dict()]}},\n    )\n    record = attach_evidence_graph(record)\n    record = save_figure(fig, bundle / \"fig\" / FIGURE_NAME, record=record, proof=True, savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"})\n    save_figure(fig, bundle / \"fig\" / \"preview.png\", record=record, proof=True, dpi=200, savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"})\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "script": "\"\"\"Draw one proof-carrying regression figure with Seaborn.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy.stats import linregress, t\n\nfrom reprofig import StatisticalSpecification, bind_artist, save_figure\n\nCLAIM = \"Response increases with exposure in this synthetic dataset.\"\nSTATISTIC_ID = \"exposure-ordinary-least-squares\"\nBLUE, INK = \"#4878A8\", \"#303030\"\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"regression.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    exposure = [float(row[\"exposure\"]) for row in rows]\n    response = [float(row[\"response\"]) for row in rows]\n    fitted = linregress(exposure, response)\n    degrees_of_freedom = len(rows) - 2\n    critical = float(t.ppf(0.975, degrees_of_freedom))\n    intercept_t = float(fitted.intercept / fitted.intercept_stderr)\n    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))\n    expected = {\n        \"n\": len(rows),\n        \"df_residual\": degrees_of_freedom,\n        \"coefficients\": {\n            \"intercept\": {\n                \"estimate\": float(fitted.intercept),\n                \"standard_error\": float(fitted.intercept_stderr),\n                \"statistic\": intercept_t,\n                \"p_value\": intercept_p,\n                \"ci_low\": float(fitted.intercept - critical * fitted.intercept_stderr),\n                \"ci_high\": float(fitted.intercept + critical * fitted.intercept_stderr),\n            },\n            \"slope\": {\n                \"estimate\": float(fitted.slope),\n                \"standard_error\": float(fitted.stderr),\n                \"statistic\": float(fitted.slope / fitted.stderr),\n                \"p_value\": float(fitted.pvalue),\n                \"ci_low\": float(fitted.slope - critical * fitted.stderr),\n                \"ci_high\": float(fitted.slope + critical * fitted.stderr),\n            },\n        },\n    }\n    display_format = (\n        \"p_threshold_0.001/v1\" if fitted.pvalue < 0.001 else \"p_equals_4dp/v1\"\n    )\n    display_text = \"p < 0.001\" if fitted.pvalue < 0.001 else f\"p = {fitted.pvalue:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"ols/v1\",\n        inputs={\n            \"design_matrix\": [[1.0, value] for value in exposure],\n            \"outcome\": response,\n        },\n        parameters={\n            \"coefficient_names\": [\"intercept\", \"slope\"],\n            \"confidence_level\": 0.95,\n            \"covariance\": \"classical\",\n            \"missing_policy\": \"complete_rows\",\n            \"rank_tolerance\": 1e-12,\n        },\n        expected=expected,\n        tolerances={\"*\": {\"absolute\": 1e-10, \"relative\": 1e-9}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"ordinary least-squares regression\",\n        \"coefficient\": \"exposure slope\",\n        \"n\": len(rows),\n        \"estimate\": float(fitted.slope),\n        \"standard_error\": float(fitted.stderr),\n        \"confidence_interval_low\": expected[\"coefficients\"][\"slope\"][\"ci_low\"],\n        \"confidence_interval_high\": expected[\"coefficients\"][\"slope\"][\"ci_high\"],\n        \"statistic\": expected[\"coefficients\"][\"slope\"][\"statistic\"],\n        \"degrees_of_freedom\": degrees_of_freedom,\n        \"p_value\": float(fitted.pvalue),\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n    }\n\n    sns.set_theme(context=\"notebook\", style=\"ticks\", font_scale=1.15)\n    plt.rcParams.update(\n        {\n            \"svg.fonttype\": \"none\",\n            \"svg.hashsalt\": \"reprofig-seaborn-regression-example\",\n            \"axes.linewidth\": 1.8,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n        }\n    )\n    figure, axes = plt.subplots(figsize=(5.6, 4.8))\n    sns.regplot(\n        x=exposure,\n        y=response,\n        ci=None,\n        color=BLUE,\n        scatter_kws={\"s\": 58, \"alpha\": 0.85, \"edgecolor\": \"white\"},\n        line_kws={\"linewidth\": 2.8},\n        ax=axes,\n    )\n    bind_artist(\n        axes.collections[0],\n        semantic_id=\"observations\",\n        row_ids=[row[\"sample\"] for row in rows],\n        columns=[\"exposure\", \"response\"],\n        role=\"raw observations\",\n    )\n    bind_artist(\n        axes.lines[0],\n        semantic_id=\"ordinary-least-squares-fit\",\n        columns=[\"exposure\", \"response\"],\n        statistic_id=STATISTIC_ID,\n        role=\"fitted regression\",\n    )\n    label = axes.text(\n        1.25,\n        10.2,\n        f\"Slope = {fitted.slope:.2f}\\n{display_text}\",\n        va=\"top\",\n        fontsize=11,\n        color=INK,\n    )\n    bind_artist(\n        label,\n        semantic_id=\"ordinary-least-squares-result\",\n        statistic_id=STATISTIC_ID,\n        formatter_id=display_format,\n        connected_mark_ids=[\"ordinary-least-squares-fit\"],\n        role=\"statistical annotation\",\n    )\n    axes.set(\n        title=\"Exposure predicts response\",\n        xlabel=\"Exposure (arbitrary units)\",\n        ylabel=\"Response (arbitrary units)\",\n        xlim=(0.6, 8.4),\n        ylim=(1.6, 11.0),\n    )\n    sns.despine(ax=axes)\n    figure.tight_layout()\n\n    record = save_figure(\n        figure,\n        bundle / \"fig\" / \"exposure-response.svg\",\n        data=rows,\n        sources=source,\n        statistics=[statistic],\n        statistical_specifications=[specification],\n        title=CLAIM,\n        claim=CLAIM,\n        grammar=\"scatter regression plot\",\n        producer=\"seaborn\",\n        analysis={\"input_kind\": \"plain CSV\"},\n        reproduction=True,\n        proof=True,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        figure,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        proof=True,\n        dpi=200,\n        savefig_kwargs={\"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(figure)\n\n\nif __name__ == \"__main__\":\n    main()\n",
     "source_index": "data/sources.csv",
     "source_index_sha256": "91ddcef12c57686c469606757f0e0cef5b2b76007fc19a4c2e24873c253b64ea",
     "working_directory": "."
@@ -1415,8 +1364,7 @@
       "relative_path": "data/src/regression.csv",
       "role": "raw_user_input",
       "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
-      "size_bytes": 267,
-      "source_id": "regression-source"
+      "size_bytes": 267
     }
   ],
   "statistics": [
@@ -1434,16 +1382,16 @@
       "inputs_json": "{\"design_matrix\":[[1.0,1.0],[1.0,1.4],[1.0,1.8],[1.0,2.1],[1.0,2.5],[1.0,2.9],[1.0,3.2],[1.0,3.6],[1.0,4.0],[1.0,4.3],[1.0,4.7],[1.0,5.1],[1.0,5.4],[1.0,5.8],[1.0,6.2],[1.0,6.5],[1.0,6.9],[1.0,7.3],[1.0,7.6],[1.0,8.0]],\"outcome\":[2.3,3.0,2.8,3.9,4.1,4.5,5.2,4.9,6.1,6.4,6.2,7.4,7.1,8.0,8.5,8.2,9.4,9.1,10.0,10.6]}",
       "n": 20,
       "p_value": 7.490133966488533e-18,
-      "parameters_json": "{\"coefficient_names\":[\"intercept\",\"slope\"],\"confidence_level\":0.95,\"covariance\":\"classical\",\"missing_policy\":\"complete_rows\",\"producer_implementation\":\"scipy.stats.linregress/1\",\"rank_tolerance\":1e-12}",
+      "parameters_json": "{\"coefficient_names\":[\"intercept\",\"slope\"],\"confidence_level\":0.95,\"covariance\":\"classical\",\"missing_policy\":\"complete_rows\",\"rank_tolerance\":1e-12}",
       "standard_error": 0.03334822361250716,
       "statistic": 34.29804499376627,
-      "statistic_id": "exposure-response-ols",
+      "statistic_id": "exposure-ordinary-least-squares",
       "tailedness": "two-sided",
       "test_name": "ordinary least-squares regression",
       "tolerances_json": "{\"*\":{\"absolute\":1e-10,\"relative\":1e-09}}"
     }
   ],
-  "statistics_csv_sha256": "ceb1b6d262c5f779989194bfbe94f1fef13f9b06eae27599693b969a58a12900",
+  "statistics_csv_sha256": "347dba08899cd1af5edc17471494ccddc68d59e7c3888463c68128f74f0445d0",
   "statistics_status": "complete",
   "title": "Response increases with exposure in this synthetic dataset."
 }

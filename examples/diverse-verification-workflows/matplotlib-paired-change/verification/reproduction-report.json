@@ -8,11 +8,11 @@
     "display": "pass",
     "statistics": "pass"
   },
-  "duration_seconds": 6.781,
+  "duration_seconds": 4.859,
   "execution_status": "pass",
-  "master_evidence_root": "137b62f15feb0e14570d3f4147d35545f466d99fe9e111b24ddbc1d68ff3c8b4",
+  "master_evidence_root": "dfcf260e08d626f03cd5d4581729501fb3f6938b65c46155fc67a9e12a685e70",
   "master_name": "paired-change.svg",
-  "master_sha256": "bb965beb5ca4bd00e23ce9028f20e689feea01fecfb9e38e829cf99bfa8bcdb0",
+  "master_sha256": "18011aee7c3c013bbfd5a69284078ed3ea3591f674ebfabab456fb8be0a7b3b9",
   "messages": {
     "data_tables": "Embedded table identities match.",
     "display": "Semantic marks and carrier-specific visual bindings match.",
@@ -20,7 +20,7 @@
     "statistics": "Normalized statistical records match."
   },
   "reproduced_path": "reproduced/paired-change-reproduced.svg",
-  "reproduced_sha256": "113f8be492cef58f5d34488b69abbd8f56a2f3a1193c08c3e10bc41edf4ea5ea",
+  "reproduced_sha256": "b6f5524124bcfadbba777f6e52f9dfc7811d149d0349cb7d576f0cde377ef0d8",
   "return_code": 0,
   "runtime": {
     "executable": "python.exe",

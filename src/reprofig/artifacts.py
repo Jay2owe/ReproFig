@@ -25,7 +25,13 @@ from .naming import (
 )
 from .profiles import derive_profile
 from .profiles import approved_public_tables
-from .schema import FigureRecord, deterministic_json, sha256_bytes
+from .schema import (
+    FigureRecord,
+    SourceReference,
+    StatisticalSpecification,
+    deterministic_json,
+    sha256_bytes,
+)
 from .tables import safe_filename_token, statistics_csv_bytes
 from .validation import (
     ValidationReport,
@@ -40,6 +46,29 @@ VECTOR_FORMATS = frozenset({"svg", "pdf"})
 DEFAULT_RASTER_DPI = 300
 SCREEN_DPI = 150
 LINE_ART_DPI = 600
+
+
+def _figure_backend(figure: Any) -> str:
+    if callable(getattr(figure, "savefig", None)):
+        return "matplotlib"
+    if callable(getattr(figure, "write_image", None)):
+        return "plotly"
+    raise TypeError("figure must provide savefig() or Plotly-compatible write_image()")
+
+
+def _write_plotly_image(
+    figure: Any,
+    path: Path,
+    *,
+    format: str,
+    kwargs: Mapping[str, Any],
+    dpi: float | None,
+) -> None:
+    options = dict(kwargs)
+    if dpi is not None:
+        options.setdefault("scale", float(dpi) / 96.0)
+    plotly_format = "jpg" if format == "jpeg" else format
+    figure.write_image(str(path), format=plotly_format, **options)
 
 
 def _records(value: FigureRecord | Sequence[FigureRecord]) -> list[FigureRecord]:
@@ -99,8 +128,12 @@ def _render_facts(
                 facts["actual_dpi_x"] = round(float(dpi[0]), 6)
                 facts["actual_dpi_y"] = round(float(dpi[1]), 6)
                 if dpi[0] and dpi[1]:
-                    facts["physical_width_inches"] = round(image.width / float(dpi[0]), 6)
-                    facts["physical_height_inches"] = round(image.height / float(dpi[1]), 6)
+                    facts["physical_width_inches"] = round(
+                        image.width / float(dpi[0]), 6
+                    )
+                    facts["physical_height_inches"] = round(
+                        image.height / float(dpi[1]), 6
+                    )
     except Exception:
         pass
     if requested_width is not None:
@@ -148,9 +181,11 @@ def embed_file(
         ]
     if len(final_records) > 1 and not adapter.capabilities.multiple_records:
         raise CarrierError(f"{carrier_format} supports only one ReproFig record")
-    render_values = list(renders) if renders is not None else [
-        _render_facts(source_path, carrier_format) for _record in final_records
-    ]
+    render_values = (
+        list(renders)
+        if renders is not None
+        else [_render_facts(source_path, carrier_format) for _record in final_records]
+    )
     manifest = CarrierManifest.for_records(
         carrier_format,
         final_records,
@@ -164,7 +199,9 @@ def embed_file(
     )
     target.parent.mkdir(parents=True, exist_ok=True)
     descriptor, candidate_name = tempfile.mkstemp(
-        dir=str(target.parent), prefix=f".{target.name}.", suffix=target.suffix + ".candidate"
+        dir=str(target.parent),
+        prefix=f".{target.name}.",
+        suffix=target.suffix + ".candidate",
     )
     os.close(descriptor)
     candidate = Path(candidate_name)
@@ -254,7 +291,9 @@ def extract_artifact(
         integrity = validate_record(record, require_complete=False)
         if not integrity.valid:
             messages = "; ".join(issue.message for issue in integrity.issues)
-            raise CarrierError(f"record {record.figure_id} failed validation: {messages}")
+            raise CarrierError(
+                f"record {record.figure_id} failed validation: {messages}"
+            )
     destination = Path(output_dir)
     destination.mkdir(parents=True, exist_ok=True)
     planned: list[tuple[str, bytes]] = []
@@ -283,12 +322,16 @@ def extract_artifact(
             role_filename(prefix, "record", "json", naming=mode),
             record.to_json(indent=2).encode("utf-8"),
         )
-        readable_tables = unique_role_filenames(
-            prefix,
-            [table.name for table in record.data_tables],
-            "csv",
-            naming=mode,
-        ) if mode == "readable" else []
+        readable_tables = (
+            unique_role_filenames(
+                prefix,
+                [table.name for table in record.data_tables],
+                "csv",
+                naming=mode,
+            )
+            if mode == "readable"
+            else []
+        )
         for index, table in enumerate(record.data_tables):
             if table.contents is not None:
                 table_name = (
@@ -325,13 +368,18 @@ def extract_artifact(
     if len(names) != len(set(names)):
         raise ValueError("artifact extraction filenames collide")
     if not overwrite:
-        existing = [destination / name for name in names if (destination / name).exists()]
+        existing = [
+            destination / name for name in names if (destination / name).exists()
+        ]
         if existing:
             raise FileExistsError(
-                "extraction would overwrite: " + ", ".join(str(path) for path in existing)
+                "extraction would overwrite: "
+                + ", ".join(str(path) for path in existing)
             )
     outputs: list[Path] = []
-    with tempfile.TemporaryDirectory(dir=destination, prefix=".reprofig-extract-") as temporary_name:
+    with tempfile.TemporaryDirectory(
+        dir=destination, prefix=".reprofig-extract-"
+    ) as temporary_name:
         temporary = Path(temporary_name)
         for name, value in planned:
             (temporary / name).write_bytes(value)
@@ -354,7 +402,9 @@ def bundle_artifacts(
     all_records: list[FigureRecord] = []
     destination = Path(output_path)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(dir=destination.parent, prefix=".reprofig-bundle-") as name:
+    with tempfile.TemporaryDirectory(
+        dir=destination.parent, prefix=".reprofig-bundle-"
+    ) as name:
         temporary = Path(name)
         seed = temporary / "seed.zip"
         with zipfile.ZipFile(seed, "w") as archive:
@@ -366,7 +416,9 @@ def bundle_artifacts(
                 used.add(member)
                 archive.write(source, member)
                 all_records.extend(extract_records(source))
-        embed_file(seed, _dedupe_records(all_records), output_path=destination, format="zip")
+        embed_file(
+            seed, _dedupe_records(all_records), output_path=destination, format="zip"
+        )
     return destination
 
 
@@ -416,9 +468,18 @@ def validate_artifact(
         if safety:
             report.checks.append("private_paths_and_credentials")
             for code, excerpt in record_has_private_strings(record):
-                report.add("error", "record_" + code, "public record contains private material", excerpt)
+                report.add(
+                    "error",
+                    "record_" + code,
+                    "public record contains private material",
+                    excerpt,
+                )
             if record.distribution_profile == "minimal_public":
-                embedded = [table.name for table in record.data_tables if table.contents is not None]
+                embedded = [
+                    table.name
+                    for table in record.data_tables
+                    if table.contents is not None
+                ]
                 if embedded:
                     report.add(
                         "error",
@@ -431,7 +492,9 @@ def validate_artifact(
         for entry in manifest.records:
             render = entry.render
             for field in ("width_px", "height_px"):
-                if render.get(field) is not None and actual.get(field) != render.get(field):
+                if render.get(field) is not None and actual.get(field) != render.get(
+                    field
+                ):
                     report.add(
                         "error",
                         "render_dimension_mismatch",
@@ -455,7 +518,11 @@ def validate_artifact(
                     f"raster density differs by axis: {actual_x} x {actual_y} DPI",
                     entry.figure_id,
                 )
-            if requested is not None and actual_x is not None and actual_x + 1 < float(requested):
+            if (
+                requested is not None
+                and actual_x is not None
+                and actual_x + 1 < float(requested)
+            ):
                 report.add(
                     "warning",
                     "density_below_requested",
@@ -520,7 +587,10 @@ def inspect_artifact(
                 "statistics_status": record.statistics_status,
                 "statistics_count": len(record.statistics),
                 "sources": [
-                    {**source.to_dict(), "status": source_status(source, project_root=project_root)}
+                    {
+                        **source.to_dict(),
+                        "status": source_status(source, project_root=project_root),
+                    }
                     for source in record.sources
                 ],
                 "record_sha256": record.fingerprint(),
@@ -535,17 +605,21 @@ def inspect_artifact(
 def artifact_paths(
     value: str | os.PathLike[str] | Sequence[str | os.PathLike[str]],
 ) -> list[Path]:
-    values = [Path(value)] if isinstance(value, (str, os.PathLike)) else [Path(item) for item in value]
+    values = (
+        [Path(value)]
+        if isinstance(value, (str, os.PathLike))
+        else [Path(item) for item in value]
+    )
     extensions = {
-        extension
-        for capability in formats()
-        for extension in capability["extensions"]
+        extension for capability in formats() for extension in capability["extensions"]
     }
     expanded: list[Path] = []
     for candidate in values:
         if candidate.is_dir():
             expanded.extend(
-                path for path in candidate.rglob("*") if path.is_file() and path.suffix.lower() in extensions
+                path
+                for path in candidate.rglob("*")
+                if path.is_file() and path.suffix.lower() in extensions
             )
         else:
             expanded.append(candidate)
@@ -590,10 +664,13 @@ def scan_artifacts(
                         "created_at": record["created_at"],
                         "profile": record["profile"],
                         "package": producer.get("package"),
-                        "package_version": producer.get("package_version") or producer.get("version"),
+                        "package_version": producer.get("package_version")
+                        or producer.get("version"),
                         "function": producer.get("function"),
                         "statistics_count": record["statistics_count"],
-                        "data_tables": ";".join(table["name"] for table in record["data_tables"]),
+                        "data_tables": ";".join(
+                            table["name"] for table in record["data_tables"]
+                        ),
                         "valid": info["valid"],
                     }
                 )
@@ -765,9 +842,13 @@ def publish_artifacts(
             validation_rows.append(report.to_dict())
             if not report.valid:
                 errors = "; ".join(
-                    issue.message for issue in report.issues if issue.severity == "error"
+                    issue.message
+                    for issue in report.issues
+                    if issue.severity == "error"
                 )
-                raise ValueError(f"public validation failed for {source.name}: {errors}")
+                raise ValueError(
+                    f"public validation failed for {source.name}: {errors}"
+                )
             pending.append((candidate, output / output_name, "artifact"))
             all_derived.extend(derived_records)
             csv_names: list[str] = []
@@ -778,7 +859,9 @@ def publish_artifacts(
                     elif mode == "readable":
                         prefix = f"{stem}-{short_figure_identity(derived.figure_id)}"
                     else:
-                        prefix = f"{source.stem}.{safe_filename_token(derived.figure_id)}"
+                        prefix = (
+                            f"{source.stem}.{safe_filename_token(derived.figure_id)}"
+                        )
                     table_roles = [
                         (
                             "source-data"
@@ -820,9 +903,13 @@ def publish_artifacts(
                             if planned_csv_hashes.get(name) == digest:
                                 csv_names.append(name)
                                 continue
-                            raise FileExistsError(f"publication output collision at {name}")
+                            raise FileExistsError(
+                                f"publication output collision at {name}"
+                            )
                         if (output / name).exists():
-                            raise FileExistsError(f"publication output collision at {name}")
+                            raise FileExistsError(
+                                f"publication output collision at {name}"
+                            )
                         reserved.add(name)
                         planned_csv_hashes[name] = digest
                         csv_path = temporary / name
@@ -841,9 +928,13 @@ def publish_artifacts(
                         if planned_csv_hashes.get(stats_name) == stats_digest:
                             csv_names.append(stats_name)
                             continue
-                        raise FileExistsError(f"publication output collision at {stats_name}")
+                        raise FileExistsError(
+                            f"publication output collision at {stats_name}"
+                        )
                     if (output / stats_name).exists():
-                        raise FileExistsError(f"publication output collision at {stats_name}")
+                        raise FileExistsError(
+                            f"publication output collision at {stats_name}"
+                        )
                     reserved.add(stats_name)
                     planned_csv_hashes[stats_name] = stats_digest
                     stats_path = temporary / stats_name
@@ -857,19 +948,27 @@ def publish_artifacts(
                     "format": identify_format(source),
                     "profile": figure_profile,
                     "figure_ids": [record.figure_id for record in derived_records],
-                    "record_sha256s": [record.fingerprint() for record in derived_records],
+                    "record_sha256s": [
+                        record.fingerprint() for record in derived_records
+                    ],
                     "companion_csvs": csv_names,
                     "output_sha256": file_sha256(candidate),
                 }
             )
         manifest_path = temporary / manifest_name
         manifest_path.write_text(
-            deterministic_json({"profile": figure_profile, "artifacts": manifest_rows}, indent=2) + "\n",
+            deterministic_json(
+                {"profile": figure_profile, "artifacts": manifest_rows}, indent=2
+            )
+            + "\n",
             encoding="utf-8",
         )
         validation_path = temporary / validation_name
         validation_path.write_text(
-            deterministic_json({"valid": result.valid, "artifacts": validation_rows}, indent=2) + "\n",
+            deterministic_json(
+                {"valid": result.valid, "artifacts": validation_rows}, indent=2
+            )
+            + "\n",
             encoding="utf-8",
         )
         pending.extend(
@@ -885,7 +984,14 @@ def publish_artifacts(
             with zipfile.ZipFile(raw_zip, "w") as archive:
                 for candidate, _target, kind in pending:
                     if kind in {"artifact", "csv"}:
-                        archive.write(candidate, f"figures/{candidate.name}" if kind == "artifact" else f"data/{candidate.name}")
+                        archive.write(
+                            candidate,
+                            (
+                                f"figures/{candidate.name}"
+                                if kind == "artifact"
+                                else f"data/{candidate.name}"
+                            ),
+                        )
             bundle_name = (
                 "publication-reprofig.zip"
                 if mode == "readable"
@@ -919,6 +1025,23 @@ def save_figure(
     path: str | os.PathLike[str],
     *,
     record: FigureRecord | None = None,
+    data: Any | None = None,
+    sources: (
+        Sequence[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]
+        | SourceReference
+        | Mapping[str, Any]
+        | str
+        | os.PathLike[str]
+        | None
+    ) = None,
+    statistical_specifications: (
+        Sequence[StatisticalSpecification | Mapping[str, Any]] | None
+    ) = None,
+    reproduction: Mapping[str, Any] | bool | None = None,
+    producer: Mapping[str, Any] | str | None = None,
+    claim: str | None = None,
+    grammar: str | None = None,
+    project_root: str | os.PathLike[str] | None = None,
     figure_profile: str = "master",
     dpi: float | str | None = None,
     dpi_preset: str | None = None,
@@ -936,31 +1059,109 @@ def save_figure(
     proof_policy: Mapping[str, Any] | None = None,
     **record_kwargs: Any,
 ) -> FigureRecord:
-    """Save a Matplotlib-like figure in any supported image/PDF carrier."""
+    """Save a figure with automatic data, source, script, and hash provenance."""
 
     from .api import build_record_for_figure, save_svg, write_companion_tables
+    from .provenance import (
+        automatic_reproduction,
+        complete_reproduction,
+        infer_producer,
+        infer_project_root,
+    )
 
     target = Path(path)
     carrier_format = identify_format(target)
     if carrier_format not in RASTER_FORMATS | VECTOR_FORMATS:
         raise ValueError(f"save_figure cannot render directly to {carrier_format}")
+    root = infer_project_root(target, project_root)
     if record is None:
+        if data is not None:
+            if "plotted_data" in record_kwargs or "data_tables" in record_kwargs:
+                raise TypeError("pass data, plotted_data, or data_tables only once")
+            record_kwargs["data_tables"] = {"figure_data": data}
+        if sources is not None:
+            if "sources" in record_kwargs:
+                raise TypeError("sources was provided more than once")
+            record_kwargs["sources"] = sources
+        if statistical_specifications is not None:
+            if "statistical_specifications" in record_kwargs:
+                raise TypeError(
+                    "statistical_specifications was provided more than once"
+                )
+            record_kwargs["statistical_specifications"] = statistical_specifications
+        if reproduction is True:
+            reproduction_value: Mapping[str, Any] | None = automatic_reproduction(
+                target,
+                project_root=root,
+            )
+        elif reproduction in (None, False):
+            reproduction_value = None
+        elif isinstance(reproduction, Mapping):
+            reproduction_value = reproduction
+        else:
+            raise TypeError("reproduction must be True, False, or a mapping")
+        if reproduction_value is not None:
+            if "reproduction" in record_kwargs:
+                raise TypeError("reproduction was provided more than once")
+            record_kwargs["reproduction"] = reproduction_value
+        analysis = dict(record_kwargs.pop("analysis", {}) or {})
+        if claim is not None:
+            analysis["claim"] = claim
+        if grammar is not None:
+            analysis["grammar"] = grammar
+        if analysis:
+            record_kwargs["analysis"] = analysis
+        explicit_producer = record_kwargs.pop("producer", producer)
+        producer_path = (
+            str(reproduction_value.get("producer"))
+            if reproduction_value and reproduction_value.get("producer")
+            else None
+        )
+        record_kwargs["producer"] = infer_producer(
+            figure,
+            explicit_producer,
+            function=producer_path,
+        )
+        record_kwargs["project_root"] = root
         record = build_record_for_figure(
             figure,
             title=record_kwargs.pop("title", None) or target.stem,
             original_stem=target.stem,
             **record_kwargs,
         )
+        if reproduction_value is not None:
+            complete_reproduction(record, root=root)
         record_kwargs.clear()
+    elif any(
+        value is not None
+        for value in (
+            data,
+            sources,
+            statistical_specifications,
+            reproduction,
+            producer,
+            claim,
+            grammar,
+            project_root,
+        )
+    ):
+        raise TypeError("record cannot be combined with record-construction arguments")
     if record_kwargs:
         raise TypeError(f"unexpected record arguments: {sorted(record_kwargs)}")
+    backend = _figure_backend(figure)
     capture_proof = bool(proof or proof_policy)
     render_manifest = None
     if capture_proof:
-        from .render.matplotlib import capture_matplotlib
+        declared_manifest = record.extensions.get("render_manifest")
+        if isinstance(declared_manifest, Mapping):
+            from .render.schema import RenderManifest
 
-        render_manifest = capture_matplotlib(figure)
-    if carrier_format == "svg" and not capture_proof:
+            render_manifest = RenderManifest.from_dict(declared_manifest)
+        elif backend == "matplotlib":
+            from .render.matplotlib import capture_matplotlib
+
+            render_manifest = capture_matplotlib(figure)
+    if carrier_format == "svg" and not capture_proof and backend == "matplotlib":
         return save_svg(
             figure,
             target,
@@ -974,19 +1175,29 @@ def save_figure(
         )
     chosen_preset = render_preset or dpi_preset
     if dpi is None and chosen_preset:
-        presets = {"screen": SCREEN_DPI, "continuous_tone": DEFAULT_RASTER_DPI, "line_art": LINE_ART_DPI}
+        presets = {
+            "screen": SCREEN_DPI,
+            "continuous_tone": DEFAULT_RASTER_DPI,
+            "line_art": LINE_ART_DPI,
+        }
         try:
             dpi = presets[chosen_preset]
         except KeyError as exc:
             raise ValueError(f"unknown render_preset {chosen_preset!r}") from exc
     if dpi == "preserve":
-        raise ValueError("dpi='preserve' applies to embed_file; newly rendered figures need a numeric DPI")
+        raise ValueError(
+            "dpi='preserve' applies to embed_file; newly rendered figures need a numeric DPI"
+        )
     if dpi is not None and (not isinstance(dpi, (int, float)) or float(dpi) <= 0):
         raise ValueError("dpi must be a positive number")
     for name, value in (("width", width), ("height", height)):
         if value is not None and float(value) <= 0:
             raise ValueError(f"{name} must be a positive number of inches")
-    effective_dpi = dpi if dpi is not None else (DEFAULT_RASTER_DPI if carrier_format in RASTER_FORMATS else None)
+    effective_dpi = (
+        dpi
+        if dpi is not None
+        else (DEFAULT_RASTER_DPI if carrier_format in RASTER_FORMATS else None)
+    )
     final_record = derive_profile(
         record,
         figure_profile,
@@ -999,6 +1210,7 @@ def save_figure(
         # as carrier-specific bindings so SVG, PDF and raster variants retain
         # one evidence root.
         final_record.extensions["render_manifest"] = render_manifest.to_dict()
+    if capture_proof:
         from .evidence import refresh_evidence_graph
 
         final_record = refresh_evidence_graph(final_record)
@@ -1011,24 +1223,102 @@ def save_figure(
     original_size = None
     try:
         kwargs = dict(savefig_kwargs or {})
-        if format_options:
+        if format_options and backend == "matplotlib":
             if carrier_format in {"png", "jpeg", "tiff", "webp"}:
                 pil_kwargs = dict(kwargs.get("pil_kwargs") or {})
                 pil_kwargs.update(dict(format_options))
                 kwargs["pil_kwargs"] = pil_kwargs
             elif carrier_format not in {"avif", "heif"}:
                 kwargs.update(dict(format_options))
-        if effective_dpi is not None:
+        if effective_dpi is not None and backend == "matplotlib":
             kwargs.setdefault("dpi", effective_dpi)
         if width is not None or height is not None:
-            original_size = tuple(float(value) for value in figure.get_size_inches())
-            aspect = original_size[0] / original_size[1]
-            requested_width = float(width) if width is not None else float(height) * aspect
-            requested_height = float(height) if height is not None else float(width) / aspect
-            figure.set_size_inches(requested_width, requested_height, forward=False)
+            if backend == "matplotlib":
+                original_size = tuple(
+                    float(value) for value in figure.get_size_inches()
+                )
+                aspect = original_size[0] / original_size[1]
+            else:
+                layout_width = float(getattr(figure.layout, "width", None) or 700)
+                layout_height = float(getattr(figure.layout, "height", None) or 450)
+                aspect = layout_width / layout_height
+            requested_width = (
+                float(width) if width is not None else float(height) * aspect
+            )
+            requested_height = (
+                float(height) if height is not None else float(width) / aspect
+            )
+            if backend == "matplotlib":
+                figure.set_size_inches(requested_width, requested_height, forward=False)
+            else:
+                kwargs.setdefault("width", round(requested_width * 96))
+                kwargs.setdefault("height", round(requested_height * 96))
         else:
             requested_width = requested_height = None
-        if carrier_format in {"avif", "heif"}:
+        if backend == "plotly" and carrier_format in RASTER_FORMATS:
+            from PIL import Image
+
+            png_path = temporary.with_suffix(temporary.suffix + ".png")
+            try:
+                _write_plotly_image(
+                    figure,
+                    png_path,
+                    format="png",
+                    kwargs=kwargs,
+                    dpi=float(effective_dpi) if effective_dpi is not None else None,
+                )
+                with Image.open(png_path) as rendered:
+                    if carrier_format == "avif":
+                        rendered.save(
+                            temporary,
+                            format="AVIF",
+                            **dict(format_options or {}),
+                        )
+                    elif carrier_format == "heif":
+                        import pillow_heif
+
+                        heif = pillow_heif.from_pillow(rendered)
+                        heif.save(temporary, **dict(format_options or {}))
+                    else:
+                        save_options = dict(format_options or {})
+                        if effective_dpi is not None and carrier_format in {
+                            "png",
+                            "jpeg",
+                            "tiff",
+                        }:
+                            save_options.setdefault(
+                                "dpi", (float(effective_dpi), float(effective_dpi))
+                            )
+                        output = rendered
+                        if carrier_format == "jpeg" and rendered.mode not in {
+                            "RGB",
+                            "L",
+                        }:
+                            output = rendered.convert("RGB")
+                        output.save(
+                            temporary,
+                            format={
+                                "png": "PNG",
+                                "jpeg": "JPEG",
+                                "tiff": "TIFF",
+                                "webp": "WEBP",
+                            }[carrier_format],
+                            **save_options,
+                        )
+            finally:
+                try:
+                    png_path.unlink()
+                except OSError:
+                    pass
+        elif backend == "plotly":
+            _write_plotly_image(
+                figure,
+                temporary,
+                format=carrier_format,
+                kwargs=kwargs,
+                dpi=None,
+            )
+        elif carrier_format in {"avif", "heif"}:
             from PIL import Image
 
             png_path = temporary.with_suffix(temporary.suffix + ".png")
@@ -1117,8 +1407,7 @@ def save_figure(
                     output_path=embedded_candidate,
                     format=carrier_format,
                     renders=[render],
-                    allow_reencode=allow_reencode
-                    or carrier_format in {"avif", "heif"},
+                    allow_reencode=allow_reencode or carrier_format in {"avif", "heif"},
                 )
                 from .policy import apply_artifact_policy
 

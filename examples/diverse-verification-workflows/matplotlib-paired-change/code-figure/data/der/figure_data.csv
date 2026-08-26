@@ -1,0 +1,144 @@
+panel,panel_label,accent,line,x,y,characters,n_spans,classes,text
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,1,26.0,43.0,67,1,literal,"""""""Draw one proof-carrying paired-change figure with Matplotlib."""""""
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,3,26.0,76.0,34,7,keyword|punctuation|plain,from __future__ import annotations
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,5,26.0,109.0,10,3,keyword|punctuation|plain,import csv
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,6,26.0,125.5,24,7,keyword|punctuation|plain,from pathlib import Path
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,7,26.0,142.0,29,7,keyword|punctuation|plain,from statistics import median
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,9,26.0,175.0,31,9,keyword|punctuation|plain,import matplotlib.pyplot as plt
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,10,26.0,191.5,32,9,keyword|punctuation|plain,from scipy.stats import wilcoxon
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,12,26.0,224.5,71,11,keyword|punctuation|plain,"from reprofig import StatisticalSpecification, bind_artist, save_figure"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,14,26.0,257.5,87,3,plain|punctuation|literal,"CLAIM = ""Paired responses are higher after the intervention in this synthetic dataset."""
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,15,26.0,274.0,39,3,plain|punctuation|literal,"STATISTIC_ID = ""paired-change-wilcoxon"""
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,16,26.0,290.5,68,15,plain|punctuation|literal,"BLUE, ORANGE, GREY, INK = ""#4878A8"", ""#d98a17"", ""#c7c7c7"", ""#303030"""
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,19,26.0,340.0,19,6,keyword|punctuation|plain,def main() -> None:
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,20,26.0,356.5,48,13,punctuation|plain|literal,    bundle = Path(__file__).resolve().parents[1]
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,21,26.0,373.0,58,10,punctuation|plain|literal,"    source = bundle / ""data"" / ""src"" / ""paired-change.csv"""
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,22,26.0,389.5,61,19,punctuation|keyword|plain|literal,"    with source.open(newline="""", encoding=""utf-8"") as handle:"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,23,26.0,406.0,43,11,punctuation|plain|keyword,        rows = list(csv.DictReader(handle))
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,25,26.0,439.0,51,17,punctuation|plain|keyword|literal,"    before = [float(row[""before""]) for row in rows]"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,26,26.0,455.5,49,17,punctuation|plain|keyword|literal,"    after = [float(row[""after""]) for row in rows]"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,27,26.0,472.0,70,21,punctuation|plain|keyword,"    differences = [right - left for left, right in zip(before, after)]"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,28,26.0,488.5,74,15,punctuation|plain|literal,"    result = wilcoxon(differences, alternative=""two-sided"", method=""auto"")"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,29,26.0,505.0,34,9,punctuation|plain|keyword,    p_value = float(result.pvalue)
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,30,26.0,521.5,48,10,punctuation|plain|literal,"    display_text = f""Wilcoxon p = {p_value:.4f}"""
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,31,26.0,538.0,45,5,punctuation|plain,    specification = StatisticalSpecification(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,32,26.0,554.5,34,5,punctuation|plain,"        statistic_id=STATISTIC_ID,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,33,26.0,571.0,35,5,punctuation|plain|literal,"        algorithm_id=""wilcoxon/v1"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,34,26.0,587.5,41,7,punctuation|plain|literal,"        inputs={""values_a"": differences},"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,35,26.0,604.0,20,3,punctuation|plain,        parameters={
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,36,26.0,620.5,39,5,punctuation|literal,"            ""alternative"": ""two_sided"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,37,26.0,637.0,36,5,punctuation|literal,"            ""zero_method"": ""wilcox"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,38,26.0,653.5,32,5,punctuation|literal|keyword,"            ""correction"": False,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,39,26.0,670.0,29,5,punctuation|literal,"            ""method"": ""auto"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,40,26.0,686.5,10,1,punctuation,"        },"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,41,26.0,703.0,76,15,punctuation|plain|literal|keyword,"        expected={""statistic"": float(result.statistic), ""p_value"": p_value},"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,42,26.0,719.5,17,3,punctuation|plain,        display={
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,43,26.0,736.0,31,5,punctuation|literal,"            ""field"": ""p_value"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,44,26.0,752.5,40,5,punctuation|literal,"            ""format"": ""p_equals_4dp/v1"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,45,26.0,769.0,41,11,punctuation|literal|plain,"            ""text"": f""p = {p_value:.4f}"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,46,26.0,785.5,10,1,punctuation,"        },"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,47,26.0,802.0,65,13,punctuation|plain|literal,"        tolerances={""*"": {""absolute"": 1e-12, ""relative"": 1e-10}},"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,48,26.0,818.5,5,1,punctuation,    )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,49,26.0,835.0,17,3,punctuation|plain,    statistic = {
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,50,26.0,851.5,37,5,punctuation|literal|plain,"        ""statistic_id"": STATISTIC_ID,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,51,26.0,868.0,49,5,punctuation|literal,"        ""test_name"": ""Wilcoxon signed-rank test"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,52,26.0,884.5,23,7,punctuation|literal|keyword|plain,"        ""n"": len(rows),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,53,26.0,901.0,40,7,punctuation|literal|plain,"        ""estimate"": median(differences),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,54,26.0,917.5,48,5,punctuation|literal,"        ""estimate_name"": ""median paired change"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,55,26.0,934.0,45,9,punctuation|literal|keyword|plain,"        ""statistic"": float(result.statistic),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,56,26.0,950.5,27,5,punctuation|literal|plain,"        ""p_value"": p_value,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,57,26.0,967.0,34,5,punctuation|literal,"        ""tailedness"": ""two-sided"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,58,26.0,983.5,36,5,punctuation|literal,"        ""correction_method"": ""none"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,59,26.0,1000.0,22,5,punctuation|literal,"        ""alpha"": 0.05,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,60,26.0,1016.5,51,7,punctuation|literal|plain,"        ""algorithm_id"": specification.algorithm_id,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,61,26.0,1033.0,5,1,punctuation,    }
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,63,26.0,1066.0,24,7,punctuation|plain,    plt.rcParams.update(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,64,26.0,1082.5,9,1,punctuation,        {
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,65,26.0,1099.0,40,5,punctuation|literal,"            ""font.family"": ""sans-serif"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,66,26.0,1115.5,28,5,punctuation|literal,"            ""font.size"": 13,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,67,26.0,1132.0,35,5,punctuation|literal,"            ""svg.fonttype"": ""none"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,68,26.0,1148.5,61,5,punctuation|literal,"            ""svg.hashsalt"": ""reprofig-paired-change-example"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,69,26.0,1165.0,34,5,punctuation|literal,"            ""axes.linewidth"": 1.8,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,70,26.0,1181.5,33,5,punctuation|literal,"            ""axes.labelsize"": 15,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,71,26.0,1198.0,33,5,punctuation|literal,"            ""axes.titlesize"": 17,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,72,26.0,1214.5,39,5,punctuation|literal,"            ""axes.titleweight"": ""bold"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,73,26.0,1231.0,9,1,punctuation,        }
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,74,26.0,1247.5,5,1,punctuation,    )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,75,26.0,1264.0,51,15,punctuation|plain|literal,"    figure, axes = plt.subplots(figsize=(5.2, 5.0))"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,76,26.0,1280.5,53,19,punctuation|keyword|plain,"    for row, left, right in zip(rows, before, after):"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,77,26.0,1297.0,77,25,punctuation|plain|literal,"        pair = axes.plot([0, 1], [left, right], color=GREY, linewidth=1.5)[0]"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,78,26.0,1313.5,20,3,punctuation|plain,        bind_artist(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,79,26.0,1330.0,17,3,punctuation|plain,"            pair,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,80,26.0,1346.5,53,11,punctuation|plain|literal,"            semantic_id=f""pair-{row['participant']}"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,81,26.0,1363.0,41,7,punctuation|plain|literal,"            row_ids=[row[""participant""]],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,82,26.0,1379.5,40,7,punctuation|plain|literal,"            columns=[""before"", ""after""],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,83,26.0,1396.0,37,5,punctuation|plain|literal,"            role=""paired trajectory"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,84,26.0,1412.5,9,1,punctuation,        )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,85,26.0,1429.0,87,27,punctuation|plain|literal|keyword,"    before_points = axes.scatter([0] * len(before), before, s=58, color=BLUE, zorder=3)"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,86,26.0,1445.5,86,27,punctuation|plain|literal|keyword,"    after_points = axes.scatter([1] * len(after), after, s=58, color=ORANGE, zorder=3)"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,87,26.0,1462.0,33,11,punctuation|keyword|plain,"    for artist, name, column in ("
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,88,26.0,1478.5,57,7,punctuation|plain|literal,"        (before_points, ""before-observations"", ""before""),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,89,26.0,1495.0,54,7,punctuation|plain|literal,"        (after_points, ""after-observations"", ""after""),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,90,26.0,1511.5,6,1,punctuation,    ):
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,91,26.0,1528.0,20,3,punctuation|plain,        bind_artist(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,92,26.0,1544.5,19,3,punctuation|plain,"            artist,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,93,26.0,1561.0,29,5,punctuation|plain,"            semantic_id=name,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,94,26.0,1577.5,57,15,punctuation|plain|literal|keyword,"            row_ids=[row[""participant""] for row in rows],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,95,26.0,1594.0,29,5,punctuation|plain,"            columns=[column],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,96,26.0,1610.5,36,5,punctuation|plain|literal,"            role=""raw observations"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,97,26.0,1627.0,9,1,punctuation,        )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,98,26.0,1643.5,34,11,punctuation|keyword|plain,"    for position, value, name in ("
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,99,26.0,1660.0,45,9,punctuation|literal|plain,"        (0, median(before), ""before-median""),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,100,26.0,1676.5,43,9,punctuation|literal|plain,"        (1, median(after), ""after-median""),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,101,26.0,1693.0,6,1,punctuation,    ):
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,102,26.0,1709.5,27,7,punctuation|plain,        marker = axes.plot(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,103,26.0,1726.0,47,9,punctuation|plain|literal,"            [position - 0.13, position + 0.13],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,104,26.0,1742.5,27,5,punctuation|plain,"            [value, value],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,105,26.0,1759.0,22,5,punctuation|plain,"            color=INK,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,106,26.0,1775.5,26,5,punctuation|plain|literal,"            linewidth=3.2,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,107,26.0,1792.0,12,3,punctuation|literal,        )[0]
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,108,26.0,1808.5,60,13,punctuation|plain|literal,"        bind_artist(marker, semantic_id=name, role=""median"")"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,109,26.0,1825.0,85,25,punctuation|plain|literal,"    label = axes.text(0.5, 65.2, display_text, ha=""center"", va=""bottom"", fontsize=11)"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,110,26.0,1841.5,16,3,punctuation|plain,    bind_artist(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,111,26.0,1858.0,14,3,punctuation|plain,"        label,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,112,26.0,1874.5,39,5,punctuation|plain|literal,"        semantic_id=""wilcoxon-p-value"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,113,26.0,1891.0,34,5,punctuation|plain,"        statistic_id=STATISTIC_ID,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,114,26.0,1907.5,39,5,punctuation|plain|literal,"        formatter_id=""p_equals_4dp/v1"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,115,26.0,1924.0,38,5,punctuation|plain|literal,"        role=""statistical annotation"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,116,26.0,1940.5,5,1,punctuation,    )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,117,26.0,1957.0,13,5,punctuation|plain|keyword,    axes.set(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,118,26.0,1973.5,54,5,punctuation|plain|literal,"        title=""Paired improvement after intervention"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,119,26.0,1990.0,44,5,punctuation|plain|literal,"        ylabel=""Response (arbitrary units)"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,120,26.0,2006.5,27,7,punctuation|plain|literal,"        xlim=(-0.35, 1.35),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,121,26.0,2023.0,22,7,punctuation|plain|literal,"        ylim=(39, 67),"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,122,26.0,2039.5,5,1,punctuation,    )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,123,26.0,2056.0,48,13,punctuation|plain|literal,"    axes.set_xticks([0, 1], [""Before"", ""After""])"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,124,26.0,2072.5,62,15,punctuation|plain|literal|keyword,"    axes.spines[[""top"", ""right"", ""bottom""]].set_visible(False)"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,125,26.0,2089.0,40,13,punctuation|plain|literal,"    axes.tick_params(axis=""x"", length=0)"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,126,26.0,2105.5,25,5,punctuation|plain,    figure.tight_layout()
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,128,26.0,2138.5,25,5,punctuation|plain,    record = save_figure(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,129,26.0,2155.0,15,3,punctuation|plain,"        figure,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,130,26.0,2171.5,45,7,punctuation|plain|literal,"        bundle / ""fig"" / ""paired-change.svg"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,131,26.0,2188.0,18,5,punctuation|plain,"        data=rows,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,132,26.0,2204.5,23,5,punctuation|plain,"        sources=source,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,133,26.0,2221.0,31,5,punctuation|plain,"        statistics=[statistic],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,134,26.0,2237.5,51,5,punctuation|plain,"        statistical_specifications=[specification],"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,135,26.0,2254.0,20,5,punctuation|plain,"        title=CLAIM,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,136,26.0,2270.5,20,5,punctuation|plain,"        claim=CLAIM,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,137,26.0,2287.0,36,5,punctuation|plain|literal,"        grammar=""paired slope plot"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,138,26.0,2303.5,45,7,punctuation|plain|literal,"        analysis={""input_kind"": ""plain CSV""},"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,139,26.0,2320.0,26,5,punctuation|plain|keyword,"        reproduction=True,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,140,26.0,2336.5,19,5,punctuation|plain|keyword,"        proof=True,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,141,26.0,2353.0,69,11,punctuation|plain|literal|keyword,"        savefig_kwargs={""transparent"": True, ""bbox_inches"": ""tight""},"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,142,26.0,2369.5,5,1,punctuation,    )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,143,26.0,2386.0,16,3,punctuation|plain,    save_figure(
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,144,26.0,2402.5,15,3,punctuation|plain,"        figure,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,145,26.0,2419.0,39,7,punctuation|plain|literal,"        bundle / ""fig"" / ""preview.png"","
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,146,26.0,2435.5,22,5,punctuation|plain,"        record=record,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,147,26.0,2452.0,19,5,punctuation|plain|keyword,"        proof=True,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,148,26.0,2468.5,16,5,punctuation|plain|literal,"        dpi=200,"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,149,26.0,2485.0,70,11,punctuation|plain|literal,"        savefig_kwargs={""facecolor"": ""white"", ""bbox_inches"": ""tight""},"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,150,26.0,2501.5,5,1,punctuation,    )
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,151,26.0,2518.0,21,7,punctuation|plain,    plt.close(figure)
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,154,26.0,2567.5,26,6,keyword|punctuation|literal,"if __name__ == ""__main__"":"
+1,EXACT MATPLOTLIB PRODUCER,#2C6597,155,26.0,2584.0,10,3,punctuation|plain,    main()

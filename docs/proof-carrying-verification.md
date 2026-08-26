@@ -44,9 +44,10 @@ source:raw=analysis/raw.csv`.
 
 ## Python workflow
 
-1. Build or attach exact data, statistics and provenance as usual.
-2. Add typed `TransformationSpec` and `StatisticalSpecification` values under
-   the record's proof extension.
+1. Pass exact data, source paths and statistics to `save_figure`.
+2. Pass typed `StatisticalSpecification` values directly; ReproFig serializes
+   their JSON and evidence sections internally. Add a `TransformationSpec` only
+   when an independently reconstructed source-to-plot transformation is needed.
 3. Bind proof-relevant artists with `bind_artist`.
 4. Save with `proof=True`.
 5. Verify required meanings from the completed carrier.
@@ -60,14 +61,17 @@ from reprofig import bind_artist, save_figure, verify_proof
 bind_artist(
     points,
     semantic_id="participant-values",
-    table_id="table:SHA256",
     row_ids=["row-01", "row-02"],
     columns=["condition", "value"],
 )
 record = save_figure(
     figure,
     "Figure-1.svg",
-    record=record,
+    data=rows,
+    sources="data/source.csv",
+    statistics=statistics,
+    statistical_specifications=[specification],
+    reproduction=True,
     proof=True,
 )
 report = verify_proof(

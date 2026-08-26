@@ -4,7 +4,7 @@
     "grammar": "paired slope plot",
     "input_kind": "plain CSV"
   },
-  "created_at": "2026-08-26T20:39:27+01:00",
+  "created_at": "2026-08-26T22:59:02+01:00",
   "data_status": "complete",
   "data_tables": [
     {
@@ -31,7 +31,7 @@
       "format": "text/csv; charset=utf-8",
       "name": "figure_data",
       "newline": "LF",
-      "purpose": "plot_and_statistics",
+      "purpose": "analysis",
       "row_count": 12,
       "sha256": "2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
     }
@@ -40,7 +40,7 @@
   "extensions": {
     "proof": {
       "claims": [],
-      "root_sha256": "137b62f15feb0e14570d3f4147d35545f466d99fe9e111b24ddbc1d68ff3c8b4",
+      "root_sha256": "dfcf260e08d626f03cd5d4581729501fb3f6938b65c46155fc67a9e12a685e70",
       "schema": "reprofig-evidence-graph/1",
       "sections": [
         {
@@ -74,14 +74,14 @@
               "format": "text/csv; charset=utf-8",
               "name": "figure_data",
               "newline": "LF",
-              "purpose": "plot_and_statistics",
+              "purpose": "analysis",
               "row_count": 12,
               "sha256": "2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
             }
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011",
-          "sha256": "bf697702391045fa77da7acc9ed30a3c398b9a3f5b44d05dd34004822d5d0d20"
+          "sha256": "c50221881215eb55b857f75a58e1f442deed996f26f2e5677c88df9bd13d7262"
         },
         {
           "dependencies": [
@@ -103,7 +103,7 @@
                 "inputs_json": "{\"values_a\":[6.0,3.0,6.0,2.0,6.0,2.0,6.0,3.0,5.0,6.0,3.0,6.0]}",
                 "n": 12,
                 "p_value": 0.00048828125,
-                "parameters_json": "{\"alternative\":\"two_sided\",\"correction\":false,\"method\":\"auto\",\"producer_implementation\":\"scipy.stats.wilcoxon/1\",\"zero_method\":\"wilcox\"}",
+                "parameters_json": "{\"alternative\":\"two_sided\",\"correction\":false,\"method\":\"auto\",\"zero_method\":\"wilcox\"}",
                 "statistic": 0.0,
                 "statistic_id": "paired-change-wilcoxon",
                 "tailedness": "two-sided",
@@ -115,7 +115,7 @@
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "statistics:reported",
-          "sha256": "ecc4f122f1cc565b0c8703eb67a4609cff54957aaa27ce5783d6710389680669"
+          "sha256": "fb28763c847fca842198e1900a24e2237e82f6e9bfcad6fbf62190be3a3c92ce"
         },
         {
           "dependencies": [],
@@ -141,10 +141,10 @@
               "output": "fig/paired-change.svg",
               "producer": "code/plot.py",
               "producer_language": "python",
-              "producer_sha256": "b1e2a48be770cd0fffe0f11643681436c20ed8de7473e4450b039fafa7cbb4b9",
+              "producer_sha256": "5d8647c0028e2c614e08a736a30573a467540faab8689d069638bc4ca66aff42",
               "readme": "README.md",
               "readme_sha256": "6d3ae3b9c0998b19d936ff2368801307584f287010c0a4d4e2cf7d744bab1157",
-              "script": "\"\"\"Draw and package one paired-change example with Matplotlib.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nfrom pathlib import Path\nfrom statistics import median\n\nimport matplotlib.pyplot as plt\nfrom scipy.stats import wilcoxon\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\n\nCLAIM = \"Paired responses are higher after the intervention in this synthetic dataset.\"\nGRAMMAR = \"paired slope plot\"\nSTATISTIC_ID = \"paired-change-wilcoxon\"\nFIGURE_NAME = \"paired-change.svg\"\nBLUE = \"#4878A8\"\nORANGE = \"#d98a17\"\nGREY = \"#c7c7c7\"\nINK = \"#303030\"\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_csv(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=[\"participant\", \"before\", \"after\"], lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef _style() -> None:\n    plt.rcParams.update(\n        {\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.labelsize\": 13,\n            \"ytick.labelsize\": 12,\n            \"xtick.major.width\": 1.8,\n            \"ytick.major.width\": 1.8,\n            \"legend.frameon\": False,\n            \"figure.dpi\": 110,\n        }\n    )\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"paired-change.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n\n    before = [float(row[\"before\"]) for row in rows]\n    after = [float(row[\"after\"]) for row in rows]\n    differences = [right - left for left, right in zip(before, after)]\n    result = wilcoxon(\n        differences,\n        alternative=\"two-sided\",\n        zero_method=\"wilcox\",\n        correction=False,\n        method=\"auto\",\n    )\n    p_value = float(result.pvalue)\n    display_text = f\"Wilcoxon p = {p_value:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"wilcoxon/v1\",\n        inputs={\"values_a\": differences},\n        parameters={\n            \"alternative\": \"two_sided\",\n            \"zero_method\": \"wilcox\",\n            \"correction\": False,\n            \"method\": \"auto\",\n            \"producer_implementation\": \"scipy.stats.wilcoxon/1\",\n        },\n        expected={\"statistic\": float(result.statistic), \"p_value\": p_value},\n        display={\"field\": \"p_value\", \"format\": \"p_equals_4dp/v1\", \"text\": f\"p = {p_value:.4f}\"},\n        tolerances={\"*\": {\"absolute\": 1e-12, \"relative\": 1e-10}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"Wilcoxon signed-rank test\",\n        \"n\": len(rows),\n        \"estimate\": median(differences),\n        \"estimate_name\": \"median paired change\",\n        \"statistic\": float(result.statistic),\n        \"p_value\": p_value,\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_csv(figure_data, rows)\n    with (bundle / \"data\" / \"der\" / \"statistics.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(statistic), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(statistic)\n\n    plotted_table = table_from_data(figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\")\n    table_id = f\"table:{plotted_table.sha256}\"\n    _style()\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-paired-change-example\"\n    fig, ax = plt.subplots(figsize=(5.2, 5.0))\n    for row, left, right in zip(rows, before, after):\n        pair = ax.plot([0, 1], [left, right], color=GREY, linewidth=1.5, zorder=1)[0]\n        bind_artist(\n            pair,\n            semantic_id=f\"pair-{row['participant']}\",\n            table_id=table_id,\n            row_ids=[row[\"participant\"]],\n            columns=[\"before\", \"after\"],\n            role=\"paired trajectory\",\n        )\n    before_points = ax.scatter([0] * len(before), before, s=58, color=BLUE, edgecolor=\"white\", linewidth=0.8, zorder=3)\n    after_points = ax.scatter([1] * len(after), after, s=58, color=ORANGE, edgecolor=\"white\", linewidth=0.8, zorder=3)\n    bind_artist(before_points, semantic_id=\"before-observations\", table_id=table_id, row_ids=[row[\"participant\"] for row in rows], columns=[\"before\"], role=\"raw observations\")\n    bind_artist(after_points, semantic_id=\"after-observations\", table_id=table_id, row_ids=[row[\"participant\"] for row in rows], columns=[\"after\"], role=\"raw observations\")\n    for position, value, name in ((0, median(before), \"before-median\"), (1, median(after), \"after-median\")):\n        marker = ax.plot([position - 0.13, position + 0.13], [value, value], color=INK, linewidth=3.2, solid_capstyle=\"round\", zorder=4)[0]\n        bind_artist(marker, semantic_id=name, table_id=table_id, columns=[name.split(\"-\")[0]], role=\"median\")\n    label = ax.text(0.5, 65.2, display_text, ha=\"center\", va=\"bottom\", fontsize=11, color=INK)\n    bind_artist(label, semantic_id=\"wilcoxon-p-value\", statistic_id=STATISTIC_ID, formatter_id=\"p_equals_4dp/v1\", role=\"statistical annotation\")\n    ax.set_title(\"Paired improvement after intervention\", pad=12)\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_xticks([0, 1], [\"Before\", \"After\"])\n    ax.set_xlim(-0.35, 1.35)\n    ax.set_ylim(39, 67)\n    ax.spines[\"top\"].set_visible(False)\n    ax.spines[\"right\"].set_visible(False)\n    ax.spines[\"bottom\"].set_visible(False)\n    ax.tick_params(axis=\"x\", length=0)\n    fig.tight_layout()\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"paired-change\",\n        producer={\"package\": \"matplotlib\", \"package_version\": importlib.metadata.version(\"matplotlib\"), \"function\": \"code/plot.py\"},\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[source_reference(source, role=\"raw_user_input\", project_root=bundle, source_id=\"paired-change-source\")],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"python\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"working_directory\": \".\",\n            \"output\": f\"fig/{FIGURE_NAME}\",\n            \"input\": \"data/src/paired-change.csv\",\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n        extensions={\"proof\": {\"statistical_specifications\": [specification.to_dict()]}},\n    )\n    record = attach_evidence_graph(record)\n    record = save_figure(fig, bundle / \"fig\" / FIGURE_NAME, record=record, proof=True, savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"})\n    save_figure(fig, bundle / \"fig\" / \"preview.png\", record=record, proof=True, dpi=200, savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"})\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+              "script": "\"\"\"Draw one proof-carrying paired-change figure with Matplotlib.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nfrom pathlib import Path\nfrom statistics import median\n\nimport matplotlib.pyplot as plt\nfrom scipy.stats import wilcoxon\n\nfrom reprofig import StatisticalSpecification, bind_artist, save_figure\n\nCLAIM = \"Paired responses are higher after the intervention in this synthetic dataset.\"\nSTATISTIC_ID = \"paired-change-wilcoxon\"\nBLUE, ORANGE, GREY, INK = \"#4878A8\", \"#d98a17\", \"#c7c7c7\", \"#303030\"\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"paired-change.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n\n    before = [float(row[\"before\"]) for row in rows]\n    after = [float(row[\"after\"]) for row in rows]\n    differences = [right - left for left, right in zip(before, after)]\n    result = wilcoxon(differences, alternative=\"two-sided\", method=\"auto\")\n    p_value = float(result.pvalue)\n    display_text = f\"Wilcoxon p = {p_value:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"wilcoxon/v1\",\n        inputs={\"values_a\": differences},\n        parameters={\n            \"alternative\": \"two_sided\",\n            \"zero_method\": \"wilcox\",\n            \"correction\": False,\n            \"method\": \"auto\",\n        },\n        expected={\"statistic\": float(result.statistic), \"p_value\": p_value},\n        display={\n            \"field\": \"p_value\",\n            \"format\": \"p_equals_4dp/v1\",\n            \"text\": f\"p = {p_value:.4f}\",\n        },\n        tolerances={\"*\": {\"absolute\": 1e-12, \"relative\": 1e-10}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"Wilcoxon signed-rank test\",\n        \"n\": len(rows),\n        \"estimate\": median(differences),\n        \"estimate_name\": \"median paired change\",\n        \"statistic\": float(result.statistic),\n        \"p_value\": p_value,\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n    }\n\n    plt.rcParams.update(\n        {\n            \"font.family\": \"sans-serif\",\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"svg.hashsalt\": \"reprofig-paired-change-example\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n        }\n    )\n    figure, axes = plt.subplots(figsize=(5.2, 5.0))\n    for row, left, right in zip(rows, before, after):\n        pair = axes.plot([0, 1], [left, right], color=GREY, linewidth=1.5)[0]\n        bind_artist(\n            pair,\n            semantic_id=f\"pair-{row['participant']}\",\n            row_ids=[row[\"participant\"]],\n            columns=[\"before\", \"after\"],\n            role=\"paired trajectory\",\n        )\n    before_points = axes.scatter([0] * len(before), before, s=58, color=BLUE, zorder=3)\n    after_points = axes.scatter([1] * len(after), after, s=58, color=ORANGE, zorder=3)\n    for artist, name, column in (\n        (before_points, \"before-observations\", \"before\"),\n        (after_points, \"after-observations\", \"after\"),\n    ):\n        bind_artist(\n            artist,\n            semantic_id=name,\n            row_ids=[row[\"participant\"] for row in rows],\n            columns=[column],\n            role=\"raw observations\",\n        )\n    for position, value, name in (\n        (0, median(before), \"before-median\"),\n        (1, median(after), \"after-median\"),\n    ):\n        marker = axes.plot(\n            [position - 0.13, position + 0.13],\n            [value, value],\n            color=INK,\n            linewidth=3.2,\n        )[0]\n        bind_artist(marker, semantic_id=name, role=\"median\")\n    label = axes.text(0.5, 65.2, display_text, ha=\"center\", va=\"bottom\", fontsize=11)\n    bind_artist(\n        label,\n        semantic_id=\"wilcoxon-p-value\",\n        statistic_id=STATISTIC_ID,\n        formatter_id=\"p_equals_4dp/v1\",\n        role=\"statistical annotation\",\n    )\n    axes.set(\n        title=\"Paired improvement after intervention\",\n        ylabel=\"Response (arbitrary units)\",\n        xlim=(-0.35, 1.35),\n        ylim=(39, 67),\n    )\n    axes.set_xticks([0, 1], [\"Before\", \"After\"])\n    axes.spines[[\"top\", \"right\", \"bottom\"]].set_visible(False)\n    axes.tick_params(axis=\"x\", length=0)\n    figure.tight_layout()\n\n    record = save_figure(\n        figure,\n        bundle / \"fig\" / \"paired-change.svg\",\n        data=rows,\n        sources=source,\n        statistics=[statistic],\n        statistical_specifications=[specification],\n        title=CLAIM,\n        claim=CLAIM,\n        grammar=\"paired slope plot\",\n        analysis={\"input_kind\": \"plain CSV\"},\n        reproduction=True,\n        proof=True,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        figure,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        proof=True,\n        dpi=200,\n        savefig_kwargs={\"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(figure)\n\n\nif __name__ == \"__main__\":\n    main()\n",
               "source_index": "data/sources.csv",
               "source_index_sha256": "c778b5aaeafb7144cbfc0bdb76512c7bfc84350154e8f56f3767ae0d437bafcf",
               "working_directory": "."
@@ -155,14 +155,13 @@
                 "relative_path": "data/src/paired-change.csv",
                 "role": "raw_user_input",
                 "sha256": "2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011",
-                "size_bytes": 145,
-                "source_id": "paired-change-source"
+                "size_bytes": 145
               }
             ]
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "provenance:record",
-          "sha256": "6a0b2bd39e24182d19303e48451df3f787476b7096573955b3f6c976bb857553"
+          "sha256": "e7835e620d24fef5d97f7bbb56f22c0876fa8f4df4b255e20c1b54d3510d4af4"
         },
         {
           "dependencies": [
@@ -192,10 +191,10 @@
               {
                 "axes_id": "axes-0",
                 "bbox_inches": [
-                  0.13762990481740484,
-                  0.08326767676767677,
-                  0.8248700951825951,
-                  0.8098535353535354
+                  0.1495726495726496,
+                  0.08472222222222225,
+                  0.8129273504273504,
+                  0.8216111111111111
                 ],
                 "labels": {
                   "title": "Paired improvement after intervention",
@@ -216,7 +215,7 @@
             ],
             "environment": {
               "backend": "matplotlib.backends.backend_agg",
-              "dpi": 110.0,
+              "dpi": 100.0,
               "figure_inches": [
                 5.2,
                 5.0
@@ -245,8 +244,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P01"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -270,8 +268,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P02"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -295,8 +292,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P03"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -320,8 +316,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P04"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -345,8 +340,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P05"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -370,8 +364,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P06"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -395,8 +388,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P07"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -420,8 +412,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P08"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -445,8 +436,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P09"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -470,8 +460,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P10"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -495,8 +484,7 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P11"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -520,14 +508,10 @@
                 "role": "paired trajectory",
                 "row_ids": [
                   "P12"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
-                "columns": [
-                  "before"
-                ],
                 "coordinate_system": "data",
                 "geometry": {
                   "x": [
@@ -541,14 +525,10 @@
                 },
                 "kind": "line",
                 "mark_id": "before-median",
-                "role": "median",
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                "role": "median"
               },
               {
                 "axes_id": "axes-0",
-                "columns": [
-                  "after"
-                ],
                 "coordinate_system": "data",
                 "geometry": {
                   "x": [
@@ -562,8 +542,7 @@
                 },
                 "kind": "line",
                 "mark_id": "after-median",
-                "role": "median",
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                "role": "median"
               },
               {
                 "axes_id": "axes-0",
@@ -639,8 +618,7 @@
                   "P10",
                   "P11",
                   "P12"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               },
               {
                 "axes_id": "axes-0",
@@ -716,8 +694,7 @@
                   "P10",
                   "P11",
                   "P12"
-                ],
-                "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+                ]
               }
             ],
             "schema": "reprofig-render-manifest/1",
@@ -725,7 +702,7 @@
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "render:manifest",
-          "sha256": "b1df66381c4e914890f671169c12029c93838da004f4a6c21d7a7578d5da8b46"
+          "sha256": "4ac725d73443d75f39e26a135718fad40c07564e13a8ca5469d50b961c199c07"
         },
         {
           "dependencies": [
@@ -765,7 +742,6 @@
               "alternative": "two_sided",
               "correction": false,
               "method": "auto",
-              "producer_implementation": "scipy.stats.wilcoxon/1",
               "zero_method": "wilcox"
             },
             "schema": "reprofig-statistical-specification/1",
@@ -779,7 +755,7 @@
           },
           "schema": "reprofig-evidence-section/1",
           "section_id": "statistical-specification:paired-change-wilcoxon",
-          "sha256": "eb49c2b59ec395b4485686a3f168eea71b5c337d29fe1b0320b8b609ea20c8fa"
+          "sha256": "84201595a1eed4aac037361033b883a2334cb36ca1bfb0750f622fb67064180b"
         },
         {
           "dependencies": [],
@@ -841,7 +817,6 @@
             "alternative": "two_sided",
             "correction": false,
             "method": "auto",
-            "producer_implementation": "scipy.stats.wilcoxon/1",
             "zero_method": "wilcox"
           },
           "schema": "reprofig-statistical-specification/1",
@@ -894,10 +869,10 @@
         {
           "axes_id": "axes-0",
           "bbox_inches": [
-            0.13762990481740484,
-            0.08326767676767677,
-            0.8248700951825951,
-            0.8098535353535354
+            0.1495726495726496,
+            0.08472222222222225,
+            0.8129273504273504,
+            0.8216111111111111
           ],
           "labels": {
             "title": "Paired improvement after intervention",
@@ -918,7 +893,7 @@
       ],
       "environment": {
         "backend": "matplotlib.backends.backend_agg",
-        "dpi": 110.0,
+        "dpi": 100.0,
         "figure_inches": [
           5.2,
           5.0
@@ -947,8 +922,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P01"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -972,8 +946,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P02"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -997,8 +970,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P03"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1022,8 +994,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P04"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1047,8 +1018,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P05"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1072,8 +1042,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P06"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1097,8 +1066,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P07"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1122,8 +1090,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P08"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1147,8 +1114,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P09"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1172,8 +1138,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P10"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1197,8 +1162,7 @@
           "role": "paired trajectory",
           "row_ids": [
             "P11"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1222,14 +1186,10 @@
           "role": "paired trajectory",
           "row_ids": [
             "P12"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
-          "columns": [
-            "before"
-          ],
           "coordinate_system": "data",
           "geometry": {
             "x": [
@@ -1243,14 +1203,10 @@
           },
           "kind": "line",
           "mark_id": "before-median",
-          "role": "median",
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          "role": "median"
         },
         {
           "axes_id": "axes-0",
-          "columns": [
-            "after"
-          ],
           "coordinate_system": "data",
           "geometry": {
             "x": [
@@ -1264,8 +1220,7 @@
           },
           "kind": "line",
           "mark_id": "after-median",
-          "role": "median",
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          "role": "median"
         },
         {
           "axes_id": "axes-0",
@@ -1341,8 +1296,7 @@
             "P10",
             "P11",
             "P12"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         },
         {
           "axes_id": "axes-0",
@@ -1418,8 +1372,7 @@
             "P10",
             "P11",
             "P12"
-          ],
-          "table_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+          ]
         }
       ],
       "schema": "reprofig-render-manifest/1",
@@ -1429,23 +1382,23 @@
       "format": "svg",
       "schema": "reprofig-visual-reference/1",
       "vector_elements": {
-        "after-median": "21f80575348ef26c0905e37b1b28431d9c31b214f9473308af88bef28b84d428",
-        "after-observations": "2ec122d5cfdb19444844578919cc96e2644a4ea4024c5b9a0bbcc45292e7e358",
-        "before-median": "d64c3639bc2bd405f38d74b05429e3a4cf9ab03030979c8f2130ab043c7208bd",
-        "before-observations": "eafd2a8ee49a94489aa7cbbe3bb2a420c8554a7e0a0c2f737b7baddf61847df3",
-        "pair-P01": "f10ccf56facc6f77ed51b74fab9c6f8a05f0781801165fd943f80a91bd9645fe",
-        "pair-P02": "47c050c9f29e808a5d5d0114f3ccea9537127f1a0f75bdb760a2ba70a2533926",
-        "pair-P03": "fab4d86d3819559f84d4179e5de77299c8cc88a082601fd34d24af1b569886a1",
-        "pair-P04": "d32bb159019df312ff62c4e651db21c55f02d455ea6382a12f2bd1745980398b",
-        "pair-P05": "9f8bffe89135889bdd4e1decce7fcddba982680ddf7db2c8b89a2bb50d85cf0a",
-        "pair-P06": "aac94bf22cb27dd75f22e7f0ecbabc0aa15755265aea67cb0804b3e7e9818477",
-        "pair-P07": "201311c00a10315e891d492f0b0a8e7b233caad25c8e0a1a7bf51f15e34a689e",
-        "pair-P08": "16d9090248b4d89d73ec40a8d4f09decee183d41e1a78ee8b33bfa082ef03c48",
-        "pair-P09": "e46e7a6f5e162682f842c8c6c3aba0d91f0db7e02ad6ecb69b26eaa41cae157c",
-        "pair-P10": "0447cbcc9f4d5f1c230569125665eef947b93a77447cdeaae64533f58eb7b0f3",
-        "pair-P11": "efaf0241a69b0391dd4ba9f292450f2db094ae83af8db212d8e75c70288af3d9",
-        "pair-P12": "e3568154ea3b18b63dadd043e7678b52b90dcf3c51c37e0b2c4286556006cf0d",
-        "wilcoxon-p-value": "98d9cf50d958707717ae6c1fdf88ce712c5dd181ce0fb5862b687f39823b90ce"
+        "after-median": "2570d09d5753e74bf34589bc43bed2422e6fb22d2e750f055176b37c6d0cf89d",
+        "after-observations": "676fa94735cb722591d9a4394997a5f9a0de57c26c0e1f885a3f4809bb230cbe",
+        "before-median": "e4f1df2dc75720044838f2b01aac7c366f0ea111399db929e24305f833d5ed4a",
+        "before-observations": "42856161c812e333741437434471aafacd5cb2206a58066b275616d09539beb3",
+        "pair-P01": "460788bef65da47644c82d63de79d2af3d3ee7e07ee6027c50fec900c00fd90a",
+        "pair-P02": "f8beaf89098984416592d14c532235d9c3b0fa1d6ddc5181cedc81b26c485cb6",
+        "pair-P03": "5e611c1e9056897db19dc68bb5ac1e4560cc1ddf2260bf851c488c652686f427",
+        "pair-P04": "f0a120ce4ffaf6722b2d2fcbbfff72c255ea1753be6602c35fa26c310a258ceb",
+        "pair-P05": "2f5b2eee62dedc99360f2db5925f1662d9ed73315aa8b3a295244df1942cc170",
+        "pair-P06": "e7b311fbf627253e58a43353ed14e58265d6b6e04d4069f371e4842af4e97524",
+        "pair-P07": "4f257f7fbc7a3970e8ede7093c28c1a8722fc64c687d3087c84207890cc0e5e5",
+        "pair-P08": "3e78846c0e978c7a511a049e54a6d2c3782bd949b404c5e070e794405456a83c",
+        "pair-P09": "a3f753dd263996292e5d64f7f012bf9487c0f2db5b5183c180f945c7e8645503",
+        "pair-P10": "17d73b157ffb99e50e0624b78bff67002f785f4309aedc6b3a4ac1304d79a300",
+        "pair-P11": "358f540deb16ab9e7b2a4e89d245c28bc76326e88819b853035050ff8421b12f",
+        "pair-P12": "625035e9f987f24777ae82917aac44b7410a09850701b4731fdad22e449f43fb",
+        "wilcoxon-p-value": "95df140b3ae6a5d7b46975678128cd41be1d78d6fff85abba6609afffd4ac4e1"
       }
     }
   },
@@ -1464,10 +1417,10 @@
     "output": "fig/paired-change.svg",
     "producer": "code/plot.py",
     "producer_language": "python",
-    "producer_sha256": "b1e2a48be770cd0fffe0f11643681436c20ed8de7473e4450b039fafa7cbb4b9",
+    "producer_sha256": "5d8647c0028e2c614e08a736a30573a467540faab8689d069638bc4ca66aff42",
     "readme": "README.md",
     "readme_sha256": "6d3ae3b9c0998b19d936ff2368801307584f287010c0a4d4e2cf7d744bab1157",
-    "script": "\"\"\"Draw and package one paired-change example with Matplotlib.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nfrom pathlib import Path\nfrom statistics import median\n\nimport matplotlib.pyplot as plt\nfrom scipy.stats import wilcoxon\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\n\nCLAIM = \"Paired responses are higher after the intervention in this synthetic dataset.\"\nGRAMMAR = \"paired slope plot\"\nSTATISTIC_ID = \"paired-change-wilcoxon\"\nFIGURE_NAME = \"paired-change.svg\"\nBLUE = \"#4878A8\"\nORANGE = \"#d98a17\"\nGREY = \"#c7c7c7\"\nINK = \"#303030\"\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_csv(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=[\"participant\", \"before\", \"after\"], lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef _style() -> None:\n    plt.rcParams.update(\n        {\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.labelsize\": 13,\n            \"ytick.labelsize\": 12,\n            \"xtick.major.width\": 1.8,\n            \"ytick.major.width\": 1.8,\n            \"legend.frameon\": False,\n            \"figure.dpi\": 110,\n        }\n    )\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"paired-change.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n\n    before = [float(row[\"before\"]) for row in rows]\n    after = [float(row[\"after\"]) for row in rows]\n    differences = [right - left for left, right in zip(before, after)]\n    result = wilcoxon(\n        differences,\n        alternative=\"two-sided\",\n        zero_method=\"wilcox\",\n        correction=False,\n        method=\"auto\",\n    )\n    p_value = float(result.pvalue)\n    display_text = f\"Wilcoxon p = {p_value:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"wilcoxon/v1\",\n        inputs={\"values_a\": differences},\n        parameters={\n            \"alternative\": \"two_sided\",\n            \"zero_method\": \"wilcox\",\n            \"correction\": False,\n            \"method\": \"auto\",\n            \"producer_implementation\": \"scipy.stats.wilcoxon/1\",\n        },\n        expected={\"statistic\": float(result.statistic), \"p_value\": p_value},\n        display={\"field\": \"p_value\", \"format\": \"p_equals_4dp/v1\", \"text\": f\"p = {p_value:.4f}\"},\n        tolerances={\"*\": {\"absolute\": 1e-12, \"relative\": 1e-10}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"Wilcoxon signed-rank test\",\n        \"n\": len(rows),\n        \"estimate\": median(differences),\n        \"estimate_name\": \"median paired change\",\n        \"statistic\": float(result.statistic),\n        \"p_value\": p_value,\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_csv(figure_data, rows)\n    with (bundle / \"data\" / \"der\" / \"statistics.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(statistic), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(statistic)\n\n    plotted_table = table_from_data(figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\")\n    table_id = f\"table:{plotted_table.sha256}\"\n    _style()\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-paired-change-example\"\n    fig, ax = plt.subplots(figsize=(5.2, 5.0))\n    for row, left, right in zip(rows, before, after):\n        pair = ax.plot([0, 1], [left, right], color=GREY, linewidth=1.5, zorder=1)[0]\n        bind_artist(\n            pair,\n            semantic_id=f\"pair-{row['participant']}\",\n            table_id=table_id,\n            row_ids=[row[\"participant\"]],\n            columns=[\"before\", \"after\"],\n            role=\"paired trajectory\",\n        )\n    before_points = ax.scatter([0] * len(before), before, s=58, color=BLUE, edgecolor=\"white\", linewidth=0.8, zorder=3)\n    after_points = ax.scatter([1] * len(after), after, s=58, color=ORANGE, edgecolor=\"white\", linewidth=0.8, zorder=3)\n    bind_artist(before_points, semantic_id=\"before-observations\", table_id=table_id, row_ids=[row[\"participant\"] for row in rows], columns=[\"before\"], role=\"raw observations\")\n    bind_artist(after_points, semantic_id=\"after-observations\", table_id=table_id, row_ids=[row[\"participant\"] for row in rows], columns=[\"after\"], role=\"raw observations\")\n    for position, value, name in ((0, median(before), \"before-median\"), (1, median(after), \"after-median\")):\n        marker = ax.plot([position - 0.13, position + 0.13], [value, value], color=INK, linewidth=3.2, solid_capstyle=\"round\", zorder=4)[0]\n        bind_artist(marker, semantic_id=name, table_id=table_id, columns=[name.split(\"-\")[0]], role=\"median\")\n    label = ax.text(0.5, 65.2, display_text, ha=\"center\", va=\"bottom\", fontsize=11, color=INK)\n    bind_artist(label, semantic_id=\"wilcoxon-p-value\", statistic_id=STATISTIC_ID, formatter_id=\"p_equals_4dp/v1\", role=\"statistical annotation\")\n    ax.set_title(\"Paired improvement after intervention\", pad=12)\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_xticks([0, 1], [\"Before\", \"After\"])\n    ax.set_xlim(-0.35, 1.35)\n    ax.set_ylim(39, 67)\n    ax.spines[\"top\"].set_visible(False)\n    ax.spines[\"right\"].set_visible(False)\n    ax.spines[\"bottom\"].set_visible(False)\n    ax.tick_params(axis=\"x\", length=0)\n    fig.tight_layout()\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"paired-change\",\n        producer={\"package\": \"matplotlib\", \"package_version\": importlib.metadata.version(\"matplotlib\"), \"function\": \"code/plot.py\"},\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[source_reference(source, role=\"raw_user_input\", project_root=bundle, source_id=\"paired-change-source\")],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"python\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"working_directory\": \".\",\n            \"output\": f\"fig/{FIGURE_NAME}\",\n            \"input\": \"data/src/paired-change.csv\",\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n        extensions={\"proof\": {\"statistical_specifications\": [specification.to_dict()]}},\n    )\n    record = attach_evidence_graph(record)\n    record = save_figure(fig, bundle / \"fig\" / FIGURE_NAME, record=record, proof=True, savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"})\n    save_figure(fig, bundle / \"fig\" / \"preview.png\", record=record, proof=True, dpi=200, savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"})\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "script": "\"\"\"Draw one proof-carrying paired-change figure with Matplotlib.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nfrom pathlib import Path\nfrom statistics import median\n\nimport matplotlib.pyplot as plt\nfrom scipy.stats import wilcoxon\n\nfrom reprofig import StatisticalSpecification, bind_artist, save_figure\n\nCLAIM = \"Paired responses are higher after the intervention in this synthetic dataset.\"\nSTATISTIC_ID = \"paired-change-wilcoxon\"\nBLUE, ORANGE, GREY, INK = \"#4878A8\", \"#d98a17\", \"#c7c7c7\", \"#303030\"\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"paired-change.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n\n    before = [float(row[\"before\"]) for row in rows]\n    after = [float(row[\"after\"]) for row in rows]\n    differences = [right - left for left, right in zip(before, after)]\n    result = wilcoxon(differences, alternative=\"two-sided\", method=\"auto\")\n    p_value = float(result.pvalue)\n    display_text = f\"Wilcoxon p = {p_value:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"wilcoxon/v1\",\n        inputs={\"values_a\": differences},\n        parameters={\n            \"alternative\": \"two_sided\",\n            \"zero_method\": \"wilcox\",\n            \"correction\": False,\n            \"method\": \"auto\",\n        },\n        expected={\"statistic\": float(result.statistic), \"p_value\": p_value},\n        display={\n            \"field\": \"p_value\",\n            \"format\": \"p_equals_4dp/v1\",\n            \"text\": f\"p = {p_value:.4f}\",\n        },\n        tolerances={\"*\": {\"absolute\": 1e-12, \"relative\": 1e-10}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"Wilcoxon signed-rank test\",\n        \"n\": len(rows),\n        \"estimate\": median(differences),\n        \"estimate_name\": \"median paired change\",\n        \"statistic\": float(result.statistic),\n        \"p_value\": p_value,\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n    }\n\n    plt.rcParams.update(\n        {\n            \"font.family\": \"sans-serif\",\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"svg.hashsalt\": \"reprofig-paired-change-example\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n        }\n    )\n    figure, axes = plt.subplots(figsize=(5.2, 5.0))\n    for row, left, right in zip(rows, before, after):\n        pair = axes.plot([0, 1], [left, right], color=GREY, linewidth=1.5)[0]\n        bind_artist(\n            pair,\n            semantic_id=f\"pair-{row['participant']}\",\n            row_ids=[row[\"participant\"]],\n            columns=[\"before\", \"after\"],\n            role=\"paired trajectory\",\n        )\n    before_points = axes.scatter([0] * len(before), before, s=58, color=BLUE, zorder=3)\n    after_points = axes.scatter([1] * len(after), after, s=58, color=ORANGE, zorder=3)\n    for artist, name, column in (\n        (before_points, \"before-observations\", \"before\"),\n        (after_points, \"after-observations\", \"after\"),\n    ):\n        bind_artist(\n            artist,\n            semantic_id=name,\n            row_ids=[row[\"participant\"] for row in rows],\n            columns=[column],\n            role=\"raw observations\",\n        )\n    for position, value, name in (\n        (0, median(before), \"before-median\"),\n        (1, median(after), \"after-median\"),\n    ):\n        marker = axes.plot(\n            [position - 0.13, position + 0.13],\n            [value, value],\n            color=INK,\n            linewidth=3.2,\n        )[0]\n        bind_artist(marker, semantic_id=name, role=\"median\")\n    label = axes.text(0.5, 65.2, display_text, ha=\"center\", va=\"bottom\", fontsize=11)\n    bind_artist(\n        label,\n        semantic_id=\"wilcoxon-p-value\",\n        statistic_id=STATISTIC_ID,\n        formatter_id=\"p_equals_4dp/v1\",\n        role=\"statistical annotation\",\n    )\n    axes.set(\n        title=\"Paired improvement after intervention\",\n        ylabel=\"Response (arbitrary units)\",\n        xlim=(-0.35, 1.35),\n        ylim=(39, 67),\n    )\n    axes.set_xticks([0, 1], [\"Before\", \"After\"])\n    axes.spines[[\"top\", \"right\", \"bottom\"]].set_visible(False)\n    axes.tick_params(axis=\"x\", length=0)\n    figure.tight_layout()\n\n    record = save_figure(\n        figure,\n        bundle / \"fig\" / \"paired-change.svg\",\n        data=rows,\n        sources=source,\n        statistics=[statistic],\n        statistical_specifications=[specification],\n        title=CLAIM,\n        claim=CLAIM,\n        grammar=\"paired slope plot\",\n        analysis={\"input_kind\": \"plain CSV\"},\n        reproduction=True,\n        proof=True,\n        savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"},\n    )\n    save_figure(\n        figure,\n        bundle / \"fig\" / \"preview.png\",\n        record=record,\n        proof=True,\n        dpi=200,\n        savefig_kwargs={\"facecolor\": \"white\", \"bbox_inches\": \"tight\"},\n    )\n    plt.close(figure)\n\n\nif __name__ == \"__main__\":\n    main()\n",
     "source_index": "data/sources.csv",
     "source_index_sha256": "c778b5aaeafb7144cbfc0bdb76512c7bfc84350154e8f56f3767ae0d437bafcf",
     "working_directory": "."
@@ -1479,8 +1432,7 @@
       "relative_path": "data/src/paired-change.csv",
       "role": "raw_user_input",
       "sha256": "2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011",
-      "size_bytes": 145,
-      "source_id": "paired-change-source"
+      "size_bytes": 145
     }
   ],
   "statistics": [
@@ -1495,7 +1447,7 @@
       "inputs_json": "{\"values_a\":[6.0,3.0,6.0,2.0,6.0,2.0,6.0,3.0,5.0,6.0,3.0,6.0]}",
       "n": 12,
       "p_value": 0.00048828125,
-      "parameters_json": "{\"alternative\":\"two_sided\",\"correction\":false,\"method\":\"auto\",\"producer_implementation\":\"scipy.stats.wilcoxon/1\",\"zero_method\":\"wilcox\"}",
+      "parameters_json": "{\"alternative\":\"two_sided\",\"correction\":false,\"method\":\"auto\",\"zero_method\":\"wilcox\"}",
       "statistic": 0.0,
       "statistic_id": "paired-change-wilcoxon",
       "tailedness": "two-sided",
@@ -1503,7 +1455,7 @@
       "tolerances_json": "{\"*\":{\"absolute\":1e-12,\"relative\":1e-10}}"
     }
   ],
-  "statistics_csv_sha256": "73b290c23ac7f4d2f037dd6665f755fa8ad6a70e20a5d97310aecfb81c97be5c",
+  "statistics_csv_sha256": "feef8cd0770c2937bd1a8b0deb9ab17e9010f84944f211ba5c79f19111e8ec9c",
   "statistics_status": "complete",
   "title": "Paired responses are higher after the intervention in this synthetic dataset."
 }

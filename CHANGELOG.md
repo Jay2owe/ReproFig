@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.1 - 2026-08-26
+
+- Add a one-call figure workflow with `data=`, path-valued `sources=`, automatic
+  producer/version discovery, `reproduction=True` script capture, internal
+  checksums, and automatic statistical-specification JSON fields.
+- Render Plotly figures through `save_figure` without requiring a hashable
+  figure object or manual record construction.
+- Regenerate the diverse verification examples with minimal producer scripts
+  and audited PNG and SVG source-code panels.
+
 ## 0.5.0 - 2026-08-26
 
 - Add one shared readable naming policy for extracted evidence, public

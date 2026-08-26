@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "actual": "137b62f15feb0e14570d3f4147d35545f466d99fe9e111b24ddbc1d68ff3c8b4",
+      "actual": "dfcf260e08d626f03cd5d4581729501fb3f6938b65c46155fc67a9e12a685e70",
       "check_id": "evidence-root",
       "meaning": "internally_consistent",
       "message": "Canonical evidence graph and root agree.",
@@ -15,10 +15,10 @@
           "display": "pass",
           "statistics": "pass"
         },
-        "reproduced_sha256": "113f8be492cef58f5d34488b69abbd8f56a2f3a1193c08c3e10bc41edf4ea5ea"
+        "reproduced_sha256": "b6f5524124bcfadbba777f6e52f9dfc7811d149d0349cb7d576f0cde377ef0d8"
       },
       "check_id": "figure-reproduction",
-      "expected": "137b62f15feb0e14570d3f4147d35545f466d99fe9e111b24ddbc1d68ff3c8b4",
+      "expected": "dfcf260e08d626f03cd5d4581729501fb3f6938b65c46155fc67a9e12a685e70",
       "meaning": "figure_reproduced",
       "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
       "status": "pass",
@@ -68,144 +68,144 @@
       }
     },
     {
-      "actual": "21f80575348ef26c0905e37b1b28431d9c31b214f9473308af88bef28b84d428",
+      "actual": "2570d09d5753e74bf34589bc43bed2422e6fb22d2e750f055176b37c6d0cf89d",
       "check_id": "svg:after-median",
-      "expected": "21f80575348ef26c0905e37b1b28431d9c31b214f9473308af88bef28b84d428",
+      "expected": "2570d09d5753e74bf34589bc43bed2422e6fb22d2e750f055176b37c6d0cf89d",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "after-median"
     },
     {
-      "actual": "2ec122d5cfdb19444844578919cc96e2644a4ea4024c5b9a0bbcc45292e7e358",
+      "actual": "676fa94735cb722591d9a4394997a5f9a0de57c26c0e1f885a3f4809bb230cbe",
       "check_id": "svg:after-observations",
-      "expected": "2ec122d5cfdb19444844578919cc96e2644a4ea4024c5b9a0bbcc45292e7e358",
+      "expected": "676fa94735cb722591d9a4394997a5f9a0de57c26c0e1f885a3f4809bb230cbe",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "after-observations"
     },
     {
-      "actual": "d64c3639bc2bd405f38d74b05429e3a4cf9ab03030979c8f2130ab043c7208bd",
+      "actual": "e4f1df2dc75720044838f2b01aac7c366f0ea111399db929e24305f833d5ed4a",
       "check_id": "svg:before-median",
-      "expected": "d64c3639bc2bd405f38d74b05429e3a4cf9ab03030979c8f2130ab043c7208bd",
+      "expected": "e4f1df2dc75720044838f2b01aac7c366f0ea111399db929e24305f833d5ed4a",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "before-median"
     },
     {
-      "actual": "eafd2a8ee49a94489aa7cbbe3bb2a420c8554a7e0a0c2f737b7baddf61847df3",
+      "actual": "42856161c812e333741437434471aafacd5cb2206a58066b275616d09539beb3",
       "check_id": "svg:before-observations",
-      "expected": "eafd2a8ee49a94489aa7cbbe3bb2a420c8554a7e0a0c2f737b7baddf61847df3",
+      "expected": "42856161c812e333741437434471aafacd5cb2206a58066b275616d09539beb3",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "before-observations"
     },
     {
-      "actual": "f10ccf56facc6f77ed51b74fab9c6f8a05f0781801165fd943f80a91bd9645fe",
+      "actual": "460788bef65da47644c82d63de79d2af3d3ee7e07ee6027c50fec900c00fd90a",
       "check_id": "svg:pair-P01",
-      "expected": "f10ccf56facc6f77ed51b74fab9c6f8a05f0781801165fd943f80a91bd9645fe",
+      "expected": "460788bef65da47644c82d63de79d2af3d3ee7e07ee6027c50fec900c00fd90a",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P01"
     },
     {
-      "actual": "47c050c9f29e808a5d5d0114f3ccea9537127f1a0f75bdb760a2ba70a2533926",
+      "actual": "f8beaf89098984416592d14c532235d9c3b0fa1d6ddc5181cedc81b26c485cb6",
       "check_id": "svg:pair-P02",
-      "expected": "47c050c9f29e808a5d5d0114f3ccea9537127f1a0f75bdb760a2ba70a2533926",
+      "expected": "f8beaf89098984416592d14c532235d9c3b0fa1d6ddc5181cedc81b26c485cb6",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P02"
     },
     {
-      "actual": "fab4d86d3819559f84d4179e5de77299c8cc88a082601fd34d24af1b569886a1",
+      "actual": "5e611c1e9056897db19dc68bb5ac1e4560cc1ddf2260bf851c488c652686f427",
       "check_id": "svg:pair-P03",
-      "expected": "fab4d86d3819559f84d4179e5de77299c8cc88a082601fd34d24af1b569886a1",
+      "expected": "5e611c1e9056897db19dc68bb5ac1e4560cc1ddf2260bf851c488c652686f427",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P03"
     },
     {
-      "actual": "d32bb159019df312ff62c4e651db21c55f02d455ea6382a12f2bd1745980398b",
+      "actual": "f0a120ce4ffaf6722b2d2fcbbfff72c255ea1753be6602c35fa26c310a258ceb",
       "check_id": "svg:pair-P04",
-      "expected": "d32bb159019df312ff62c4e651db21c55f02d455ea6382a12f2bd1745980398b",
+      "expected": "f0a120ce4ffaf6722b2d2fcbbfff72c255ea1753be6602c35fa26c310a258ceb",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P04"
     },
     {
-      "actual": "9f8bffe89135889bdd4e1decce7fcddba982680ddf7db2c8b89a2bb50d85cf0a",
+      "actual": "2f5b2eee62dedc99360f2db5925f1662d9ed73315aa8b3a295244df1942cc170",
       "check_id": "svg:pair-P05",
-      "expected": "9f8bffe89135889bdd4e1decce7fcddba982680ddf7db2c8b89a2bb50d85cf0a",
+      "expected": "2f5b2eee62dedc99360f2db5925f1662d9ed73315aa8b3a295244df1942cc170",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P05"
     },
     {
-      "actual": "aac94bf22cb27dd75f22e7f0ecbabc0aa15755265aea67cb0804b3e7e9818477",
+      "actual": "e7b311fbf627253e58a43353ed14e58265d6b6e04d4069f371e4842af4e97524",
       "check_id": "svg:pair-P06",
-      "expected": "aac94bf22cb27dd75f22e7f0ecbabc0aa15755265aea67cb0804b3e7e9818477",
+      "expected": "e7b311fbf627253e58a43353ed14e58265d6b6e04d4069f371e4842af4e97524",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P06"
     },
     {
-      "actual": "201311c00a10315e891d492f0b0a8e7b233caad25c8e0a1a7bf51f15e34a689e",
+      "actual": "4f257f7fbc7a3970e8ede7093c28c1a8722fc64c687d3087c84207890cc0e5e5",
       "check_id": "svg:pair-P07",
-      "expected": "201311c00a10315e891d492f0b0a8e7b233caad25c8e0a1a7bf51f15e34a689e",
+      "expected": "4f257f7fbc7a3970e8ede7093c28c1a8722fc64c687d3087c84207890cc0e5e5",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P07"
     },
     {
-      "actual": "16d9090248b4d89d73ec40a8d4f09decee183d41e1a78ee8b33bfa082ef03c48",
+      "actual": "3e78846c0e978c7a511a049e54a6d2c3782bd949b404c5e070e794405456a83c",
       "check_id": "svg:pair-P08",
-      "expected": "16d9090248b4d89d73ec40a8d4f09decee183d41e1a78ee8b33bfa082ef03c48",
+      "expected": "3e78846c0e978c7a511a049e54a6d2c3782bd949b404c5e070e794405456a83c",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P08"
     },
     {
-      "actual": "e46e7a6f5e162682f842c8c6c3aba0d91f0db7e02ad6ecb69b26eaa41cae157c",
+      "actual": "a3f753dd263996292e5d64f7f012bf9487c0f2db5b5183c180f945c7e8645503",
       "check_id": "svg:pair-P09",
-      "expected": "e46e7a6f5e162682f842c8c6c3aba0d91f0db7e02ad6ecb69b26eaa41cae157c",
+      "expected": "a3f753dd263996292e5d64f7f012bf9487c0f2db5b5183c180f945c7e8645503",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P09"
     },
     {
-      "actual": "0447cbcc9f4d5f1c230569125665eef947b93a77447cdeaae64533f58eb7b0f3",
+      "actual": "17d73b157ffb99e50e0624b78bff67002f785f4309aedc6b3a4ac1304d79a300",
       "check_id": "svg:pair-P10",
-      "expected": "0447cbcc9f4d5f1c230569125665eef947b93a77447cdeaae64533f58eb7b0f3",
+      "expected": "17d73b157ffb99e50e0624b78bff67002f785f4309aedc6b3a4ac1304d79a300",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P10"
     },
     {
-      "actual": "efaf0241a69b0391dd4ba9f292450f2db094ae83af8db212d8e75c70288af3d9",
+      "actual": "358f540deb16ab9e7b2a4e89d245c28bc76326e88819b853035050ff8421b12f",
       "check_id": "svg:pair-P11",
-      "expected": "efaf0241a69b0391dd4ba9f292450f2db094ae83af8db212d8e75c70288af3d9",
+      "expected": "358f540deb16ab9e7b2a4e89d245c28bc76326e88819b853035050ff8421b12f",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "pair-P11"
     },
     {
-      "actual": "e3568154ea3b18b63dadd043e7678b52b90dcf3c51c37e0b2c4286556006cf0d",
+      "actual": "625035e9f987f24777ae82917aac44b7410a09850701b4731fdad22e449f43fb",
       "check_id": "svg:pair-P12",
-      "expected": "e3568154ea3b18b63dadd043e7678b52b90dcf3c51c37e0b2c4286556006cf0d",
+      "expected": "625035e9f987f24777ae82917aac44b7410a09850701b4731fdad22e449f43fb",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
@@ -213,12 +213,12 @@
     },
     {
       "actual": {
-        "hash": "98d9cf50d958707717ae6c1fdf88ce712c5dd181ce0fb5862b687f39823b90ce",
+        "hash": "95df140b3ae6a5d7b46975678128cd41be1d78d6fff85abba6609afffd4ac4e1",
         "text_present": true
       },
       "check_id": "svg:wilcoxon-p-value",
       "expected": {
-        "hash": "98d9cf50d958707717ae6c1fdf88ce712c5dd181ce0fb5862b687f39823b90ce",
+        "hash": "95df140b3ae6a5d7b46975678128cd41be1d78d6fff85abba6609afffd4ac4e1",
         "text": "Wilcoxon p = 0.0005"
       },
       "meaning": "display_verified",

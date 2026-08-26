@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "actual": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
+      "actual": "c55ed0d916a1f558c43c3b0410f3ba3f7db7c3eb1a6bdd7ee6575b949673caf4",
       "check_id": "evidence-root",
       "meaning": "internally_consistent",
       "message": "Canonical evidence graph and root agree.",
@@ -15,10 +15,10 @@
           "display": "pass",
           "statistics": "pass"
         },
-        "reproduced_sha256": "c472873ad6b158f33d9c3c3fd157e534df880e9ff8fc02fb9f6cfa8647f5f022"
+        "reproduced_sha256": "b03ba54589a7475418192cd4514dd51535cf743bf77299fdc08ffc13d32e22c4"
       },
       "check_id": "figure-reproduction",
-      "expected": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
+      "expected": "c55ed0d916a1f558c43c3b0410f3ba3f7db7c3eb1a6bdd7ee6575b949673caf4",
       "meaning": "figure_reproduced",
       "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
       "status": "pass",
@@ -52,7 +52,7 @@
         "residual_sum_squares": 1.7917096714727023,
         "residual_variance": 0.09953942619292791
       },
-      "check_id": "stat:exposure-response-ols",
+      "check_id": "stat:exposure-ordinary-least-squares",
       "expected": {
         "coefficients": {
           "intercept": {
@@ -78,7 +78,7 @@
       "meaning": "statistics_independently_verified",
       "message": "ols/v1 independently matched declared outputs.",
       "status": "pass",
-      "subject_id": "exposure-response-ols",
+      "subject_id": "exposure-ordinary-least-squares",
       "tolerance": {
         "*": {
           "absolute": 1e-10,
@@ -87,37 +87,37 @@
       }
     },
     {
-      "actual": "b42e30d12d06dffcab67d56e6136c0345172e6dbf406227cc431c8f99a58d678",
+      "actual": "e722afc85970e5282ce54882c5a97fb46292da3425c5c6cd0a6765d4195828b7",
       "check_id": "svg:observations",
-      "expected": "b42e30d12d06dffcab67d56e6136c0345172e6dbf406227cc431c8f99a58d678",
+      "expected": "e722afc85970e5282ce54882c5a97fb46292da3425c5c6cd0a6765d4195828b7",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
       "subject_id": "observations"
     },
     {
-      "actual": "df32b130d7be231f9b2c8bd4006716fa84e1360702a4fd5c75d2e14bf74ba0d7",
-      "check_id": "svg:ols-fit",
-      "expected": "df32b130d7be231f9b2c8bd4006716fa84e1360702a4fd5c75d2e14bf74ba0d7",
+      "actual": "acb2909b57ae931cd7653fec76cf210e5109a0123af184419e4cbcbd91c16d3c",
+      "check_id": "svg:ordinary-least-squares-fit",
+      "expected": "acb2909b57ae931cd7653fec76cf210e5109a0123af184419e4cbcbd91c16d3c",
       "meaning": "display_verified",
       "message": "Vector geometry matches the signed semantic capture.",
       "status": "pass",
-      "subject_id": "ols-fit"
+      "subject_id": "ordinary-least-squares-fit"
     },
     {
       "actual": {
-        "hash": "07d67eb60591becc109d90154cd7f35094c13c5024f89f1f64043c9da06179e0",
+        "hash": "87c4343297723ede5a55d27af1cddba4db271c8dd6ffd2735abaabcb04ca6b7b",
         "text_present": true
       },
-      "check_id": "svg:ols-result",
+      "check_id": "svg:ordinary-least-squares-result",
       "expected": {
-        "hash": "07d67eb60591becc109d90154cd7f35094c13c5024f89f1f64043c9da06179e0",
+        "hash": "87c4343297723ede5a55d27af1cddba4db271c8dd6ffd2735abaabcb04ca6b7b",
         "text": "Slope = 1.14\np < 0.001"
       },
       "meaning": "display_verified",
       "message": "Annotation text and vector geometry match.",
       "status": "pass",
-      "subject_id": "ols-result"
+      "subject_id": "ordinary-least-squares-result"
     },
     {
       "actual": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",

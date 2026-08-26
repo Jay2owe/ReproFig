@@ -12,7 +12,14 @@ from threading import RLock
 from typing import Any, Mapping, Sequence
 
 from .profiles import derive_profile
-from .schema import DataTable, FigureRecord, SourceReference, sha256_bytes
+from .schema import (
+    DataTable,
+    FigureRecord,
+    SourceReference,
+    StatisticalSpecification,
+    deterministic_json,
+    sha256_bytes,
+)
 from .svg import embed_record, extract_record as _extract_svg_record
 from .tables import safe_filename_token, statistics_csv_bytes, table_from_data
 from .naming import (
@@ -23,7 +30,9 @@ from .naming import (
 )
 from .validation import privacy_leaks, scrub_private_strings, validate_svg
 
-_ATTACHMENTS: "weakref.WeakKeyDictionary[Any, dict[str, Any]]" = weakref.WeakKeyDictionary()
+_ATTACHMENTS: "weakref.WeakKeyDictionary[Any, dict[str, Any]]" = (
+    weakref.WeakKeyDictionary()
+)
 _ATTACHMENT_LOCK = RLock()
 
 
@@ -33,8 +42,18 @@ def attach(
     plotted_data: Any | None = None,
     data_tables: Sequence[DataTable] | Mapping[str, Any] | None = None,
     statistics: Sequence[Mapping[str, Any]] | None = None,
+    statistical_specifications: (
+        Sequence[StatisticalSpecification | Mapping[str, Any]] | None
+    ) = None,
     analysis: Mapping[str, Any] | None = None,
-    sources: Sequence[SourceReference | Mapping[str, Any]] | None = None,
+    sources: (
+        Sequence[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]
+        | SourceReference
+        | Mapping[str, Any]
+        | str
+        | os.PathLike[str]
+        | None
+    ) = None,
     column_classification: Mapping[str, Any] | None = None,
     column_roles: Mapping[str, str] | None = None,
     data_status: str | None = None,
@@ -51,7 +70,9 @@ def attach(
                 try:
                     import pandas as pd
 
-                    plotted_data = pd.concat([existing, plotted_data], ignore_index=True)
+                    plotted_data = pd.concat(
+                        [existing, plotted_data], ignore_index=True
+                    )
                 except Exception:
                     try:
                         plotted_data = list(existing) + list(plotted_data)
@@ -62,12 +83,16 @@ def attach(
             current["data_tables"] = data_tables
         if statistics is not None:
             current.setdefault("statistics", []).extend(list(statistics))
+        if statistical_specifications is not None:
+            current.setdefault("statistical_specifications", []).extend(
+                list(statistical_specifications)
+            )
         if analysis is not None:
             merged = dict(current.get("analysis") or {})
             merged.update(dict(analysis))
             current["analysis"] = merged
         if sources is not None:
-            current["sources"] = list(sources)
+            current["sources"] = _source_values(sources)
         if column_classification is not None:
             current["column_classification"] = dict(column_classification)
         if column_roles is not None:
@@ -81,21 +106,65 @@ def attach(
 
 def attachment_for(figure: Any) -> dict[str, Any]:
     with _ATTACHMENT_LOCK:
-        return dict(_ATTACHMENTS.get(figure, {}))
+        try:
+            return dict(_ATTACHMENTS.get(figure, {}))
+        except TypeError:
+            # Plotly Figure objects are intentionally unhashable and therefore
+            # cannot participate in the optional weak attachment cache.
+            return {}
 
 
 def detach(figure: Any) -> dict[str, Any]:
     with _ATTACHMENT_LOCK:
-        return dict(_ATTACHMENTS.pop(figure, {}))
+        try:
+            return dict(_ATTACHMENTS.pop(figure, {}))
+        except TypeError:
+            return {}
+
+
+def _source_values(
+    sources: (
+        Sequence[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]
+        | SourceReference
+        | Mapping[str, Any]
+        | str
+        | os.PathLike[str]
+    ),
+) -> list[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]:
+    if isinstance(sources, (SourceReference, Mapping, str, os.PathLike)):
+        return [sources]
+    return list(sources)
 
 
 def _coerce_sources(
-    sources: Sequence[SourceReference | Mapping[str, Any]] | None,
+    sources: (
+        Sequence[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]
+        | SourceReference
+        | Mapping[str, Any]
+        | str
+        | os.PathLike[str]
+        | None
+    ),
+    *,
+    project_root: str | os.PathLike[str] | None = None,
 ) -> list[SourceReference]:
-    coerced = [
-        value if isinstance(value, SourceReference) else SourceReference.from_dict(value)
-        for value in (sources or [])
-    ]
+    values = _source_values(sources) if sources is not None else []
+    coerced: list[SourceReference] = []
+    for value in values:
+        if isinstance(value, SourceReference):
+            coerced.append(value)
+        elif isinstance(value, (str, os.PathLike)):
+            from .sources import source_reference
+
+            coerced.append(
+                source_reference(
+                    value,
+                    role="raw_user_input",
+                    project_root=project_root,
+                )
+            )
+        else:
+            coerced.append(SourceReference.from_dict(value))
     cleaned: list[SourceReference] = []
     for source in coerced:
         relative_path = source.relative_path
@@ -104,17 +173,80 @@ def _coerce_sources(
         uri = source.uri
         if uri and privacy_leaks(uri):
             uri = None
-        cleaned.append(SourceReference(
-            role=source.role,
-            relative_path=relative_path,
-            uri=uri,
-            sha256=source.sha256,
-            size_bytes=source.size_bytes,
-            modified_at=source.modified_at,
-            source_id=source.source_id,
-            metadata=dict(scrub_private_strings(source.metadata)),
-        ))
+        cleaned.append(
+            SourceReference(
+                role=source.role,
+                relative_path=relative_path,
+                uri=uri,
+                sha256=source.sha256,
+                size_bytes=source.size_bytes,
+                modified_at=source.modified_at,
+                source_id=source.source_id,
+                metadata=dict(scrub_private_strings(source.metadata)),
+            )
+        )
     return cleaned
+
+
+def _with_statistical_specifications(
+    extensions: Mapping[str, Any] | None,
+    specifications: Sequence[StatisticalSpecification],
+) -> dict[str, Any]:
+    result = dict(extensions or {})
+    if not specifications:
+        return result
+    proof = dict(result.get("proof") or {})
+    existing = list(proof.get("statistical_specifications") or [])
+    existing.extend(value.to_dict() for value in specifications)
+    proof["statistical_specifications"] = existing
+    result["proof"] = proof
+    return result
+
+
+def _coerce_statistical_specifications(
+    values: Sequence[StatisticalSpecification | Mapping[str, Any]] | None,
+) -> list[StatisticalSpecification]:
+    return [
+        (
+            value
+            if isinstance(value, StatisticalSpecification)
+            else StatisticalSpecification.from_dict(value)
+        )
+        for value in (values or [])
+    ]
+
+
+def _enrich_statistics(
+    statistics: Sequence[Mapping[str, Any]] | None,
+    specifications: Sequence[StatisticalSpecification],
+) -> list[dict[str, Any]]:
+    records = [dict(item) for item in (statistics or [])]
+    by_id = {
+        str(record.get("statistic_id")): record
+        for record in records
+        if record.get("statistic_id")
+    }
+    for specification in specifications:
+        identity = str(specification.statistic_id)
+        record = by_id.get(identity)
+        if record is None and len(records) == 1 and not records[0].get("statistic_id"):
+            record = records[0]
+            record["statistic_id"] = identity
+            by_id[identity] = record
+        if record is None:
+            record = {"statistic_id": identity}
+            records.append(record)
+            by_id[identity] = record
+        record.setdefault("algorithm_id", specification.algorithm_id)
+        for field, value in (
+            ("inputs_json", specification.inputs),
+            ("parameters_json", specification.parameters),
+            ("expected_json", specification.expected),
+            ("display_json", specification.display),
+            ("tolerances_json", specification.tolerances),
+        ):
+            record.setdefault(field, deterministic_json(value))
+    return records
 
 
 def _coerce_tables(
@@ -168,8 +300,19 @@ def build_record(
     plotted_data: Any | None = None,
     data_tables: Sequence[DataTable] | Mapping[str, Any] | None = None,
     statistics: Sequence[Mapping[str, Any]] | None = None,
-    sources: Sequence[SourceReference | Mapping[str, Any]] | None = None,
+    statistical_specifications: (
+        Sequence[StatisticalSpecification | Mapping[str, Any]] | None
+    ) = None,
+    sources: (
+        Sequence[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]
+        | SourceReference
+        | Mapping[str, Any]
+        | str
+        | os.PathLike[str]
+        | None
+    ) = None,
     reproduction: Mapping[str, Any] | None = None,
+    project_root: str | os.PathLike[str] | None = None,
     column_classification: Mapping[str, Any] | None = None,
     column_roles: Mapping[str, str] | None = None,
     data_status: str | None = None,
@@ -182,11 +325,11 @@ def build_record(
         classification=column_classification,
         roles=column_roles,
     )
-    statistic_records = (
-        [dict(scrub_private_strings(dict(item))) for item in statistics]
-        if statistics is not None
-        else []
-    )
+    specifications = _coerce_statistical_specifications(statistical_specifications)
+    statistic_records = [
+        dict(scrub_private_strings(item))
+        for item in _enrich_statistics(statistics, specifications)
+    ]
     for table in tables:
         if table.contents is not None:
             leaks = privacy_leaks(table.contents)
@@ -211,9 +354,16 @@ def build_record(
         statistics_status=statistics_status,
         statistics=statistic_records,
         statistics_csv_sha256=sha256_bytes(statistics_csv),
-        sources=_coerce_sources(sources),
+        sources=_coerce_sources(sources, project_root=project_root),
         reproduction=dict(scrub_private_strings(dict(reproduction or {}))),
-        extensions=dict(scrub_private_strings(dict(extensions or {}))),
+        extensions=dict(
+            scrub_private_strings(
+                _with_statistical_specifications(
+                    extensions,
+                    specifications,
+                )
+            )
+        ),
     )
 
 
@@ -227,8 +377,19 @@ def build_record_for_figure(
     plotted_data: Any | None = None,
     data_tables: Sequence[DataTable] | Mapping[str, Any] | None = None,
     statistics: Sequence[Mapping[str, Any]] | None = None,
-    sources: Sequence[SourceReference | Mapping[str, Any]] | None = None,
+    statistical_specifications: (
+        Sequence[StatisticalSpecification | Mapping[str, Any]] | None
+    ) = None,
+    sources: (
+        Sequence[SourceReference | Mapping[str, Any] | str | os.PathLike[str]]
+        | SourceReference
+        | Mapping[str, Any]
+        | str
+        | os.PathLike[str]
+        | None
+    ) = None,
     reproduction: Mapping[str, Any] | None = None,
+    project_root: str | os.PathLike[str] | None = None,
     column_classification: Mapping[str, Any] | None = None,
     column_roles: Mapping[str, str] | None = None,
     data_status: str | None = None,
@@ -241,23 +402,42 @@ def build_record_for_figure(
     attached_stats = list(attached.get("statistics") or [])
     if statistics is not None:
         attached_stats.extend(statistics)
+    attached_specs = list(attached.get("statistical_specifications") or [])
+    if statistical_specifications is not None:
+        attached_specs.extend(statistical_specifications)
     return build_record(
         title=title,
         original_stem=original_stem,
         producer=producer,
         analysis=merged_analysis,
-        plotted_data=plotted_data if plotted_data is not None else attached.get("plotted_data"),
-        data_tables=data_tables if data_tables is not None else attached.get("data_tables"),
-        statistics=attached_stats if (statistics is not None or attached_stats) else None,
+        plotted_data=(
+            plotted_data if plotted_data is not None else attached.get("plotted_data")
+        ),
+        data_tables=(
+            data_tables if data_tables is not None else attached.get("data_tables")
+        ),
+        statistics=(
+            attached_stats if (statistics is not None or attached_stats) else None
+        ),
+        statistical_specifications=(
+            attached_specs
+            if statistical_specifications is not None or attached_specs
+            else None
+        ),
         sources=sources if sources is not None else attached.get("sources"),
         reproduction=reproduction,
+        project_root=project_root,
         column_classification=(
             column_classification
             if column_classification is not None
             else attached.get("column_classification")
         ),
-        column_roles=column_roles if column_roles is not None else attached.get("column_roles"),
-        data_status=data_status if data_status is not None else attached.get("data_status"),
+        column_roles=(
+            column_roles if column_roles is not None else attached.get("column_roles")
+        ),
+        data_status=(
+            data_status if data_status is not None else attached.get("data_status")
+        ),
         statistics_status=(
             statistics_status
             if statistics_status is not None
@@ -296,18 +476,18 @@ def write_companion_tables(
 ) -> list[Path]:
     path = Path(svg_path)
     mode = normalize_naming_mode(naming)
-    stem = (
-        export_stem(artifact=path, naming=mode)
-        if mode == "readable"
-        else path.stem
-    )
+    stem = export_stem(artifact=path, naming=mode) if mode == "readable" else path.stem
     outputs: list[Path] = []
-    readable_names = unique_role_filenames(
-        stem,
-        [table.name for table in record.data_tables],
-        "csv",
-        naming=mode,
-    ) if mode == "readable" else []
+    readable_names = (
+        unique_role_filenames(
+            stem,
+            [table.name for table in record.data_tables],
+            "csv",
+            naming=mode,
+        )
+        if mode == "readable"
+        else []
+    )
     for index, table in enumerate(record.data_tables):
         if table.contents is None:
             continue
@@ -320,9 +500,7 @@ def write_companion_tables(
             raise ValueError(f"companion table filenames collide at {output.name}")
         output.write_bytes(table.contents.encode("utf-8"))
         outputs.append(output)
-    stats = path.with_name(
-        role_filename(stem, "statistics", "csv", naming=mode)
-    )
+    stats = path.with_name(role_filename(stem, "statistics", "csv", naming=mode))
     if stats in outputs:
         raise ValueError(f"companion table filenames collide at {stats.name}")
     stats.write_bytes(statistics_csv_bytes(record.statistics))
@@ -409,7 +587,9 @@ def save_svg(
         except Exception:
             style_context = nullcontext()
         with style_context:
-            figure.savefig(temporary, format="svg", metadata=existing_metadata, **kwargs)
+            figure.savefig(
+                temporary, format="svg", metadata=existing_metadata, **kwargs
+            )
         embed_record(temporary, final_record)
         report = validate_svg(
             temporary,
@@ -421,7 +601,9 @@ def save_svg(
             raise ValueError(
                 "saved SVG failed validation: "
                 + "; ".join(
-                    issue.message for issue in report.issues if issue.severity == "error"
+                    issue.message
+                    for issue in report.issues
+                    if issue.severity == "error"
                 )
             )
         os.replace(temporary, target)
@@ -484,7 +666,11 @@ from .reproduction import (  # noqa: E402
 )
 from .render import bind_artist, capture_matplotlib  # noqa: E402
 from .render.reference import refresh_visual_reference  # noqa: E402
-from .crypto.encryption import decrypt_record, decrypt_sections, encrypt_sections  # noqa: E402
+from .crypto.encryption import (
+    decrypt_record,
+    decrypt_sections,
+    encrypt_sections,
+)  # noqa: E402
 from .crypto.signatures import sign_record, verify_record_signatures  # noqa: E402
 from .crypto.attestations import attest_report  # noqa: E402
 from .crypto.trust import (  # noqa: E402
