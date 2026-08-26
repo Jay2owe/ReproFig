@@ -1,0 +1,11 @@
+# Verification hashes cover exact bytes, so every textual artifact must keep LF
+# line endings on Windows as well as Linux.
+.gitattributes text eol=lf
+*.csv text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.svg text eol=lf
+*.txt text eol=lf
+*.png binary
