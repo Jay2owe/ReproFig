@@ -1,0 +1,273 @@
+{
+  "checks": [
+    {
+      "actual": "137b62f15feb0e14570d3f4147d35545f466d99fe9e111b24ddbc1d68ff3c8b4",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-8e6d99733d1044799d5d6f925b427db1"
+    },
+    {
+      "actual": {
+        "comparisons": {
+          "data_tables": "pass",
+          "display": "pass",
+          "statistics": "pass"
+        },
+        "reproduced_sha256": "96275469adfefae16d3a67fcc826d9c91e13c21b8474a250209da90f6e286021"
+      },
+      "check_id": "figure-reproduction",
+      "expected": "137b62f15feb0e14570d3f4147d35545f466d99fe9e111b24ddbc1d68ff3c8b4",
+      "meaning": "figure_reproduced",
+      "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
+      "status": "pass",
+      "subject_id": "rf-8e6d99733d1044799d5d6f925b427db1"
+    },
+    {
+      "actual": "p = 0.0005",
+      "check_id": "stat-display:paired-change-wilcoxon",
+      "expected": "p = 0.0005",
+      "meaning": "statistics_independently_verified",
+      "message": "Calculated value reproduces the declared display text.",
+      "status": "pass",
+      "subject_id": "paired-change-wilcoxon"
+    },
+    {
+      "actual": {
+        "alternative": "two_sided",
+        "continuity": false,
+        "method": "auto",
+        "n": 12,
+        "n_zero": 0,
+        "negative_rank_sum": 0,
+        "p_value": 0.00048828125,
+        "positive_rank_sum": 78.0,
+        "statistic": 0.0,
+        "tie_group_sizes": [
+          2,
+          3,
+          6
+        ],
+        "zero_method": "wilcox"
+      },
+      "check_id": "stat:paired-change-wilcoxon",
+      "expected": {
+        "p_value": 0.00048828125,
+        "statistic": 0.0
+      },
+      "meaning": "statistics_independently_verified",
+      "message": "wilcoxon/v1 independently matched declared outputs.",
+      "status": "pass",
+      "subject_id": "paired-change-wilcoxon",
+      "tolerance": {
+        "*": {
+          "absolute": 1e-12,
+          "relative": 1e-10
+        }
+      }
+    },
+    {
+      "actual": "21f80575348ef26c0905e37b1b28431d9c31b214f9473308af88bef28b84d428",
+      "check_id": "svg:after-median",
+      "expected": "21f80575348ef26c0905e37b1b28431d9c31b214f9473308af88bef28b84d428",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "after-median"
+    },
+    {
+      "actual": "2ec122d5cfdb19444844578919cc96e2644a4ea4024c5b9a0bbcc45292e7e358",
+      "check_id": "svg:after-observations",
+      "expected": "2ec122d5cfdb19444844578919cc96e2644a4ea4024c5b9a0bbcc45292e7e358",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "after-observations"
+    },
+    {
+      "actual": "d64c3639bc2bd405f38d74b05429e3a4cf9ab03030979c8f2130ab043c7208bd",
+      "check_id": "svg:before-median",
+      "expected": "d64c3639bc2bd405f38d74b05429e3a4cf9ab03030979c8f2130ab043c7208bd",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "before-median"
+    },
+    {
+      "actual": "eafd2a8ee49a94489aa7cbbe3bb2a420c8554a7e0a0c2f737b7baddf61847df3",
+      "check_id": "svg:before-observations",
+      "expected": "eafd2a8ee49a94489aa7cbbe3bb2a420c8554a7e0a0c2f737b7baddf61847df3",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "before-observations"
+    },
+    {
+      "actual": "f10ccf56facc6f77ed51b74fab9c6f8a05f0781801165fd943f80a91bd9645fe",
+      "check_id": "svg:pair-P01",
+      "expected": "f10ccf56facc6f77ed51b74fab9c6f8a05f0781801165fd943f80a91bd9645fe",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P01"
+    },
+    {
+      "actual": "47c050c9f29e808a5d5d0114f3ccea9537127f1a0f75bdb760a2ba70a2533926",
+      "check_id": "svg:pair-P02",
+      "expected": "47c050c9f29e808a5d5d0114f3ccea9537127f1a0f75bdb760a2ba70a2533926",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P02"
+    },
+    {
+      "actual": "fab4d86d3819559f84d4179e5de77299c8cc88a082601fd34d24af1b569886a1",
+      "check_id": "svg:pair-P03",
+      "expected": "fab4d86d3819559f84d4179e5de77299c8cc88a082601fd34d24af1b569886a1",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P03"
+    },
+    {
+      "actual": "d32bb159019df312ff62c4e651db21c55f02d455ea6382a12f2bd1745980398b",
+      "check_id": "svg:pair-P04",
+      "expected": "d32bb159019df312ff62c4e651db21c55f02d455ea6382a12f2bd1745980398b",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P04"
+    },
+    {
+      "actual": "9f8bffe89135889bdd4e1decce7fcddba982680ddf7db2c8b89a2bb50d85cf0a",
+      "check_id": "svg:pair-P05",
+      "expected": "9f8bffe89135889bdd4e1decce7fcddba982680ddf7db2c8b89a2bb50d85cf0a",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P05"
+    },
+    {
+      "actual": "aac94bf22cb27dd75f22e7f0ecbabc0aa15755265aea67cb0804b3e7e9818477",
+      "check_id": "svg:pair-P06",
+      "expected": "aac94bf22cb27dd75f22e7f0ecbabc0aa15755265aea67cb0804b3e7e9818477",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P06"
+    },
+    {
+      "actual": "201311c00a10315e891d492f0b0a8e7b233caad25c8e0a1a7bf51f15e34a689e",
+      "check_id": "svg:pair-P07",
+      "expected": "201311c00a10315e891d492f0b0a8e7b233caad25c8e0a1a7bf51f15e34a689e",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P07"
+    },
+    {
+      "actual": "16d9090248b4d89d73ec40a8d4f09decee183d41e1a78ee8b33bfa082ef03c48",
+      "check_id": "svg:pair-P08",
+      "expected": "16d9090248b4d89d73ec40a8d4f09decee183d41e1a78ee8b33bfa082ef03c48",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P08"
+    },
+    {
+      "actual": "e46e7a6f5e162682f842c8c6c3aba0d91f0db7e02ad6ecb69b26eaa41cae157c",
+      "check_id": "svg:pair-P09",
+      "expected": "e46e7a6f5e162682f842c8c6c3aba0d91f0db7e02ad6ecb69b26eaa41cae157c",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P09"
+    },
+    {
+      "actual": "0447cbcc9f4d5f1c230569125665eef947b93a77447cdeaae64533f58eb7b0f3",
+      "check_id": "svg:pair-P10",
+      "expected": "0447cbcc9f4d5f1c230569125665eef947b93a77447cdeaae64533f58eb7b0f3",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P10"
+    },
+    {
+      "actual": "efaf0241a69b0391dd4ba9f292450f2db094ae83af8db212d8e75c70288af3d9",
+      "check_id": "svg:pair-P11",
+      "expected": "efaf0241a69b0391dd4ba9f292450f2db094ae83af8db212d8e75c70288af3d9",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P11"
+    },
+    {
+      "actual": "e3568154ea3b18b63dadd043e7678b52b90dcf3c51c37e0b2c4286556006cf0d",
+      "check_id": "svg:pair-P12",
+      "expected": "e3568154ea3b18b63dadd043e7678b52b90dcf3c51c37e0b2c4286556006cf0d",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "pair-P12"
+    },
+    {
+      "actual": {
+        "hash": "98d9cf50d958707717ae6c1fdf88ce712c5dd181ce0fb5862b687f39823b90ce",
+        "text_present": true
+      },
+      "check_id": "svg:wilcoxon-p-value",
+      "expected": {
+        "hash": "98d9cf50d958707717ae6c1fdf88ce712c5dd181ce0fb5862b687f39823b90ce",
+        "text": "Wilcoxon p = 0.0005"
+      },
+      "meaning": "display_verified",
+      "message": "Annotation text and vector geometry match.",
+      "status": "pass",
+      "subject_id": "wilcoxon-p-value"
+    },
+    {
+      "actual": "2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011",
+      "check_id": "transform:transform:d0aadae7e3354499987d784e",
+      "expected": "2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011",
+      "meaning": "source_linked",
+      "message": "Reconstructed table matches exact canonical bytes.",
+      "status": "pass",
+      "subject_id": "table:2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/paired-change.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "pass",
+    "figure_reproduced": "pass",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "pass",
+    "statistics_independently_verified": "pass",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/paired-change.svg",
+  "required": [
+    "display_verified",
+    "figure_reproduced",
+    "internally_consistent",
+    "source_linked",
+    "statistics_independently_verified"
+  ],
+  "valid": true
+}

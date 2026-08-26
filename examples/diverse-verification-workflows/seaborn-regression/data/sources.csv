@@ -1,0 +1,2 @@
+original_path,copied_path,file_name,modification_time,byte_size,sha256,public_uri
+input/regression.csv,data/src/regression.csv,regression.csv,2026-08-26T18:56:27+00:00,267,3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f,

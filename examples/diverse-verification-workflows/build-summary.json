@@ -1,0 +1,50 @@
+{
+  "examples": {
+    "matplotlib-paired-change": {
+      "claim": "Paired responses are higher after the intervention in this synthetic dataset.",
+      "figure": "matplotlib-paired-change/fig/paired-change.svg",
+      "figure_id": "rf-8e6d99733d1044799d5d6f925b427db1",
+      "library": "Matplotlib",
+      "required_meanings": [
+        "display_verified",
+        "figure_reproduced",
+        "internally_consistent",
+        "source_linked",
+        "statistics_independently_verified"
+      ],
+      "statistical_test": "Wilcoxon signed-rank test",
+      "valid": true
+    },
+    "plotly-multigroup": {
+      "claim": "Mean response differs across the three conditions in this synthetic dataset.",
+      "figure": "plotly-multigroup/fig/condition-response.png",
+      "figure_id": "rf-594c5332dd8b44f28c8afe3eb1d5fb9f",
+      "library": "Plotly",
+      "required_meanings": [
+        "display_verified",
+        "figure_reproduced",
+        "internally_consistent",
+        "source_linked",
+        "statistics_independently_verified"
+      ],
+      "statistical_test": "one-way analysis of variance",
+      "valid": true
+    },
+    "seaborn-regression": {
+      "claim": "Response increases with exposure in this synthetic dataset.",
+      "figure": "seaborn-regression/fig/exposure-response.svg",
+      "figure_id": "rf-d13001a42c854d189991e887131b67a4",
+      "library": "Seaborn",
+      "required_meanings": [
+        "display_verified",
+        "figure_reproduced",
+        "internally_consistent",
+        "source_linked",
+        "statistics_independently_verified"
+      ],
+      "statistical_test": "ordinary least-squares regression",
+      "valid": true
+    }
+  },
+  "schema": "reprofig/diverse-verification-examples/1"
+}

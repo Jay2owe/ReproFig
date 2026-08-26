@@ -1,0 +1,36 @@
+{
+  "command": [
+    "python",
+    "code/plot.py"
+  ],
+  "comparisons": {
+    "data_tables": "pass",
+    "display": "pass",
+    "statistics": "pass"
+  },
+  "duration_seconds": 6.938,
+  "execution_status": "pass",
+  "master_evidence_root": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
+  "master_name": "condition-response.png",
+  "master_sha256": "8da1694ea049669fd146d0cbb589638ab13d5891b089f11a46a028edddb9b6d8",
+  "messages": {
+    "data_tables": "Embedded table identities match.",
+    "display": "Semantic marks and carrier-specific visual bindings match.",
+    "execution": "Trusted producer completed and wrote a valid carrier.",
+    "statistics": "Normalized statistical records match."
+  },
+  "reproduced_path": "reproduced/condition-response.reproduced.png",
+  "reproduced_sha256": "8d28f58fa3c83455b8266caa309894f867904401a3988c803c74f79f5e60804c",
+  "return_code": 0,
+  "runtime": {
+    "executable": "python.exe",
+    "isolated_workspace": true,
+    "network_isolation": "not_enforced",
+    "python": "3.12.10"
+  },
+  "schema": "reprofig/figure-reproduction-report/1",
+  "source_figure_id": "rf-594c5332dd8b44f28c8afe3eb1d5fb9f",
+  "stderr": "",
+  "stdout": "",
+  "valid": true
+}

@@ -1,0 +1,2 @@
+original_path,copied_path,file_name,modification_time,byte_size,sha256,public_uri
+input/multigroup.csv,data/src/multigroup.csv,multigroup.csv,2026-08-26T18:35:00+00:00,434,3d6fa46dd11ede7b3702e5c12baf367563ea9ec062f57331d06eb91934aa16df,

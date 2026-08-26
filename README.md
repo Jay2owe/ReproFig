@@ -175,6 +175,19 @@ transformations and recalculate supported tests. A passing report proves that
 the stated evidence agrees with the output; it does not prove that source data
 are true or that the chosen method is scientifically appropriate.
 
+## Presentation-ready examples
+
+[`examples/diverse-verification-workflows`](examples/diverse-verification-workflows)
+contains three standalone workflows rather than variations of one plot:
+
+- Matplotlib paired trajectories with a Wilcoxon signed-rank test;
+- Seaborn regression with an ordinary least-squares slope test;
+- Plotly box plots with raw observations and a one-way analysis of variance.
+
+Each example has one master figure, one statistical result, a separately saved
+reproduction, unpacked evidence, and a browser-ready page rendering the clean
+figure and its exact syntax-highlighted producer code.
+
 Signatures answer “has this evidence changed since this key signed it?” Trust
 stores separately answer “do I accept that key for this purpose?” Individual
 tables, statistics, provenance, or specifications can be encrypted for a

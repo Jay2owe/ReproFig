@@ -1,0 +1,2 @@
+original_path,copied_path,file_name,modification_time,byte_size,sha256,public_uri
+input/paired-change.csv,data/src/paired-change.csv,paired-change.csv,2026-08-26T18:56:27+00:00,145,2c4d51299f02b196a32d1d884fedac8142d59ea0b24ee32a97403f423bc97011,

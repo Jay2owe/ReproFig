@@ -1,0 +1,5 @@
+{
+  "function": "code/plot.py",
+  "package": "plotly",
+  "package_version": "6.5.2"
+}

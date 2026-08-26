@@ -1,0 +1,25 @@
+sample,condition,response
+A01,Control,5.1
+A02,Control,5.4
+A03,Control,4.9
+A04,Control,5.7
+A05,Control,5.2
+A06,Control,5.5
+A07,Control,5.0
+A08,Control,5.6
+B01,Low dose,5.8
+B02,Low dose,6.1
+B03,Low dose,5.7
+B04,Low dose,6.4
+B05,Low dose,6.0
+B06,Low dose,6.2
+B07,Low dose,5.9
+B08,Low dose,6.3
+C01,High dose,6.6
+C02,High dose,7.0
+C03,High dose,6.8
+C04,High dose,7.3
+C05,High dose,6.9
+C06,High dose,7.1
+C07,High dose,6.7
+C08,High dose,7.4

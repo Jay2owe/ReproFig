@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Continuous association verification example</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;color:#303030;margin:0;background:#f4f6f8}main{max-width:1180px;margin:0 auto;padding:34px}h1{font-size:30px;margin:0 0 6px}.lede{font-size:18px;margin:0 0 26px;color:#555}.card{background:white;border:1px solid #dfe4ea;border-radius:12px;padding:24px;margin-bottom:22px}.figure{display:block;max-width:720px;width:100%;margin:0 auto}.workflow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.step{border:2px solid #4878A8;border-radius:8px;padding:10px 14px;background:#f7fbff;font-weight:700}.arrow{font-size:24px;color:#777}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}ul{line-height:1.7}iframe{width:100%;height:680px;border:1px solid #dfe4ea;background:white}code{background:#eef1f4;padding:2px 5px;border-radius:4px}@media(max-width:800px){.grid{grid-template-columns:1fr}main{padding:18px}}
+</style>
+</head>
+<body><main>
+<h1>Continuous association</h1>
+<p class="lede">One Seaborn figure, one ordinary least-squares regression, one verification workflow.</p>
+<section class="card"><img class="figure" src="../fig/preview.png" alt="Continuous association figure"></section>
+<section class="card"><div class="workflow"><span class="step">Raw CSV</span><span class="arrow">→</span><span class="step">Exact producer</span><span class="arrow">→</span><span class="step">ReproFig master</span><span class="arrow">→</span><span class="step">Independent checks</span><span class="arrow">→</span><span class="step">Saved reproduction</span></div></section>
+<section class="grid"><div class="card"><h2>Claim</h2><p>Response increases with exposure in this synthetic dataset.</p><h2>Analysis</h2><p>ordinary least-squares regression</p></div><div class="card"><h2>Verification</h2><ul><li><strong>display verified</strong>: pass</li><li><strong>figure reproduced</strong>: pass</li><li><strong>internally consistent</strong>: pass</li><li><strong>source linked</strong>: pass</li><li><strong>statistics independently verified</strong>: pass</li></ul><p>Complete machine report: <code>../verification/report.json</code></p></div></section>
+<section class="card"><h2>Exact producer code</h2><p>This is a rendered copy of <code>../code/plot.py</code>, not a shortened illustration.</p><iframe src="plot.py.html" title="Exact syntax-highlighted producer code"></iframe></section>
+</main></body></html>

@@ -1,0 +1,1449 @@
+{
+  "analysis": {
+    "claim": "Response increases with exposure in this synthetic dataset.",
+    "grammar": "scatter regression plot",
+    "input_kind": "plain CSV"
+  },
+  "created_at": "2026-08-26T19:56:54+01:00",
+  "data_status": "complete",
+  "data_tables": [
+    {
+      "column_count": 3,
+      "columns": [
+        {
+          "dtype": "unknown",
+          "name": "sample",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "exposure",
+          "public_state": "unclassified"
+        },
+        {
+          "dtype": "unknown",
+          "name": "response",
+          "public_state": "unclassified"
+        }
+      ],
+      "contents": "sample,exposure,response\nS01,1.0,2.3\nS02,1.4,3.0\nS03,1.8,2.8\nS04,2.1,3.9\nS05,2.5,4.1\nS06,2.9,4.5\nS07,3.2,5.2\nS08,3.6,4.9\nS09,4.0,6.1\nS10,4.3,6.4\nS11,4.7,6.2\nS12,5.1,7.4\nS13,5.4,7.1\nS14,5.8,8.0\nS15,6.2,8.5\nS16,6.5,8.2\nS17,6.9,9.4\nS18,7.3,9.1\nS19,7.6,10.0\nS20,8.0,10.6\n",
+      "embedded": true,
+      "format": "text/csv; charset=utf-8",
+      "name": "figure_data",
+      "newline": "LF",
+      "purpose": "plot_and_statistics",
+      "row_count": 20,
+      "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+    }
+  ],
+  "distribution_profile": "master",
+  "extensions": {
+    "proof": {
+      "claims": [],
+      "root_sha256": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
+      "schema": "reprofig-evidence-graph/1",
+      "sections": [
+        {
+          "dependencies": [],
+          "encrypted": false,
+          "kind": "table",
+          "metadata": {},
+          "payload": {
+            "index": 0,
+            "table": {
+              "column_count": 3,
+              "columns": [
+                {
+                  "dtype": "unknown",
+                  "name": "sample",
+                  "public_state": "unclassified"
+                },
+                {
+                  "dtype": "unknown",
+                  "name": "exposure",
+                  "public_state": "unclassified"
+                },
+                {
+                  "dtype": "unknown",
+                  "name": "response",
+                  "public_state": "unclassified"
+                }
+              ],
+              "contents": "sample,exposure,response\nS01,1.0,2.3\nS02,1.4,3.0\nS03,1.8,2.8\nS04,2.1,3.9\nS05,2.5,4.1\nS06,2.9,4.5\nS07,3.2,5.2\nS08,3.6,4.9\nS09,4.0,6.1\nS10,4.3,6.4\nS11,4.7,6.2\nS12,5.1,7.4\nS13,5.4,7.1\nS14,5.8,8.0\nS15,6.2,8.5\nS16,6.5,8.2\nS17,6.9,9.4\nS18,7.3,9.1\nS19,7.6,10.0\nS20,8.0,10.6\n",
+              "embedded": true,
+              "format": "text/csv; charset=utf-8",
+              "name": "figure_data",
+              "newline": "LF",
+              "purpose": "plot_and_statistics",
+              "row_count": 20,
+              "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+            }
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+          "sha256": "45ea0bf72f322d59d73bdf2cb5ed48a2a072ab4cf64d5311315f0772d1ba3cca"
+        },
+        {
+          "dependencies": [
+            "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+          ],
+          "encrypted": false,
+          "kind": "statistics",
+          "metadata": {},
+          "payload": {
+            "records": [
+              {
+                "algorithm_id": "ols/v1",
+                "alpha": 0.05,
+                "coefficient": "exposure slope",
+                "confidence_interval_high": 1.2138408919143495,
+                "confidence_interval_low": 1.0737168559335488,
+                "correction_method": "none",
+                "degrees_of_freedom": 18,
+                "display_json": "{}",
+                "estimate": 1.1437788739239492,
+                "expected_json": "{\"coefficients\":{\"intercept\":{\"ci_high\":1.5701697417927476,\"ci_low\":0.8715070266739926,\"estimate\":1.22083838423337,\"p_value\":8.132857169547484e-07,\"standard_error\":0.16627525956142178,\"statistic\":7.3422732128251145},\"slope\":{\"ci_high\":1.2138408919143495,\"ci_low\":1.0737168559335488,\"estimate\":1.1437788739239492,\"p_value\":7.490133966488533e-18,\"standard_error\":0.03334822361250716,\"statistic\":34.29804499376627}},\"df_residual\":18,\"n\":20}",
+                "inputs_json": "{\"design_matrix\":[[1.0,1.0],[1.0,1.4],[1.0,1.8],[1.0,2.1],[1.0,2.5],[1.0,2.9],[1.0,3.2],[1.0,3.6],[1.0,4.0],[1.0,4.3],[1.0,4.7],[1.0,5.1],[1.0,5.4],[1.0,5.8],[1.0,6.2],[1.0,6.5],[1.0,6.9],[1.0,7.3],[1.0,7.6],[1.0,8.0]],\"outcome\":[2.3,3.0,2.8,3.9,4.1,4.5,5.2,4.9,6.1,6.4,6.2,7.4,7.1,8.0,8.5,8.2,9.4,9.1,10.0,10.6]}",
+                "n": 20,
+                "p_value": 7.490133966488533e-18,
+                "parameters_json": "{\"coefficient_names\":[\"intercept\",\"slope\"],\"confidence_level\":0.95,\"covariance\":\"classical\",\"missing_policy\":\"complete_rows\",\"producer_implementation\":\"scipy.stats.linregress/1\",\"rank_tolerance\":1e-12}",
+                "standard_error": 0.03334822361250716,
+                "statistic": 34.29804499376627,
+                "statistic_id": "exposure-response-ols",
+                "tailedness": "two-sided",
+                "test_name": "ordinary least-squares regression",
+                "tolerances_json": "{\"*\":{\"absolute\":1e-10,\"relative\":1e-09}}"
+              }
+            ],
+            "status": "complete"
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "statistics:reported",
+          "sha256": "3e64c3b15e1918c286efcd618edffb967f3f30fb405108373360d3064033c999"
+        },
+        {
+          "dependencies": [],
+          "encrypted": false,
+          "kind": "provenance",
+          "metadata": {},
+          "payload": {
+            "analysis": {
+              "claim": "Response increases with exposure in this synthetic dataset.",
+              "grammar": "scatter regression plot",
+              "input_kind": "plain CSV"
+            },
+            "producer": {
+              "function": "code/plot.py",
+              "package": "seaborn",
+              "package_version": "0.13.2"
+            },
+            "reproduction": {
+              "command": "python code/plot.py",
+              "exact_table": "data/der/figure_data.csv",
+              "exact_table_sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+              "input": "data/src/regression.csv",
+              "output": "fig/exposure-response.svg",
+              "producer": "code/plot.py",
+              "producer_language": "python",
+              "producer_sha256": "140c73f24a0dae8a1a8dfea87f1e3ac0e5301a27960adf4db92552e576165868",
+              "readme": "README.md",
+              "readme_sha256": "3ace023a37f67ffd19cd002eaa67271a1f6e944b96d1e9505cb24df3263ce2f9",
+              "script": "\"\"\"Draw and package one regression example with Seaborn.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy.stats import linregress, t\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\n\nCLAIM = \"Response increases with exposure in this synthetic dataset.\"\nGRAMMAR = \"scatter regression plot\"\nSTATISTIC_ID = \"exposure-response-ols\"\nFIGURE_NAME = \"exposure-response.svg\"\nBLUE = \"#4878A8\"\nINK = \"#303030\"\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_csv(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=[\"sample\", \"exposure\", \"response\"], lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"regression.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    exposure = [float(row[\"exposure\"]) for row in rows]\n    response = [float(row[\"response\"]) for row in rows]\n    fitted = linregress(exposure, response)\n    degrees_of_freedom = len(rows) - 2\n    critical = float(t.ppf(0.975, degrees_of_freedom))\n    intercept_t = float(fitted.intercept / fitted.intercept_stderr)\n    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))\n    expected = {\n        \"n\": len(rows),\n        \"df_residual\": degrees_of_freedom,\n        \"coefficients\": {\n            \"intercept\": {\n                \"estimate\": float(fitted.intercept),\n                \"standard_error\": float(fitted.intercept_stderr),\n                \"statistic\": intercept_t,\n                \"p_value\": intercept_p,\n                \"ci_low\": float(fitted.intercept - critical * fitted.intercept_stderr),\n                \"ci_high\": float(fitted.intercept + critical * fitted.intercept_stderr),\n            },\n            \"slope\": {\n                \"estimate\": float(fitted.slope),\n                \"standard_error\": float(fitted.stderr),\n                \"statistic\": float(fitted.slope / fitted.stderr),\n                \"p_value\": float(fitted.pvalue),\n                \"ci_low\": float(fitted.slope - critical * fitted.stderr),\n                \"ci_high\": float(fitted.slope + critical * fitted.stderr),\n            },\n        },\n    }\n    display_format = \"p_threshold_0.001/v1\" if fitted.pvalue < 0.001 else \"p_equals_4dp/v1\"\n    display_text = \"p < 0.001\" if fitted.pvalue < 0.001 else f\"p = {fitted.pvalue:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"ols/v1\",\n        inputs={\"design_matrix\": [[1.0, value] for value in exposure], \"outcome\": response},\n        parameters={\n            \"coefficient_names\": [\"intercept\", \"slope\"],\n            \"confidence_level\": 0.95,\n            \"covariance\": \"classical\",\n            \"missing_policy\": \"complete_rows\",\n            \"rank_tolerance\": 1e-12,\n            \"producer_implementation\": \"scipy.stats.linregress/1\",\n        },\n        expected=expected,\n        display={},\n        tolerances={\"*\": {\"absolute\": 1e-10, \"relative\": 1e-9}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"ordinary least-squares regression\",\n        \"coefficient\": \"exposure slope\",\n        \"n\": len(rows),\n        \"estimate\": float(fitted.slope),\n        \"standard_error\": float(fitted.stderr),\n        \"confidence_interval_low\": expected[\"coefficients\"][\"slope\"][\"ci_low\"],\n        \"confidence_interval_high\": expected[\"coefficients\"][\"slope\"][\"ci_high\"],\n        \"statistic\": expected[\"coefficients\"][\"slope\"][\"statistic\"],\n        \"degrees_of_freedom\": degrees_of_freedom,\n        \"p_value\": float(fitted.pvalue),\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_csv(figure_data, rows)\n    with (bundle / \"data\" / \"der\" / \"statistics.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(statistic), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(statistic)\n\n    plotted_table = table_from_data(figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\")\n    table_id = f\"table:{plotted_table.sha256}\"\n    sns.set_theme(\n        context=\"notebook\",\n        style=\"ticks\",\n        rc={\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.labelsize\": 12,\n            \"ytick.labelsize\": 12,\n        },\n    )\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-seaborn-regression-example\"\n    fig, ax = plt.subplots(figsize=(5.6, 4.8))\n    sns.regplot(\n        x=exposure,\n        y=response,\n        ci=None,\n        color=BLUE,\n        scatter_kws={\"s\": 58, \"alpha\": 0.85, \"edgecolor\": \"white\"},\n        line_kws={\"linewidth\": 2.8},\n        ax=ax,\n    )\n    points = ax.collections[0]\n    line = ax.lines[0]\n    bind_artist(points, semantic_id=\"observations\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], role=\"raw observations\")\n    bind_artist(line, semantic_id=\"ols-fit\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], statistic_id=STATISTIC_ID, role=\"fitted regression\")\n    label = ax.text(1.25, 10.2, f\"Slope = {fitted.slope:.2f}\\n{display_text}\", ha=\"left\", va=\"top\", fontsize=11, color=INK)\n    bind_artist(label, semantic_id=\"ols-result\", statistic_id=STATISTIC_ID, formatter_id=display_format, connected_mark_ids=[\"ols-fit\"], role=\"statistical annotation\")\n    ax.set_title(\"Exposure predicts response\", pad=12)\n    ax.set_xlabel(\"Exposure (arbitrary units)\")\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_xlim(0.6, 8.4)\n    ax.set_ylim(1.6, 11.0)\n    sns.despine(ax=ax)\n    ax.tick_params(width=1.8)\n    fig.tight_layout()\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"exposure-response\",\n        producer={\"package\": \"seaborn\", \"package_version\": importlib.metadata.version(\"seaborn\"), \"function\": \"code/plot.py\"},\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[source_reference(source, role=\"raw_user_input\", project_root=bundle, source_id=\"regression-source\")],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"python\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"working_directory\": \".\",\n            \"output\": f\"fig/{FIGURE_NAME}\",\n            \"input\": \"data/src/regression.csv\",\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n        extensions={\"proof\": {\"statistical_specifications\": [specification.to_dict()]}},\n    )\n    record = attach_evidence_graph(record)\n    record = save_figure(fig, bundle / \"fig\" / FIGURE_NAME, record=record, proof=True, savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"})\n    save_figure(fig, bundle / \"fig\" / \"preview.png\", record=record, proof=True, dpi=200, savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"})\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+              "source_index": "data/sources.csv",
+              "source_index_sha256": "91ddcef12c57686c469606757f0e0cef5b2b76007fc19a4c2e24873c253b64ea",
+              "working_directory": "."
+            },
+            "sources": [
+              {
+                "modified_at": "2026-08-26T19:56:27+01:00",
+                "relative_path": "data/src/regression.csv",
+                "role": "raw_user_input",
+                "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+                "size_bytes": 267,
+                "source_id": "regression-source"
+              }
+            ]
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "provenance:record",
+          "sha256": "21eebfba1b7be045dab10338439159a40a9e9e1bcac1a458dd523e6205aaaa29"
+        },
+        {
+          "dependencies": [
+            "statistics:reported",
+            "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+          ],
+          "encrypted": false,
+          "kind": "render_manifest",
+          "metadata": {},
+          "payload": {
+            "annotations": [
+              {
+                "annotation_id": "ols-result",
+                "axes_id": "axes-0",
+                "connected_mark_ids": [
+                  "ols-fit"
+                ],
+                "coordinate_system": "data",
+                "formatter_id": "p_threshold_0.001/v1",
+                "position": [
+                  1.25,
+                  10.2
+                ],
+                "role": "statistical annotation",
+                "statistic_id": "exposure-response-ols",
+                "text": "Slope = 1.14\np < 0.001"
+              }
+            ],
+            "axes": [
+              {
+                "axes_id": "axes-0",
+                "bbox_inches": [
+                  0.13526785714285716,
+                  0.15052083333333333,
+                  0.8299107142857143,
+                  0.7366319444444446
+                ],
+                "labels": {
+                  "title": "Exposure predicts response",
+                  "x": "Exposure (arbitrary units)",
+                  "y": "Response (arbitrary units)"
+                },
+                "x_limits": [
+                  0.6,
+                  8.4
+                ],
+                "x_scale": "linear",
+                "y_limits": [
+                  1.6,
+                  11.0
+                ],
+                "y_scale": "linear"
+              }
+            ],
+            "environment": {
+              "backend": "matplotlib.backends.backend_agg",
+              "dpi": 100.0,
+              "figure_inches": [
+                5.6,
+                4.8
+              ]
+            },
+            "marks": [
+              {
+                "axes_id": "axes-0",
+                "columns": [
+                  "exposure",
+                  "response"
+                ],
+                "coordinate_system": "data",
+                "geometry": {
+                  "x": [
+                    1.0,
+                    1.0707070707070707,
+                    1.1414141414141414,
+                    1.2121212121212122,
+                    1.2828282828282829,
+                    1.3535353535353536,
+                    1.4242424242424243,
+                    1.4949494949494948,
+                    1.5656565656565657,
+                    1.6363636363636362,
+                    1.7070707070707072,
+                    1.7777777777777777,
+                    1.8484848484848484,
+                    1.9191919191919191,
+                    1.9898989898989898,
+                    2.0606060606060606,
+                    2.1313131313131315,
+                    2.202020202020202,
+                    2.2727272727272725,
+                    2.3434343434343434,
+                    2.4141414141414144,
+                    2.484848484848485,
+                    2.5555555555555554,
+                    2.6262626262626263,
+                    2.696969696969697,
+                    2.7676767676767673,
+                    2.8383838383838382,
+                    2.909090909090909,
+                    2.9797979797979797,
+                    3.0505050505050506,
+                    3.121212121212121,
+                    3.191919191919192,
+                    3.2626262626262625,
+                    3.333333333333333,
+                    3.404040404040404,
+                    3.4747474747474745,
+                    3.5454545454545454,
+                    3.616161616161616,
+                    3.686868686868687,
+                    3.7575757575757573,
+                    3.8282828282828283,
+                    3.898989898989899,
+                    3.9696969696969697,
+                    4.04040404040404,
+                    4.111111111111111,
+                    4.181818181818182,
+                    4.252525252525253,
+                    4.3232323232323235,
+                    4.393939393939394,
+                    4.4646464646464645,
+                    4.535353535353535,
+                    4.6060606060606055,
+                    4.6767676767676765,
+                    4.747474747474747,
+                    4.818181818181818,
+                    4.888888888888889,
+                    4.959595959595959,
+                    5.03030303030303,
+                    5.101010101010101,
+                    5.171717171717171,
+                    5.242424242424242,
+                    5.313131313131313,
+                    5.383838383838384,
+                    5.454545454545454,
+                    5.525252525252525,
+                    5.595959595959596,
+                    5.666666666666666,
+                    5.737373737373737,
+                    5.808080808080808,
+                    5.878787878787879,
+                    5.949494949494949,
+                    6.02020202020202,
+                    6.090909090909091,
+                    6.161616161616162,
+                    6.232323232323232,
+                    6.303030303030303,
+                    6.373737373737374,
+                    6.444444444444445,
+                    6.515151515151515,
+                    6.585858585858586,
+                    6.656565656565657,
+                    6.727272727272727,
+                    6.797979797979798,
+                    6.8686868686868685,
+                    6.9393939393939394,
+                    7.0101010101010095,
+                    7.08080808080808,
+                    7.151515151515151,
+                    7.222222222222222,
+                    7.292929292929292,
+                    7.363636363636363,
+                    7.434343434343434,
+                    7.505050505050505,
+                    7.575757575757575,
+                    7.646464646464646,
+                    7.717171717171717,
+                    7.787878787878787,
+                    7.858585858585858,
+                    7.929292929292929,
+                    8.0
+                  ],
+                  "y": [
+                    2.3646172581573204,
+                    2.4454905118691146,
+                    2.526363765580909,
+                    2.607237019292703,
+                    2.6881102730044977,
+                    2.7689835267162923,
+                    2.8498567804280865,
+                    2.9307300341398808,
+                    3.011603287851675,
+                    3.092476541563469,
+                    3.1733497952752643,
+                    3.2542230489870585,
+                    3.3350963026988527,
+                    3.415969556410647,
+                    3.496842810122441,
+                    3.5777160638342353,
+                    3.6585893175460305,
+                    3.7394625712578247,
+                    3.820335824969619,
+                    3.901209078681413,
+                    3.982082332393208,
+                    4.0629555861050015,
+                    4.143828839816796,
+                    4.224702093528591,
+                    4.305575347240385,
+                    4.386448600952179,
+                    4.4673218546639735,
+                    4.548195108375769,
+                    4.629068362087563,
+                    4.709941615799357,
+                    4.790814869511151,
+                    4.871688123222945,
+                    4.95256137693474,
+                    5.033434630646534,
+                    5.114307884358329,
+                    5.195181138070123,
+                    5.276054391781917,
+                    5.356927645493712,
+                    5.437800899205506,
+                    5.5186741529173,
+                    5.599547406629095,
+                    5.680420660340888,
+                    5.7612939140526835,
+                    5.842167167764477,
+                    5.923040421476272,
+                    6.003913675188066,
+                    6.084786928899861,
+                    6.1656601826116555,
+                    6.24653343632345,
+                    6.327406690035244,
+                    6.408279943747037,
+                    6.489153197458832,
+                    6.570026451170627,
+                    6.650899704882422,
+                    6.731772958594216,
+                    6.812646212306011,
+                    6.893519466017804,
+                    6.974392719729599,
+                    7.055265973441394,
+                    7.136139227153187,
+                    7.217012480864982,
+                    7.297885734576776,
+                    7.378758988288571,
+                    7.459632242000365,
+                    7.54050549571216,
+                    7.621378749423954,
+                    7.702252003135747,
+                    7.783125256847542,
+                    7.863998510559337,
+                    7.944871764271132,
+                    8.025745017982926,
+                    8.106618271694721,
+                    8.187491525406514,
+                    8.26836477911831,
+                    8.349238032830103,
+                    8.430111286541898,
+                    8.510984540253693,
+                    8.591857793965486,
+                    8.672731047677281,
+                    8.753604301389075,
+                    8.83447755510087,
+                    8.915350808812663,
+                    8.996224062524458,
+                    9.077097316236253,
+                    9.157970569948047,
+                    9.23884382365984,
+                    9.319717077371635,
+                    9.40059033108343,
+                    9.481463584795225,
+                    9.562336838507019,
+                    9.643210092218812,
+                    9.724083345930607,
+                    9.804956599642402,
+                    9.885829853354196,
+                    9.96670310706599,
+                    10.047576360777786,
+                    10.128449614489579,
+                    10.209322868201374,
+                    10.290196121913167,
+                    10.371069375624963
+                  ]
+                },
+                "kind": "line",
+                "mark_id": "ols-fit",
+                "role": "fitted regression",
+                "row_ids": [
+                  "S01",
+                  "S02",
+                  "S03",
+                  "S04",
+                  "S05",
+                  "S06",
+                  "S07",
+                  "S08",
+                  "S09",
+                  "S10",
+                  "S11",
+                  "S12",
+                  "S13",
+                  "S14",
+                  "S15",
+                  "S16",
+                  "S17",
+                  "S18",
+                  "S19",
+                  "S20"
+                ],
+                "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+              },
+              {
+                "axes_id": "axes-0",
+                "columns": [
+                  "exposure",
+                  "response"
+                ],
+                "coordinate_system": "data",
+                "geometry": {
+                  "points": [
+                    [
+                      1.0,
+                      2.3
+                    ],
+                    [
+                      1.4,
+                      3.0
+                    ],
+                    [
+                      1.8,
+                      2.8
+                    ],
+                    [
+                      2.1,
+                      3.9
+                    ],
+                    [
+                      2.5,
+                      4.1
+                    ],
+                    [
+                      2.9,
+                      4.5
+                    ],
+                    [
+                      3.2,
+                      5.2
+                    ],
+                    [
+                      3.6,
+                      4.9
+                    ],
+                    [
+                      4.0,
+                      6.1
+                    ],
+                    [
+                      4.3,
+                      6.4
+                    ],
+                    [
+                      4.7,
+                      6.2
+                    ],
+                    [
+                      5.1,
+                      7.4
+                    ],
+                    [
+                      5.4,
+                      7.1
+                    ],
+                    [
+                      5.8,
+                      8.0
+                    ],
+                    [
+                      6.2,
+                      8.5
+                    ],
+                    [
+                      6.5,
+                      8.2
+                    ],
+                    [
+                      6.9,
+                      9.4
+                    ],
+                    [
+                      7.3,
+                      9.1
+                    ],
+                    [
+                      7.6,
+                      10.0
+                    ],
+                    [
+                      8.0,
+                      10.6
+                    ]
+                  ]
+                },
+                "kind": "points",
+                "mark_id": "observations",
+                "role": "raw observations",
+                "row_ids": [
+                  "S01",
+                  "S02",
+                  "S03",
+                  "S04",
+                  "S05",
+                  "S06",
+                  "S07",
+                  "S08",
+                  "S09",
+                  "S10",
+                  "S11",
+                  "S12",
+                  "S13",
+                  "S14",
+                  "S15",
+                  "S16",
+                  "S17",
+                  "S18",
+                  "S19",
+                  "S20"
+                ],
+                "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+              }
+            ],
+            "schema": "reprofig-render-manifest/1",
+            "unsupported": []
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "render:manifest",
+          "sha256": "21aa03c151a50e7bc15e90f9817e7d22ea561435f8c43483c3f061378ec6ad12"
+        },
+        {
+          "dependencies": [
+            "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+          ],
+          "encrypted": false,
+          "kind": "statistical_specification",
+          "metadata": {},
+          "payload": {
+            "algorithm_id": "ols/v1",
+            "display": {},
+            "expected": {
+              "coefficients": {
+                "intercept": {
+                  "ci_high": 1.5701697417927476,
+                  "ci_low": 0.8715070266739926,
+                  "estimate": 1.22083838423337,
+                  "p_value": 8.132857169547484e-07,
+                  "standard_error": 0.16627525956142178,
+                  "statistic": 7.3422732128251145
+                },
+                "slope": {
+                  "ci_high": 1.2138408919143495,
+                  "ci_low": 1.0737168559335488,
+                  "estimate": 1.1437788739239492,
+                  "p_value": 7.490133966488533e-18,
+                  "standard_error": 0.03334822361250716,
+                  "statistic": 34.29804499376627
+                }
+              },
+              "df_residual": 18,
+              "n": 20
+            },
+            "inputs": {
+              "design_matrix": [
+                [
+                  1.0,
+                  1.0
+                ],
+                [
+                  1.0,
+                  1.4
+                ],
+                [
+                  1.0,
+                  1.8
+                ],
+                [
+                  1.0,
+                  2.1
+                ],
+                [
+                  1.0,
+                  2.5
+                ],
+                [
+                  1.0,
+                  2.9
+                ],
+                [
+                  1.0,
+                  3.2
+                ],
+                [
+                  1.0,
+                  3.6
+                ],
+                [
+                  1.0,
+                  4.0
+                ],
+                [
+                  1.0,
+                  4.3
+                ],
+                [
+                  1.0,
+                  4.7
+                ],
+                [
+                  1.0,
+                  5.1
+                ],
+                [
+                  1.0,
+                  5.4
+                ],
+                [
+                  1.0,
+                  5.8
+                ],
+                [
+                  1.0,
+                  6.2
+                ],
+                [
+                  1.0,
+                  6.5
+                ],
+                [
+                  1.0,
+                  6.9
+                ],
+                [
+                  1.0,
+                  7.3
+                ],
+                [
+                  1.0,
+                  7.6
+                ],
+                [
+                  1.0,
+                  8.0
+                ]
+              ],
+              "outcome": [
+                2.3,
+                3.0,
+                2.8,
+                3.9,
+                4.1,
+                4.5,
+                5.2,
+                4.9,
+                6.1,
+                6.4,
+                6.2,
+                7.4,
+                7.1,
+                8.0,
+                8.5,
+                8.2,
+                9.4,
+                9.1,
+                10.0,
+                10.6
+              ]
+            },
+            "parameters": {
+              "coefficient_names": [
+                "intercept",
+                "slope"
+              ],
+              "confidence_level": 0.95,
+              "covariance": "classical",
+              "missing_policy": "complete_rows",
+              "producer_implementation": "scipy.stats.linregress/1",
+              "rank_tolerance": 1e-12
+            },
+            "schema": "reprofig-statistical-specification/1",
+            "statistic_id": "exposure-response-ols",
+            "tolerances": {
+              "*": {
+                "absolute": 1e-10,
+                "relative": 1e-09
+              }
+            }
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "statistical-specification:exposure-response-ols",
+          "sha256": "19b48b2fd82d615c3d1f0cff6e4bebd6c12bd590814fddec16b3665eba807555"
+        },
+        {
+          "dependencies": [],
+          "encrypted": false,
+          "kind": "transformation_specification",
+          "metadata": {},
+          "payload": {
+            "input_table_ids": [
+              "source:raw-input"
+            ],
+            "operation": "select",
+            "output_table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+            "parameters": {
+              "columns": [
+                "sample",
+                "exposure",
+                "response"
+              ]
+            },
+            "schema": "reprofig-transformation/1",
+            "transform_id": "transform:362928b9be9e86e566941917",
+            "version": "v1"
+          },
+          "schema": "reprofig-evidence-section/1",
+          "section_id": "transformation-specification:transform:362928b9be9e86e566941917",
+          "sha256": "0642c4d80bd62c9d009a0576d649169d5046800be1e2782e67b4e57ae340f058"
+        }
+      ],
+      "signatures": [],
+      "statistical_specifications": [
+        {
+          "algorithm_id": "ols/v1",
+          "display": {},
+          "expected": {
+            "coefficients": {
+              "intercept": {
+                "ci_high": 1.5701697417927476,
+                "ci_low": 0.8715070266739926,
+                "estimate": 1.22083838423337,
+                "p_value": 8.132857169547484e-07,
+                "standard_error": 0.16627525956142178,
+                "statistic": 7.3422732128251145
+              },
+              "slope": {
+                "ci_high": 1.2138408919143495,
+                "ci_low": 1.0737168559335488,
+                "estimate": 1.1437788739239492,
+                "p_value": 7.490133966488533e-18,
+                "standard_error": 0.03334822361250716,
+                "statistic": 34.29804499376627
+              }
+            },
+            "df_residual": 18,
+            "n": 20
+          },
+          "inputs": {
+            "design_matrix": [
+              [
+                1.0,
+                1.0
+              ],
+              [
+                1.0,
+                1.4
+              ],
+              [
+                1.0,
+                1.8
+              ],
+              [
+                1.0,
+                2.1
+              ],
+              [
+                1.0,
+                2.5
+              ],
+              [
+                1.0,
+                2.9
+              ],
+              [
+                1.0,
+                3.2
+              ],
+              [
+                1.0,
+                3.6
+              ],
+              [
+                1.0,
+                4.0
+              ],
+              [
+                1.0,
+                4.3
+              ],
+              [
+                1.0,
+                4.7
+              ],
+              [
+                1.0,
+                5.1
+              ],
+              [
+                1.0,
+                5.4
+              ],
+              [
+                1.0,
+                5.8
+              ],
+              [
+                1.0,
+                6.2
+              ],
+              [
+                1.0,
+                6.5
+              ],
+              [
+                1.0,
+                6.9
+              ],
+              [
+                1.0,
+                7.3
+              ],
+              [
+                1.0,
+                7.6
+              ],
+              [
+                1.0,
+                8.0
+              ]
+            ],
+            "outcome": [
+              2.3,
+              3.0,
+              2.8,
+              3.9,
+              4.1,
+              4.5,
+              5.2,
+              4.9,
+              6.1,
+              6.4,
+              6.2,
+              7.4,
+              7.1,
+              8.0,
+              8.5,
+              8.2,
+              9.4,
+              9.1,
+              10.0,
+              10.6
+            ]
+          },
+          "parameters": {
+            "coefficient_names": [
+              "intercept",
+              "slope"
+            ],
+            "confidence_level": 0.95,
+            "covariance": "classical",
+            "missing_policy": "complete_rows",
+            "producer_implementation": "scipy.stats.linregress/1",
+            "rank_tolerance": 1e-12
+          },
+          "schema": "reprofig-statistical-specification/1",
+          "statistic_id": "exposure-response-ols",
+          "tolerances": {
+            "*": {
+              "absolute": 1e-10,
+              "relative": 1e-09
+            }
+          }
+        }
+      ],
+      "transformations": [
+        {
+          "input_table_ids": [
+            "source:raw-input"
+          ],
+          "operation": "select",
+          "output_table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+          "parameters": {
+            "columns": [
+              "sample",
+              "exposure",
+              "response"
+            ]
+          },
+          "schema": "reprofig-transformation/1",
+          "transform_id": "transform:362928b9be9e86e566941917",
+          "version": "v1"
+        }
+      ]
+    },
+    "render_manifest": {
+      "annotations": [
+        {
+          "annotation_id": "ols-result",
+          "axes_id": "axes-0",
+          "connected_mark_ids": [
+            "ols-fit"
+          ],
+          "coordinate_system": "data",
+          "formatter_id": "p_threshold_0.001/v1",
+          "position": [
+            1.25,
+            10.2
+          ],
+          "role": "statistical annotation",
+          "statistic_id": "exposure-response-ols",
+          "text": "Slope = 1.14\np < 0.001"
+        }
+      ],
+      "axes": [
+        {
+          "axes_id": "axes-0",
+          "bbox_inches": [
+            0.13526785714285716,
+            0.15052083333333333,
+            0.8299107142857143,
+            0.7366319444444446
+          ],
+          "labels": {
+            "title": "Exposure predicts response",
+            "x": "Exposure (arbitrary units)",
+            "y": "Response (arbitrary units)"
+          },
+          "x_limits": [
+            0.6,
+            8.4
+          ],
+          "x_scale": "linear",
+          "y_limits": [
+            1.6,
+            11.0
+          ],
+          "y_scale": "linear"
+        }
+      ],
+      "environment": {
+        "backend": "matplotlib.backends.backend_agg",
+        "dpi": 100.0,
+        "figure_inches": [
+          5.6,
+          4.8
+        ]
+      },
+      "marks": [
+        {
+          "axes_id": "axes-0",
+          "columns": [
+            "exposure",
+            "response"
+          ],
+          "coordinate_system": "data",
+          "geometry": {
+            "x": [
+              1.0,
+              1.0707070707070707,
+              1.1414141414141414,
+              1.2121212121212122,
+              1.2828282828282829,
+              1.3535353535353536,
+              1.4242424242424243,
+              1.4949494949494948,
+              1.5656565656565657,
+              1.6363636363636362,
+              1.7070707070707072,
+              1.7777777777777777,
+              1.8484848484848484,
+              1.9191919191919191,
+              1.9898989898989898,
+              2.0606060606060606,
+              2.1313131313131315,
+              2.202020202020202,
+              2.2727272727272725,
+              2.3434343434343434,
+              2.4141414141414144,
+              2.484848484848485,
+              2.5555555555555554,
+              2.6262626262626263,
+              2.696969696969697,
+              2.7676767676767673,
+              2.8383838383838382,
+              2.909090909090909,
+              2.9797979797979797,
+              3.0505050505050506,
+              3.121212121212121,
+              3.191919191919192,
+              3.2626262626262625,
+              3.333333333333333,
+              3.404040404040404,
+              3.4747474747474745,
+              3.5454545454545454,
+              3.616161616161616,
+              3.686868686868687,
+              3.7575757575757573,
+              3.8282828282828283,
+              3.898989898989899,
+              3.9696969696969697,
+              4.04040404040404,
+              4.111111111111111,
+              4.181818181818182,
+              4.252525252525253,
+              4.3232323232323235,
+              4.393939393939394,
+              4.4646464646464645,
+              4.535353535353535,
+              4.6060606060606055,
+              4.6767676767676765,
+              4.747474747474747,
+              4.818181818181818,
+              4.888888888888889,
+              4.959595959595959,
+              5.03030303030303,
+              5.101010101010101,
+              5.171717171717171,
+              5.242424242424242,
+              5.313131313131313,
+              5.383838383838384,
+              5.454545454545454,
+              5.525252525252525,
+              5.595959595959596,
+              5.666666666666666,
+              5.737373737373737,
+              5.808080808080808,
+              5.878787878787879,
+              5.949494949494949,
+              6.02020202020202,
+              6.090909090909091,
+              6.161616161616162,
+              6.232323232323232,
+              6.303030303030303,
+              6.373737373737374,
+              6.444444444444445,
+              6.515151515151515,
+              6.585858585858586,
+              6.656565656565657,
+              6.727272727272727,
+              6.797979797979798,
+              6.8686868686868685,
+              6.9393939393939394,
+              7.0101010101010095,
+              7.08080808080808,
+              7.151515151515151,
+              7.222222222222222,
+              7.292929292929292,
+              7.363636363636363,
+              7.434343434343434,
+              7.505050505050505,
+              7.575757575757575,
+              7.646464646464646,
+              7.717171717171717,
+              7.787878787878787,
+              7.858585858585858,
+              7.929292929292929,
+              8.0
+            ],
+            "y": [
+              2.3646172581573204,
+              2.4454905118691146,
+              2.526363765580909,
+              2.607237019292703,
+              2.6881102730044977,
+              2.7689835267162923,
+              2.8498567804280865,
+              2.9307300341398808,
+              3.011603287851675,
+              3.092476541563469,
+              3.1733497952752643,
+              3.2542230489870585,
+              3.3350963026988527,
+              3.415969556410647,
+              3.496842810122441,
+              3.5777160638342353,
+              3.6585893175460305,
+              3.7394625712578247,
+              3.820335824969619,
+              3.901209078681413,
+              3.982082332393208,
+              4.0629555861050015,
+              4.143828839816796,
+              4.224702093528591,
+              4.305575347240385,
+              4.386448600952179,
+              4.4673218546639735,
+              4.548195108375769,
+              4.629068362087563,
+              4.709941615799357,
+              4.790814869511151,
+              4.871688123222945,
+              4.95256137693474,
+              5.033434630646534,
+              5.114307884358329,
+              5.195181138070123,
+              5.276054391781917,
+              5.356927645493712,
+              5.437800899205506,
+              5.5186741529173,
+              5.599547406629095,
+              5.680420660340888,
+              5.7612939140526835,
+              5.842167167764477,
+              5.923040421476272,
+              6.003913675188066,
+              6.084786928899861,
+              6.1656601826116555,
+              6.24653343632345,
+              6.327406690035244,
+              6.408279943747037,
+              6.489153197458832,
+              6.570026451170627,
+              6.650899704882422,
+              6.731772958594216,
+              6.812646212306011,
+              6.893519466017804,
+              6.974392719729599,
+              7.055265973441394,
+              7.136139227153187,
+              7.217012480864982,
+              7.297885734576776,
+              7.378758988288571,
+              7.459632242000365,
+              7.54050549571216,
+              7.621378749423954,
+              7.702252003135747,
+              7.783125256847542,
+              7.863998510559337,
+              7.944871764271132,
+              8.025745017982926,
+              8.106618271694721,
+              8.187491525406514,
+              8.26836477911831,
+              8.349238032830103,
+              8.430111286541898,
+              8.510984540253693,
+              8.591857793965486,
+              8.672731047677281,
+              8.753604301389075,
+              8.83447755510087,
+              8.915350808812663,
+              8.996224062524458,
+              9.077097316236253,
+              9.157970569948047,
+              9.23884382365984,
+              9.319717077371635,
+              9.40059033108343,
+              9.481463584795225,
+              9.562336838507019,
+              9.643210092218812,
+              9.724083345930607,
+              9.804956599642402,
+              9.885829853354196,
+              9.96670310706599,
+              10.047576360777786,
+              10.128449614489579,
+              10.209322868201374,
+              10.290196121913167,
+              10.371069375624963
+            ]
+          },
+          "kind": "line",
+          "mark_id": "ols-fit",
+          "role": "fitted regression",
+          "row_ids": [
+            "S01",
+            "S02",
+            "S03",
+            "S04",
+            "S05",
+            "S06",
+            "S07",
+            "S08",
+            "S09",
+            "S10",
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17",
+            "S18",
+            "S19",
+            "S20"
+          ],
+          "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+        },
+        {
+          "axes_id": "axes-0",
+          "columns": [
+            "exposure",
+            "response"
+          ],
+          "coordinate_system": "data",
+          "geometry": {
+            "points": [
+              [
+                1.0,
+                2.3
+              ],
+              [
+                1.4,
+                3.0
+              ],
+              [
+                1.8,
+                2.8
+              ],
+              [
+                2.1,
+                3.9
+              ],
+              [
+                2.5,
+                4.1
+              ],
+              [
+                2.9,
+                4.5
+              ],
+              [
+                3.2,
+                5.2
+              ],
+              [
+                3.6,
+                4.9
+              ],
+              [
+                4.0,
+                6.1
+              ],
+              [
+                4.3,
+                6.4
+              ],
+              [
+                4.7,
+                6.2
+              ],
+              [
+                5.1,
+                7.4
+              ],
+              [
+                5.4,
+                7.1
+              ],
+              [
+                5.8,
+                8.0
+              ],
+              [
+                6.2,
+                8.5
+              ],
+              [
+                6.5,
+                8.2
+              ],
+              [
+                6.9,
+                9.4
+              ],
+              [
+                7.3,
+                9.1
+              ],
+              [
+                7.6,
+                10.0
+              ],
+              [
+                8.0,
+                10.6
+              ]
+            ]
+          },
+          "kind": "points",
+          "mark_id": "observations",
+          "role": "raw observations",
+          "row_ids": [
+            "S01",
+            "S02",
+            "S03",
+            "S04",
+            "S05",
+            "S06",
+            "S07",
+            "S08",
+            "S09",
+            "S10",
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17",
+            "S18",
+            "S19",
+            "S20"
+          ],
+          "table_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+        }
+      ],
+      "schema": "reprofig-render-manifest/1",
+      "unsupported": []
+    },
+    "visual_reference": {
+      "format": "svg",
+      "schema": "reprofig-visual-reference/1",
+      "vector_elements": {
+        "observations": "b42e30d12d06dffcab67d56e6136c0345172e6dbf406227cc431c8f99a58d678",
+        "ols-fit": "df32b130d7be231f9b2c8bd4006716fa84e1360702a4fd5c75d2e14bf74ba0d7",
+        "ols-result": "07d67eb60591becc109d90154cd7f35094c13c5024f89f1f64043c9da06179e0"
+      }
+    }
+  },
+  "figure_id": "rf-d13001a42c854d189991e887131b67a4",
+  "original_stem": "exposure-response",
+  "producer": {
+    "function": "code/plot.py",
+    "package": "seaborn",
+    "package_version": "0.13.2"
+  },
+  "reproduction": {
+    "command": "python code/plot.py",
+    "exact_table": "data/der/figure_data.csv",
+    "exact_table_sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+    "input": "data/src/regression.csv",
+    "output": "fig/exposure-response.svg",
+    "producer": "code/plot.py",
+    "producer_language": "python",
+    "producer_sha256": "140c73f24a0dae8a1a8dfea87f1e3ac0e5301a27960adf4db92552e576165868",
+    "readme": "README.md",
+    "readme_sha256": "3ace023a37f67ffd19cd002eaa67271a1f6e944b96d1e9505cb24df3263ce2f9",
+    "script": "\"\"\"Draw and package one regression example with Seaborn.\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport importlib.metadata\nimport json\nfrom pathlib import Path\n\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy.stats import linregress, t\n\nfrom reprofig import (\n    StatisticalSpecification,\n    attach_evidence_graph,\n    bind_artist,\n    build_record,\n    save_figure,\n    source_reference,\n    table_from_data,\n)\n\nCLAIM = \"Response increases with exposure in this synthetic dataset.\"\nGRAMMAR = \"scatter regression plot\"\nSTATISTIC_ID = \"exposure-response-ols\"\nFIGURE_NAME = \"exposure-response.svg\"\nBLUE = \"#4878A8\"\nINK = \"#303030\"\n\n\ndef _json(value: object) -> str:\n    return json.dumps(value, sort_keys=True, separators=(\",\", \":\"))\n\n\ndef _sha256(path: Path) -> str:\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for block in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(block)\n    return digest.hexdigest()\n\n\ndef _write_csv(path: Path, rows: list[dict[str, str]]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    with path.open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=[\"sample\", \"exposure\", \"response\"], lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef main() -> None:\n    bundle = Path(__file__).resolve().parents[1]\n    source = bundle / \"data\" / \"src\" / \"regression.csv\"\n    with source.open(newline=\"\", encoding=\"utf-8\") as handle:\n        rows = list(csv.DictReader(handle))\n    exposure = [float(row[\"exposure\"]) for row in rows]\n    response = [float(row[\"response\"]) for row in rows]\n    fitted = linregress(exposure, response)\n    degrees_of_freedom = len(rows) - 2\n    critical = float(t.ppf(0.975, degrees_of_freedom))\n    intercept_t = float(fitted.intercept / fitted.intercept_stderr)\n    intercept_p = float(2 * t.sf(abs(intercept_t), degrees_of_freedom))\n    expected = {\n        \"n\": len(rows),\n        \"df_residual\": degrees_of_freedom,\n        \"coefficients\": {\n            \"intercept\": {\n                \"estimate\": float(fitted.intercept),\n                \"standard_error\": float(fitted.intercept_stderr),\n                \"statistic\": intercept_t,\n                \"p_value\": intercept_p,\n                \"ci_low\": float(fitted.intercept - critical * fitted.intercept_stderr),\n                \"ci_high\": float(fitted.intercept + critical * fitted.intercept_stderr),\n            },\n            \"slope\": {\n                \"estimate\": float(fitted.slope),\n                \"standard_error\": float(fitted.stderr),\n                \"statistic\": float(fitted.slope / fitted.stderr),\n                \"p_value\": float(fitted.pvalue),\n                \"ci_low\": float(fitted.slope - critical * fitted.stderr),\n                \"ci_high\": float(fitted.slope + critical * fitted.stderr),\n            },\n        },\n    }\n    display_format = \"p_threshold_0.001/v1\" if fitted.pvalue < 0.001 else \"p_equals_4dp/v1\"\n    display_text = \"p < 0.001\" if fitted.pvalue < 0.001 else f\"p = {fitted.pvalue:.4f}\"\n    specification = StatisticalSpecification(\n        statistic_id=STATISTIC_ID,\n        algorithm_id=\"ols/v1\",\n        inputs={\"design_matrix\": [[1.0, value] for value in exposure], \"outcome\": response},\n        parameters={\n            \"coefficient_names\": [\"intercept\", \"slope\"],\n            \"confidence_level\": 0.95,\n            \"covariance\": \"classical\",\n            \"missing_policy\": \"complete_rows\",\n            \"rank_tolerance\": 1e-12,\n            \"producer_implementation\": \"scipy.stats.linregress/1\",\n        },\n        expected=expected,\n        display={},\n        tolerances={\"*\": {\"absolute\": 1e-10, \"relative\": 1e-9}},\n    )\n    statistic = {\n        \"statistic_id\": STATISTIC_ID,\n        \"test_name\": \"ordinary least-squares regression\",\n        \"coefficient\": \"exposure slope\",\n        \"n\": len(rows),\n        \"estimate\": float(fitted.slope),\n        \"standard_error\": float(fitted.stderr),\n        \"confidence_interval_low\": expected[\"coefficients\"][\"slope\"][\"ci_low\"],\n        \"confidence_interval_high\": expected[\"coefficients\"][\"slope\"][\"ci_high\"],\n        \"statistic\": expected[\"coefficients\"][\"slope\"][\"statistic\"],\n        \"degrees_of_freedom\": degrees_of_freedom,\n        \"p_value\": float(fitted.pvalue),\n        \"tailedness\": \"two-sided\",\n        \"correction_method\": \"none\",\n        \"alpha\": 0.05,\n        \"algorithm_id\": specification.algorithm_id,\n        \"inputs_json\": _json(specification.inputs),\n        \"parameters_json\": _json(specification.parameters),\n        \"expected_json\": _json(specification.expected),\n        \"display_json\": _json(specification.display),\n        \"tolerances_json\": _json(specification.tolerances),\n    }\n    figure_data = bundle / \"data\" / \"der\" / \"figure_data.csv\"\n    _write_csv(figure_data, rows)\n    with (bundle / \"data\" / \"der\" / \"statistics.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=list(statistic), lineterminator=\"\\n\")\n        writer.writeheader()\n        writer.writerow(statistic)\n\n    plotted_table = table_from_data(figure_data.read_bytes(), name=\"figure_data\", purpose=\"plot_and_statistics\")\n    table_id = f\"table:{plotted_table.sha256}\"\n    sns.set_theme(\n        context=\"notebook\",\n        style=\"ticks\",\n        rc={\n            \"font.family\": \"sans-serif\",\n            \"font.sans-serif\": [\"Arial\", \"Helvetica\", \"Liberation Sans\", \"DejaVu Sans\"],\n            \"font.size\": 13,\n            \"svg.fonttype\": \"none\",\n            \"axes.linewidth\": 1.8,\n            \"axes.labelsize\": 15,\n            \"axes.titlesize\": 17,\n            \"axes.titleweight\": \"bold\",\n            \"xtick.labelsize\": 12,\n            \"ytick.labelsize\": 12,\n        },\n    )\n    plt.rcParams[\"svg.hashsalt\"] = \"reprofig-seaborn-regression-example\"\n    fig, ax = plt.subplots(figsize=(5.6, 4.8))\n    sns.regplot(\n        x=exposure,\n        y=response,\n        ci=None,\n        color=BLUE,\n        scatter_kws={\"s\": 58, \"alpha\": 0.85, \"edgecolor\": \"white\"},\n        line_kws={\"linewidth\": 2.8},\n        ax=ax,\n    )\n    points = ax.collections[0]\n    line = ax.lines[0]\n    bind_artist(points, semantic_id=\"observations\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], role=\"raw observations\")\n    bind_artist(line, semantic_id=\"ols-fit\", table_id=table_id, row_ids=[row[\"sample\"] for row in rows], columns=[\"exposure\", \"response\"], statistic_id=STATISTIC_ID, role=\"fitted regression\")\n    label = ax.text(1.25, 10.2, f\"Slope = {fitted.slope:.2f}\\n{display_text}\", ha=\"left\", va=\"top\", fontsize=11, color=INK)\n    bind_artist(label, semantic_id=\"ols-result\", statistic_id=STATISTIC_ID, formatter_id=display_format, connected_mark_ids=[\"ols-fit\"], role=\"statistical annotation\")\n    ax.set_title(\"Exposure predicts response\", pad=12)\n    ax.set_xlabel(\"Exposure (arbitrary units)\")\n    ax.set_ylabel(\"Response (arbitrary units)\")\n    ax.set_xlim(0.6, 8.4)\n    ax.set_ylim(1.6, 11.0)\n    sns.despine(ax=ax)\n    ax.tick_params(width=1.8)\n    fig.tight_layout()\n\n    producer_source = Path(__file__).read_text(encoding=\"utf-8\")\n    record = build_record(\n        title=CLAIM,\n        original_stem=\"exposure-response\",\n        producer={\"package\": \"seaborn\", \"package_version\": importlib.metadata.version(\"seaborn\"), \"function\": \"code/plot.py\"},\n        analysis={\"claim\": CLAIM, \"grammar\": GRAMMAR, \"input_kind\": \"plain CSV\"},\n        data_tables=[plotted_table],\n        statistics=[statistic],\n        sources=[source_reference(source, role=\"raw_user_input\", project_root=bundle, source_id=\"regression-source\")],\n        reproduction={\n            \"command\": \"python code/plot.py\",\n            \"script\": producer_source,\n            \"producer\": \"code/plot.py\",\n            \"producer_language\": \"python\",\n            \"producer_sha256\": _sha256(Path(__file__)),\n            \"working_directory\": \".\",\n            \"output\": f\"fig/{FIGURE_NAME}\",\n            \"input\": \"data/src/regression.csv\",\n            \"exact_table\": \"data/der/figure_data.csv\",\n            \"exact_table_sha256\": _sha256(figure_data),\n            \"source_index\": \"data/sources.csv\",\n            \"source_index_sha256\": _sha256(bundle / \"data\" / \"sources.csv\"),\n            \"readme\": \"README.md\",\n            \"readme_sha256\": _sha256(bundle / \"README.md\"),\n        },\n        data_status=\"complete\",\n        statistics_status=\"complete\",\n        extensions={\"proof\": {\"statistical_specifications\": [specification.to_dict()]}},\n    )\n    record = attach_evidence_graph(record)\n    record = save_figure(fig, bundle / \"fig\" / FIGURE_NAME, record=record, proof=True, savefig_kwargs={\"transparent\": True, \"bbox_inches\": \"tight\"})\n    save_figure(fig, bundle / \"fig\" / \"preview.png\", record=record, proof=True, dpi=200, savefig_kwargs={\"transparent\": False, \"facecolor\": \"white\", \"bbox_inches\": \"tight\"})\n    plt.close(fig)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "source_index": "data/sources.csv",
+    "source_index_sha256": "91ddcef12c57686c469606757f0e0cef5b2b76007fc19a4c2e24873c253b64ea",
+    "working_directory": "."
+  },
+  "schema": "reprofig/1",
+  "sources": [
+    {
+      "modified_at": "2026-08-26T19:56:27+01:00",
+      "relative_path": "data/src/regression.csv",
+      "role": "raw_user_input",
+      "sha256": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+      "size_bytes": 267,
+      "source_id": "regression-source"
+    }
+  ],
+  "statistics": [
+    {
+      "algorithm_id": "ols/v1",
+      "alpha": 0.05,
+      "coefficient": "exposure slope",
+      "confidence_interval_high": 1.2138408919143495,
+      "confidence_interval_low": 1.0737168559335488,
+      "correction_method": "none",
+      "degrees_of_freedom": 18,
+      "display_json": "{}",
+      "estimate": 1.1437788739239492,
+      "expected_json": "{\"coefficients\":{\"intercept\":{\"ci_high\":1.5701697417927476,\"ci_low\":0.8715070266739926,\"estimate\":1.22083838423337,\"p_value\":8.132857169547484e-07,\"standard_error\":0.16627525956142178,\"statistic\":7.3422732128251145},\"slope\":{\"ci_high\":1.2138408919143495,\"ci_low\":1.0737168559335488,\"estimate\":1.1437788739239492,\"p_value\":7.490133966488533e-18,\"standard_error\":0.03334822361250716,\"statistic\":34.29804499376627}},\"df_residual\":18,\"n\":20}",
+      "inputs_json": "{\"design_matrix\":[[1.0,1.0],[1.0,1.4],[1.0,1.8],[1.0,2.1],[1.0,2.5],[1.0,2.9],[1.0,3.2],[1.0,3.6],[1.0,4.0],[1.0,4.3],[1.0,4.7],[1.0,5.1],[1.0,5.4],[1.0,5.8],[1.0,6.2],[1.0,6.5],[1.0,6.9],[1.0,7.3],[1.0,7.6],[1.0,8.0]],\"outcome\":[2.3,3.0,2.8,3.9,4.1,4.5,5.2,4.9,6.1,6.4,6.2,7.4,7.1,8.0,8.5,8.2,9.4,9.1,10.0,10.6]}",
+      "n": 20,
+      "p_value": 7.490133966488533e-18,
+      "parameters_json": "{\"coefficient_names\":[\"intercept\",\"slope\"],\"confidence_level\":0.95,\"covariance\":\"classical\",\"missing_policy\":\"complete_rows\",\"producer_implementation\":\"scipy.stats.linregress/1\",\"rank_tolerance\":1e-12}",
+      "standard_error": 0.03334822361250716,
+      "statistic": 34.29804499376627,
+      "statistic_id": "exposure-response-ols",
+      "tailedness": "two-sided",
+      "test_name": "ordinary least-squares regression",
+      "tolerances_json": "{\"*\":{\"absolute\":1e-10,\"relative\":1e-09}}"
+    }
+  ],
+  "statistics_csv_sha256": "ceb1b6d262c5f779989194bfbe94f1fef13f9b06eae27599693b969a58a12900",
+  "statistics_status": "complete",
+  "title": "Response increases with exposure in this synthetic dataset."
+}

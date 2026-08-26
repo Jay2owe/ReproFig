@@ -1,0 +1,152 @@
+{
+  "checks": [
+    {
+      "actual": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-594c5332dd8b44f28c8afe3eb1d5fb9f"
+    },
+    {
+      "actual": {
+        "comparisons": {
+          "data_tables": "pass",
+          "display": "pass",
+          "statistics": "pass"
+        },
+        "reproduced_sha256": "8d28f58fa3c83455b8266caa309894f867904401a3988c803c74f79f5e60804c"
+      },
+      "check_id": "figure-reproduction",
+      "expected": "819897eecbd8564ae6b94be09d26e1c7f44d539b212ff123b6c89e13fd3b8407",
+      "meaning": "figure_reproduced",
+      "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
+      "status": "pass",
+      "subject_id": "rf-594c5332dd8b44f28c8afe3eb1d5fb9f"
+    },
+    {
+      "actual": {
+        "max": 0,
+        "pixel_sha256": "4da26aaf3733d09437dc843de47158baadd44a4af7418c7d7aabfecbd5581426",
+        "rms": 0.0
+      },
+      "check_id": "raster-pixels",
+      "expected": {
+        "max_limit": 0,
+        "pixel_sha256": "4da26aaf3733d09437dc843de47158baadd44a4af7418c7d7aabfecbd5581426",
+        "rms_limit": 0.0
+      },
+      "meaning": "display_verified",
+      "message": "Raster is visually equivalent within declared thresholds.",
+      "status": "pass",
+      "subject_id": "rf-594c5332dd8b44f28c8afe3eb1d5fb9f",
+      "tolerance": {
+        "absolute_channel": 0,
+        "rms": 0.0
+      }
+    },
+    {
+      "actual": "p < 0.001",
+      "check_id": "stat-display:condition-one-way-anova",
+      "expected": "p < 0.001",
+      "meaning": "statistics_independently_verified",
+      "message": "Calculated value reproduces the declared display text.",
+      "status": "pass",
+      "subject_id": "condition-one-way-anova"
+    },
+    {
+      "actual": {
+        "df1": 2,
+        "df2": 21,
+        "group_means": [
+          5.3,
+          6.05,
+          6.975
+        ],
+        "group_sizes": [
+          8,
+          8,
+          8
+        ],
+        "group_variances": [
+          0.0857142857142857,
+          0.060000000000000005,
+          0.07928571428571432
+        ],
+        "p_value": 2.7046125679308047e-10,
+        "statistic": 75.08888888888886,
+        "sum_squares_between": 11.26333333333333,
+        "sum_squares_within": 1.5750000000000002
+      },
+      "check_id": "stat:condition-one-way-anova",
+      "expected": {
+        "df1": 2,
+        "df2": 21,
+        "group_means": [
+          5.3,
+          6.05,
+          6.975
+        ],
+        "group_sizes": [
+          8,
+          8,
+          8
+        ],
+        "p_value": 2.7046125679307913e-10,
+        "statistic": 75.0888888888889
+      },
+      "meaning": "statistics_independently_verified",
+      "message": "one-way-anova/v1 independently matched declared outputs.",
+      "status": "pass",
+      "subject_id": "condition-one-way-anova",
+      "tolerance": {
+        "*": {
+          "absolute": 1e-12,
+          "relative": 1e-10
+        }
+      }
+    },
+    {
+      "actual": "3d6fa46dd11ede7b3702e5c12baf367563ea9ec062f57331d06eb91934aa16df",
+      "check_id": "transform:transform:7e6cde6adc77dac934d18f26",
+      "expected": "3d6fa46dd11ede7b3702e5c12baf367563ea9ec062f57331d06eb91934aa16df",
+      "meaning": "source_linked",
+      "message": "Reconstructed table matches exact canonical bytes.",
+      "status": "pass",
+      "subject_id": "table:3d6fa46dd11ede7b3702e5c12baf367563ea9ec062f57331d06eb91934aa16df"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "carrier_format",
+      "embedded_manifest",
+      "record_integrity",
+      "render_resolution"
+    ],
+    "issues": [],
+    "path": "fig/condition-response.png",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "pass",
+    "figure_reproduced": "pass",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "pass",
+    "statistics_independently_verified": "pass",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/condition-response.png",
+  "required": [
+    "display_verified",
+    "figure_reproduced",
+    "internally_consistent",
+    "source_linked",
+    "statistics_independently_verified"
+  ],
+  "valid": true
+}

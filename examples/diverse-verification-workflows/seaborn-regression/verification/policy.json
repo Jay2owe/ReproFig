@@ -1,0 +1,7 @@
+{
+  "required_meanings": [
+    "display_verified",
+    "internally_consistent",
+    "statistics_independently_verified"
+  ]
+}

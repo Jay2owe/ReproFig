@@ -1,0 +1,166 @@
+{
+  "checks": [
+    {
+      "actual": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
+      "check_id": "evidence-root",
+      "meaning": "internally_consistent",
+      "message": "Canonical evidence graph and root agree.",
+      "status": "pass",
+      "subject_id": "rf-d13001a42c854d189991e887131b67a4"
+    },
+    {
+      "actual": {
+        "comparisons": {
+          "data_tables": "pass",
+          "display": "pass",
+          "statistics": "pass"
+        },
+        "reproduced_sha256": "10b26dab28144a7d251d9f27444b19fcd4388dad5c265189eafcd852a1e0c21e"
+      },
+      "check_id": "figure-reproduction",
+      "expected": "e7faf686779308f1e5fec3406a2a913b1b792d051b8e7c2ae9da800ddc6c8de8",
+      "meaning": "figure_reproduced",
+      "message": "A separately saved reproduced carrier matches the master data, statistics and display.",
+      "status": "pass",
+      "subject_id": "rf-d13001a42c854d189991e887131b67a4"
+    },
+    {
+      "actual": {
+        "coefficients": {
+          "intercept": {
+            "ci_high": 1.5701697417927503,
+            "ci_low": 0.8715070266739849,
+            "estimate": 1.2208383842333677,
+            "p_value": 8.132857169549362e-07,
+            "standard_error": 0.16627525956142428,
+            "statistic": 7.342273212824989
+          },
+          "slope": {
+            "ci_high": 1.2138408919143506,
+            "ci_low": 1.0737168559335482,
+            "estimate": 1.1437788739239494,
+            "p_value": 7.490133966490397e-18,
+            "standard_error": 0.03334822361250766,
+            "statistic": 34.29804499376576
+          }
+        },
+        "confidence_level": 0.95,
+        "df_residual": 18,
+        "n": 20,
+        "rank": 2,
+        "rank_tolerance": 1e-12,
+        "residual_sum_squares": 1.7917096714727023,
+        "residual_variance": 0.09953942619292791
+      },
+      "check_id": "stat:exposure-response-ols",
+      "expected": {
+        "coefficients": {
+          "intercept": {
+            "ci_high": 1.5701697417927476,
+            "ci_low": 0.8715070266739926,
+            "estimate": 1.22083838423337,
+            "p_value": 8.132857169547484e-07,
+            "standard_error": 0.16627525956142178,
+            "statistic": 7.3422732128251145
+          },
+          "slope": {
+            "ci_high": 1.2138408919143495,
+            "ci_low": 1.0737168559335488,
+            "estimate": 1.1437788739239492,
+            "p_value": 7.490133966488533e-18,
+            "standard_error": 0.03334822361250716,
+            "statistic": 34.29804499376627
+          }
+        },
+        "df_residual": 18,
+        "n": 20
+      },
+      "meaning": "statistics_independently_verified",
+      "message": "ols/v1 independently matched declared outputs.",
+      "status": "pass",
+      "subject_id": "exposure-response-ols",
+      "tolerance": {
+        "*": {
+          "absolute": 1e-10,
+          "relative": 1e-09
+        }
+      }
+    },
+    {
+      "actual": "b42e30d12d06dffcab67d56e6136c0345172e6dbf406227cc431c8f99a58d678",
+      "check_id": "svg:observations",
+      "expected": "b42e30d12d06dffcab67d56e6136c0345172e6dbf406227cc431c8f99a58d678",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "observations"
+    },
+    {
+      "actual": "df32b130d7be231f9b2c8bd4006716fa84e1360702a4fd5c75d2e14bf74ba0d7",
+      "check_id": "svg:ols-fit",
+      "expected": "df32b130d7be231f9b2c8bd4006716fa84e1360702a4fd5c75d2e14bf74ba0d7",
+      "meaning": "display_verified",
+      "message": "Vector geometry matches the signed semantic capture.",
+      "status": "pass",
+      "subject_id": "ols-fit"
+    },
+    {
+      "actual": {
+        "hash": "07d67eb60591becc109d90154cd7f35094c13c5024f89f1f64043c9da06179e0",
+        "text_present": true
+      },
+      "check_id": "svg:ols-result",
+      "expected": {
+        "hash": "07d67eb60591becc109d90154cd7f35094c13c5024f89f1f64043c9da06179e0",
+        "text": "Slope = 1.14\np < 0.001"
+      },
+      "meaning": "display_verified",
+      "message": "Annotation text and vector geometry match.",
+      "status": "pass",
+      "subject_id": "ols-result"
+    },
+    {
+      "actual": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+      "check_id": "transform:transform:362928b9be9e86e566941917",
+      "expected": "3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f",
+      "meaning": "source_linked",
+      "message": "Reconstructed table matches exact canonical bytes.",
+      "status": "pass",
+      "subject_id": "table:3d8a146f5ef7b2abab45ffcc9492bd4d2b7961f99c8d6bd3f3fb126e6e30fa7f"
+    }
+  ],
+  "integrity": {
+    "checks": [
+      "well_formed_xml",
+      "embedded_record",
+      "record_integrity",
+      "scripts_and_event_handlers",
+      "linked_images"
+    ],
+    "issues": [],
+    "path": "fig/exposure-response.svg",
+    "profile": "master",
+    "transformations": [],
+    "valid": true
+  },
+  "meanings": {
+    "attested": "not_requested",
+    "display_verified": "pass",
+    "figure_reproduced": "pass",
+    "internally_consistent": "pass",
+    "signature_valid": "not_requested",
+    "signer_trusted": "not_requested",
+    "source_linked": "pass",
+    "statistics_independently_verified": "pass",
+    "statistics_reproduced": "not_requested"
+  },
+  "path": "fig/exposure-response.svg",
+  "required": [
+    "display_verified",
+    "figure_reproduced",
+    "internally_consistent",
+    "source_linked",
+    "statistics_independently_verified"
+  ],
+  "valid": true
+}
