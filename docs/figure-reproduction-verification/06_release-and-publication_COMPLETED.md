@@ -1,5 +1,7 @@
 # Publish the completed reproduction release
 
+Status: completed on 2026-08-26 as ReproFig 0.4.0.
+
 ## Why this stage exists
 
 The new meanings and explicit reproduction workflow change ReproFig's public
